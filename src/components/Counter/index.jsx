@@ -1,62 +1,68 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import * as React from 'react';
+import { connect } from 'react-redux';
 import { Button } from 'antd';
+
 import { DECREMENT, INCREMENT } from '@/constants/CounterActionTypes';
 import styles from './Counter.css';
 
-function Counter() {
-    const { value } = useSelector(state => state.counter);
-    const dispatch = useDispatch();
-    const { btn } = styles;
+const { btn } = styles;
 
-    // State: a counter value
-    const [counter, setCounter] = useState(0);
+export class Counter extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { value: 0 };
+    }
 
-    // Action: code that causes an update to the state when something happens
-    const increment = e => {
+    increment = e => {
         e.preventDefault();
-        setCounter(prevCounter => prevCounter + 1);
+        this.setState(prev => ({ ...prev, value: prev.value + 1 }));
     };
 
-    const decrement = () => {
-        setCounter(prevCounter => prevCounter - 1);
+    decrement = () => {
+        this.setState(prev => ({ ...prev, value: prev.value - 1 }));
     };
 
-    const handleIncrement = () => {
-        dispatch({
+    handleIncrement = () => {
+        this.props.dispatch({
             type: INCREMENT
         });
     };
 
-    const handleDecrement = () => {
-        dispatch({
+    handleDecrement = () => {
+        this.props.dispatch({
             type: DECREMENT
         });
     };
 
-    // View: the UI definition
-    return (
-        <div>
+    render() {
+        return (
             <div>
-                <span>Counter value: {counter} </span>
-                <Button htmlType="button" className={btn} onClick={increment}>
-                    Increment-State
-                </Button>
-                <Button htmlType="button" className={btn} onClick={decrement}>
-                    Decrement-State
-                </Button>
+                <div>
+                    <span>Counter value: {this.state.value} </span>
+                    <Button htmlType="button" className={btn} onClick={this.increment}>
+                        Increment-State
+                    </Button>
+                    <Button htmlType="button" className={btn} onClick={this.decrement}>
+                        Decrement-State
+                    </Button>
+                </div>
+                <div style={{ marginTop: 24 }}>
+                    <span>Store-Counter-value: {this.props.value} </span>
+                    <Button htmlType="button" className={btn} onClick={this.handleIncrement}>
+                        ➕ Store-inc-state
+                    </Button>
+                    <Button htmlType="button" className={btn} onClick={this.handleDecrement}>
+                        ➖ Store-dec-state
+                    </Button>
+                </div>
             </div>
-            <div style={{ marginTop: 24 }}>
-                <span>Counter value: {value} </span>
-                <Button htmlType="button" className={btn} onClick={handleIncrement}>
-                    ➕ Store-state
-                </Button>
-                <Button htmlType="button" className={btn} onClick={handleDecrement}>
-                    ➖ Store-state
-                </Button>
-            </div>
-        </div>
-    );
+        );
+    }
 }
 
-export default Counter;
+const mapStateToProps = (state, ...ownProps) => ({
+    ...ownProps,
+    value: state.counter.value
+});
+
+export default connect(mapStateToProps)(Counter);

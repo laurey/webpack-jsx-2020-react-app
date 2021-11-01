@@ -1,44 +1,44 @@
-import React, { memo, useRef, useState, forwardRef, useCallback, useImperativeHandle } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'antd';
 
 const { Search } = Input;
 
-const SearchInput = (props, ref) => {
-    const { allowClear, placeholder, onSearch, onChange } = props;
-    const [searchTxt, setSearchTxt] = useState('');
-    const inputSearchRef = useRef();
-    useImperativeHandle(ref, () => inputSearchRef.current.input, []);
+export class SearchInput extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: ''
+        };
+    }
 
-    const handleSearchInputChange = useCallback(
-        e => {
-            const { value } = e.target;
-            setSearchTxt(value);
-            onChange(value);
-        },
-        [onChange]
-    );
+    handleSearchInputChange = e => {
+        const { value } = e.target;
+        this.setState({ value });
+        this.props.onChange(value);
+    };
 
-    return (
-        <Search
-            ref={inputSearchRef}
-            value={searchTxt}
-            allowClear={allowClear}
-            placeholder={placeholder}
-            style={{ width: 200, marginRight: 10 }}
-            onSearch={onSearch}
-            onChange={handleSearchInputChange}
-        />
-    );
-};
+    render() {
+        const { allowClear, placeholder, onSearch } = this.props;
 
-export const GlobalSearchInput = forwardRef(SearchInput);
+        return (
+            <Search
+                value={this.state.value}
+                allowClear={allowClear}
+                placeholder={placeholder}
+                style={{ width: 200, marginRight: 10 }}
+                onSearch={onSearch}
+                onChange={this.handleSearchInputChange}
+            />
+        );
+    }
+}
 
-GlobalSearchInput.propTypes = {
+SearchInput.propTypes = {
     allowClear: PropTypes.bool,
     placeholder: PropTypes.string,
     onSearch: PropTypes.func,
     onChange: PropTypes.func
 };
 
-export const MemoizedSearchInput = memo(GlobalSearchInput);
+export default SearchInput;

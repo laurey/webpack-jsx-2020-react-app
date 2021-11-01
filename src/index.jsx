@@ -2,6 +2,7 @@ import { hot } from 'react-hot-loader/root';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 import store from './store';
 import App from './App';
 
@@ -13,12 +14,14 @@ const rootElement = document.getElementById('root');
 function render(Component) {
     ReactDOM.render(
         <Provider store={store}>
-            <Component />
+            <Router>
+                <Component />
+            </Router>
         </Provider>,
         rootElement
     );
 }
 
-const app = hot(App);
+export const app = hot(App);
 
 render(app);

@@ -1,39 +1,59 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import { Input } from 'antd';
 import { debounce } from 'lodash';
 
-const UnDebouncedInput = props => {
-    const { allowClear, placeholder, onChange } = props;
-    const [value, setValue] = useState('');
+class UnDebouncedInput extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: ''
+        };
+    }
 
-    const handleInputChange = useCallback(
-        e => {
-            const { value } = e.target;
-            setValue(value);
-            onChange(value);
-        },
-        [onChange]
-    );
+    handleInputChange = e => {
+        const { value } = e.target;
+        this.setState({ value });
+        this.props.onChange(value);
+    };
 
-    return <Input value={value} allowClear={allowClear} placeholder={placeholder} onChange={handleInputChange} />;
-};
+    render() {
+        const { allowClear, placeholder } = this.props;
+        const { value } = this.state;
 
-const DebouncedInput = props => {
-    const { allowClear, placeholder, time = 100, onChange } = props;
-    const [value, setValue] = useState('');
+        return (
+            <Input value={value} allowClear={allowClear} placeholder={placeholder} onChange={this.handleInputChange} />
+        );
+    }
+}
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const handleChange = useCallback(debounce(onChange, time), []);
-    const handleInputChange = useCallback(
-        e => {
-            const { value } = e.target;
-            setValue(value);
-            handleChange(value);
-        },
-        [handleChange]
-    );
+class DebouncedInput extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: ''
+        };
 
-    return <Input value={value} allowClear={allowClear} placeholder={placeholder} onChange={handleInputChange} />;
+        this.handleChange = debounce(props.onChange, props.time || 200);
+    }
+
+    handleInputChange = e => {
+        const { value } = e.target;
+        this.setState({ value });
+        this.handleChange(value);
+    };
+
+    render() {
+        const { allowClear, placeholder } = this.props;
+        const { value } = this.state;
+
+        return (
+            <Input value={value} allowClear={allowClear} placeholder={placeholder} onChange={this.handleInputChange} />
+        );
+    }
+}
+
+DebouncedInput.defaultProps = {
+    time: 200
 };
 
 export { UnDebouncedInput, DebouncedInput };

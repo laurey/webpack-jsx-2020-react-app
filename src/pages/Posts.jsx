@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useState, useRef, memo } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'antd';
-import { MemoizedList } from '../components/List';
-import { GlobalSearchInput } from '../components/GlobalSearch';
-import { setupFetch, getFetchDataParams } from '../utils';
+import { List } from '@/components/List';
+import { GlobalSearchInput } from '@/components/GlobalSearch';
+import { setupFetch, getFetchDataParams } from '@/utils';
 
+const MemoizedList = memo(List);
 const MemoizedSearchInput = memo(GlobalSearchInput);
 
 const columns = [
@@ -31,83 +32,89 @@ const columns = [
     }
 ];
 
-function Posts() {
-    const [dataSource, setDataSource] = useState([]);
-    const searchInputRef = useRef(null);
-    const [pagination, setPagination] = useState({
-        current: 1,
-        pageSize: 3
-    });
-    const [isLoading, setIsLoading] = useState(false);
+class Posts extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            dataSource: [],
+            isLoading: false,
+            pagination: {
+                current: 1,
+                pageSize: 3
+            }
+        };
+    }
 
-    const fetchPostData = (params = {}) => {
+    componentDidMount() {
+        this.fetchPostData({ pagination: this.state.pagination });
+    }
+
+    fetchPostData = (params = {}) => {
         const { pagination: pager } = params;
-        setIsLoading(true);
+        this.setState({ isLoading: true });
         setupFetch('https://jsonplaceholder.typicode.com/posts', null, getFetchDataParams(params)).then(data => {
-            setIsLoading(false);
-            setDataSource(data);
-            setPagination({
-                ...pager,
-                total: data.totalCount || 100
-            });
+            this.setState(prev => ({
+                isLoading: false,
+                dataSource: data,
+                pagination: {
+                    ...prev.pagiantion,
+                    ...pager,
+                    total: data.totalCount || 101
+                }
+            }));
         });
     };
 
-    const handleTableChange = useCallback(pager => {
-        fetchPostData({ pagination: pager });
-    }, []);
+    handleTableChange = pager => {
+        this.fetchPostData({ pagination: pager });
+    };
 
-    const handleRefreshData = useCallback(
-        e => {
-            e.preventDefault();
-            fetchPostData({
-                pagination
-            });
-        },
-        [pagination]
-    );
+    handleRefreshData = e => {
+        e.preventDefault();
+        this.fetchPostData({
+            pagination: this.state.pagination
+        });
+    };
 
-    const handleSearchInputChange = useCallback(val => {
+    handleSearchInputChange = val => {
+        // eslint-disable-next-line no-console
         console.log('val: ', val);
-    }, []);
+    };
 
-    const handleSearch = useCallback(value => {
-        fetchPostData({
-            pagination,
+    handleSearch = value => {
+        this.fetchPostData({
+            pagination: this.state.pagination,
             ...(value ? { title_like: value } : null)
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    };
 
-    useEffect(() => {
-        fetchPostData({ pagination });
-        return () => {
-            // cleanup;
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-    console.count('posts-render');
-
-    return (
-        <div style={{ padding: 12 }}>
-            <div className="ta-right" style={{ marginBottom: 20, textAlign: 'right' }}>
-                <MemoizedSearchInput
-                    ref={searchInputRef}
-                    placeholder="please input search text"
-                    onSearch={handleSearch}
-                    onChange={handleSearchInputChange}
+    render() {
+        return (
+            <div style={{ padding: 12 }}>
+                <div className="ta-right" style={{ marginBottom: 20, textAlign: 'right' }}>
+                    <MemoizedSearchInput
+                        placeholder="please input search text"
+                        onSearch={this.handleSearch}
+                        onChange={this.handleSearchInputChange}
+                    />
+                    <Button
+                        htmlType="button"
+                        shape="circle"
+                        icon="reload"
+                        title="Reload"
+                        onClick={this.handleRefreshData}
+                    />
+                </div>
+                <MemoizedList
+                    columns={columns}
+                    dataSource={this.state.dataSource}
+                    loading={this.state.isLoading}
+                    pagination={this.state.pagination}
+                    onChange={this.handleTableChange}
                 />
-                <Button htmlType="button" shape="circle" icon="reload" title="Reload" onClick={handleRefreshData} />
             </div>
-            <MemoizedList
-                columns={columns}
-                dataSource={dataSource}
-                loading={isLoading}
-                pagination={pagination}
-                onChange={handleTableChange}
-            />
-        </div>
-    );
+        );
+    }
 }
 
 Posts.propTypes = {

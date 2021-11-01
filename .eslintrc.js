@@ -1,7 +1,5 @@
-// const path = require('path');
-
 module.exports = {
-    // parser: '@babel/eslint-parser',
+    root: true,
     parser: 'babel-eslint',
     parserOptions: {
         ecmaVersion: 2018,
@@ -10,30 +8,32 @@ module.exports = {
         ecmaFeatures: {
             jsx: true
         }
-        // requireConfigFile: false,
-        // babelOptions: {
-        //     configFile: path.resolve(__dirname, './babel.config.js'),
-        // },
     },
     env: {
         browser: true,
         node: true,
         jest: true,
-        es2015: true
+        es6: true
     },
     extends: [
         'eslint:recommended',
         'plugin:react/recommended',
-        'plugin:react-hooks/recommended',
+        // 'plugin:react-hooks/recommended',
         'plugin:prettier/recommended'
     ],
-    plugins: ['import', 'react', 'react-hooks', 'prettier'],
+    plugins: [
+        'import',
+        'react',
+        // 'react-hooks',
+        'prettier'
+    ],
     rules: {
+        'no-unused-vars': 1,
         'prettier/prettier': 'error',
         'import/prefer-default-export': 'off',
         'react/destructuring-assignment': 'off',
-        'react-hooks/rules-of-hooks': 'error',
-        'react-hooks/exhaustive-deps': 'warn',
+        // 'react-hooks/rules-of-hooks': 'error',
+        // 'react-hooks/exhaustive-deps': 'warn',
         'react/prop-types': 'off',
         'react/display-name': 'off',
         'react/forbid-prop-types': 'off',

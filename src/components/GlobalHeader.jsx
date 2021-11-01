@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 
 const { Header } = Layout;
@@ -32,27 +32,38 @@ const routes = [
     }
 ];
 
-function GlobalHeader({ theme = 'dark' }) {
-    const { pathname } = useLocation();
-    return (
-        <div>
-            <Header>
-                <Menu theme={theme} selectedKeys={[pathname]} mode="horizontal" style={{ lineHeight: '64px' }}>
-                    {routes.map(route => {
-                        return (
-                            <Menu.Item key={route.path}>
-                                <Link to={route.path}>{route.name}</Link>
-                            </Menu.Item>
-                        );
-                    })}
-                </Menu>
-            </Header>
-        </div>
-    );
+class GlobalHeader extends React.Component {
+    render() {
+        const { pathname } = this.props.location;
+        return (
+            <div>
+                <Header>
+                    <Menu
+                        mode="horizontal"
+                        theme={this.props.theme}
+                        selectedKeys={[pathname]}
+                        style={{ lineHeight: '64px' }}
+                    >
+                        {routes.map(route => {
+                            return (
+                                <Menu.Item key={route.path}>
+                                    <Link to={route.path}>{route.name}</Link>
+                                </Menu.Item>
+                            );
+                        })}
+                    </Menu>
+                </Header>
+            </div>
+        );
+    }
 }
+
+GlobalHeader.defaultProps = {
+    theme: 'dark'
+};
 
 GlobalHeader.propTypes = {
     theme: PropTypes.string
 };
 
-export default GlobalHeader;
+export default withRouter(GlobalHeader);

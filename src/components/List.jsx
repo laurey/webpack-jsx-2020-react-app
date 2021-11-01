@@ -1,25 +1,32 @@
-import React, { memo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'antd';
 
-export function List(props) {
-    const { columns, dataSource, pagination, loading, onChange } = props;
-    const handleTableChange = params => {
-        onChange(params);
+export class List extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    handleTableChange = params => {
+        this.props.onChange(params);
     };
 
-    return (
-        <div>
-            <Table
-                bordered
-                columns={columns}
-                loading={loading}
-                dataSource={dataSource}
-                pagination={pagination}
-                onChange={handleTableChange}
-            />
-        </div>
-    );
+    render() {
+        const { columns, dataSource, pagination, loading } = this.props;
+
+        return (
+            <div>
+                <Table
+                    bordered
+                    columns={columns}
+                    loading={loading}
+                    dataSource={dataSource}
+                    pagination={pagination}
+                    onChange={this.handleTableChange}
+                />
+            </div>
+        );
+    }
 }
 
 List.propTypes = {
@@ -28,4 +35,4 @@ List.propTypes = {
     dataSource: PropTypes.array.isRequired
 };
 
-export const MemoizedList = memo(List);
+export default List;

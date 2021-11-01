@@ -1,20 +1,11 @@
-module.exports = {
-    presets: [
-        [
-            '@babel/preset-env',
-            {
-                modules: false
-            }
-        ],
-        '@babel/preset-react'
-    ],
+module.exports = api => ({
+    presets: [['@babel/preset-env'], '@babel/preset-react'],
     plugins: [
         '@babel/plugin-transform-runtime',
         '@babel/plugin-syntax-dynamic-import',
         '@babel/plugin-proposal-class-properties',
-        'react-hot-loader/babel'
-        // ['import', { libraryName: 'antd', style: 'css' }],
-    ],
+        !api.env('production') && 'react-hot-loader/babel'
+    ].filter(Boolean),
     env: {
         production: {
             only: ['src'],
@@ -30,4 +21,4 @@ module.exports = {
             ]
         }
     }
-};
+});

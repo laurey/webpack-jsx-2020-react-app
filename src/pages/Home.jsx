@@ -1,26 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import HelloWorld from '../components/Hello';
+import HelloWorld from '@/components/Hello';
 
-const Home = props => {
-    const myRef = useRef(null);
-    const [user, setUser] = useState();
-
-    useEffect(() => {
-        // console.log(myRef.current)
-        setUser({
+class Home extends React.PureComponent {
+    render() {
+        const user = {
             firstName: 'Jane',
             lastName: 'FF'
-        });
-    }, []);
+        };
 
-    return (
-        <div ref={myRef}>
-            <h1>Home Page-{props.title}</h1>
-            <div>Hello World!!!</div>
-            <HelloWorld firstName={user?.firstName} lastName={user?.lastName} />
-            <pre>
-                {`{
+        return (
+            <div>
+                <h1>Home Page-{this.props.title}</h1>
+                <div>Hello World!!!</div>
+                <HelloWorld firstName={user.firstName} lastName={user.lastName} />
+                <Link to="/not-found">to-not-found-page</Link>
+                <pre>
+                    {`{
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -35,10 +32,11 @@ const Home = props => {
     "*.+(json|css|less|json|md)": ["prettier --write", "git add"]
   }
 }`}
-            </pre>
-        </div>
-    );
-};
+                </pre>
+            </div>
+        );
+    }
+}
 
 Home.propTypes = {
     title: PropTypes.string

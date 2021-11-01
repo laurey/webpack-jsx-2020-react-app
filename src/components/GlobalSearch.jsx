@@ -1,34 +1,36 @@
-import React, { memo, forwardRef, useCallback, useState } from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'antd';
 
 const { Search } = Input;
 
-export const GlobalSearch = props => {
-    const { allowClear, placeholder, forwardedRef, onSearch, onChange } = props;
-    const [searchTxt, setSearchTxt] = useState('');
+export class GlobalSearch extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { value: props.value };
+    }
+    handleSearchInputChange = e => {
+        const { value } = e.target;
+        this.setState({ value });
+        this.props.onChange(value);
+    };
 
-    const handleSearchInputChange = useCallback(
-        e => {
-            const { value } = e.target;
-            setSearchTxt(value);
-            onChange(value);
-        },
-        [onChange]
-    );
+    render() {
+        const { allowClear, placeholder, forwardedRef, onSearch } = this.props;
 
-    return (
-        <Search
-            ref={forwardedRef}
-            value={searchTxt}
-            allowClear={allowClear}
-            placeholder={placeholder}
-            style={{ width: 200, marginRight: 10 }}
-            onSearch={onSearch}
-            onChange={handleSearchInputChange}
-        />
-    );
-};
+        return (
+            <Search
+                ref={forwardedRef}
+                value={this.state.value}
+                allowClear={allowClear}
+                placeholder={placeholder}
+                style={{ width: 200, marginRight: 10 }}
+                onSearch={onSearch}
+                onChange={this.handleSearchInputChange}
+            />
+        );
+    }
+}
 
 GlobalSearch.propTypes = {
     forwardedRef: PropTypes.any,
@@ -48,5 +50,3 @@ GlobalSearchInput.propTypes = {
     onSearch: PropTypes.func,
     onChange: PropTypes.func
 };
-
-export const MemoizedGlobalSearch = memo(GlobalSearchInput);
