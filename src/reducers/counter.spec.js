@@ -1,6 +1,6 @@
 import counter from './counter';
 
-describe('counter reducer', () => {
+describe('Counter reducer Test', () => {
     test('should provide the initial state', () => {
         expect(counter(undefined, {})).toStrictEqual({ value: 0 });
     });

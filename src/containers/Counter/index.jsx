@@ -4,6 +4,7 @@ import { Button } from 'antd';
 
 import { DECREMENT, INCREMENT } from '@/constants/CounterActionTypes';
 import styles from './Counter.css';
+import { asyncDecrement } from '@/thunks/counter';
 
 const { btn } = styles;
 
@@ -34,6 +35,10 @@ export class Counter extends React.Component {
         });
     };
 
+    handleDelayDecrement = () => {
+        this.props.dispatch(asyncDecrement(2000));
+    };
+
     render() {
         return (
             <div>
@@ -49,10 +54,13 @@ export class Counter extends React.Component {
                 <div style={{ marginTop: 24 }}>
                     <span>Store-Counter-value: {this.props.value} </span>
                     <Button htmlType="button" className={btn} onClick={this.handleIncrement}>
-                        ➕ Store-inc-state
+                        inc-store-state
                     </Button>
                     <Button htmlType="button" className={btn} onClick={this.handleDecrement}>
-                        ➖ Store-dec-state
+                        dec-store-state
+                    </Button>
+                    <Button htmlType="button" className={btn} onClick={this.handleDelayDecrement}>
+                        desc after 2 seconds
                     </Button>
                 </div>
             </div>

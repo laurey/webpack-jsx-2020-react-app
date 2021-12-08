@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Counter from '@/components/Counter';
+import Counter from '@/containers/Counter';
 
 class CounterPage extends React.PureComponent {
     constructor(props) {

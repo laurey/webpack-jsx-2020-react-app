@@ -9,6 +9,7 @@ import Counter from './pages/Counter';
 import Topics from './pages/Topics';
 import Posts from './pages/Posts';
 import Users from './pages/Users';
+import CommentsPage from './pages/Comments';
 import RateControl from './pages/RateControl';
 
 const { Content, Footer } = Layout;
@@ -32,6 +33,7 @@ export class App extends PureComponent {
                             <Route path="/topics" component={Topics} />
                             <Route path="/posts" component={Posts} />
                             <Route path="/users" component={Users} />
+                            <Route path="/comments" component={CommentsPage} />
                             <Route path="/counter" component={Counter} />
                             <Route path="/rateControl" component={RateControl} />
                             <Route component={NotMatch} />

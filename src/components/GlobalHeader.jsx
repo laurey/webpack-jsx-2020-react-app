@@ -27,6 +27,10 @@ const routes = [
         path: '/users'
     },
     {
+        name: 'Comments',
+        path: '/comments'
+    },
+    {
         name: 'RateControl',
         path: '/rateControl'
     }
