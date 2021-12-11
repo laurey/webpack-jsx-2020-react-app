@@ -1,36 +1,39 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'antd';
 
 const { Search } = Input;
 
-export class GlobalSearch extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { value: props.value };
-    }
-    handleSearchInputChange = e => {
+export const GlobalSearch = props => {
+    const { onChange, value: valueInProps, forwardedRef, ...rest } = props;
+    const [value, setValue] = useState(valueInProps);
+
+    const handleChange = useCallback(e => {
         const { value } = e.target;
-        this.setState({ value });
-        this.props.onChange(value);
-    };
+        setValue(value);
+        // onChange(value);
+    }, []);
 
-    render() {
-        const { allowClear, placeholder, forwardedRef, onSearch } = this.props;
+    useEffect(() => {
+        setValue(valueInProps);
+    }, [valueInProps]);
 
-        return (
-            <Search
-                ref={forwardedRef}
-                value={this.state.value}
-                allowClear={allowClear}
-                placeholder={placeholder}
-                style={{ width: 200, marginRight: 10 }}
-                onSearch={onSearch}
-                onChange={this.handleSearchInputChange}
-            />
-        );
-    }
-}
+    useEffect(() => {
+        if (typeof onChange === 'function') {
+            onChange(value);
+        }
+    }, [onChange, value]);
+
+    return (
+        <Search
+            style={{ width: 200, marginRight: 10 }}
+            {...rest}
+            value={value}
+            ref={forwardedRef}
+            onChange={handleChange}
+        />
+    );
+};
 
 GlobalSearch.propTypes = {
     forwardedRef: PropTypes.any,

@@ -21,19 +21,14 @@ module.exports = {
         // 'plugin:react-hooks/recommended',
         'plugin:prettier/recommended'
     ],
-    plugins: [
-        'import',
-        'react',
-        // 'react-hooks',
-        'prettier'
-    ],
+    plugins: ['import', 'react', 'react-hooks', 'prettier'],
     rules: {
         'no-unused-vars': 1,
         'prettier/prettier': 'error',
         'import/prefer-default-export': 'off',
         'react/destructuring-assignment': 'off',
-        // 'react-hooks/rules-of-hooks': 'error',
-        // 'react-hooks/exhaustive-deps': 'warn',
+        'react-hooks/rules-of-hooks': 'error',
+        'react-hooks/exhaustive-deps': 'warn',
         'react/prop-types': 'off',
         'react/display-name': 'off',
         'react/forbid-prop-types': 'off',

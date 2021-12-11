@@ -36,31 +36,23 @@ const routes = [
     }
 ];
 
-class GlobalHeader extends React.Component {
-    render() {
-        const { pathname } = this.props.location;
-        return (
-            <div>
-                <Header>
-                    <Menu
-                        mode="horizontal"
-                        theme={this.props.theme}
-                        selectedKeys={[pathname]}
-                        style={{ lineHeight: '64px' }}
-                    >
-                        {routes.map(route => {
-                            return (
-                                <Menu.Item key={route.path}>
-                                    <Link to={route.path}>{route.name}</Link>
-                                </Menu.Item>
-                            );
-                        })}
-                    </Menu>
-                </Header>
-            </div>
-        );
-    }
-}
+const GlobalHeader = props => {
+    const { location, theme, className } = props;
+    const { pathname } = location;
+    return (
+        <Header className={className}>
+            <Menu mode="horizontal" theme={theme} selectedKeys={[pathname]} style={{ lineHeight: '64px' }}>
+                {routes.map(route => {
+                    return (
+                        <Menu.Item key={route.path}>
+                            <Link to={route.path}>{route.name}</Link>
+                        </Menu.Item>
+                    );
+                })}
+            </Menu>
+        </Header>
+    );
+};
 
 GlobalHeader.defaultProps = {
     theme: 'dark'

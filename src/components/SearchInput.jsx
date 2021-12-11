@@ -1,38 +1,31 @@
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'antd';
 
 const { Search } = Input;
 
-export class SearchInput extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: ''
-        };
-    }
+export const SearchInput = props => {
+    const { onChange, value: valueInProps } = props;
+    const [value, setValue] = useState(valueInProps);
 
-    handleSearchInputChange = e => {
+    const handleChange = useCallback(e => {
         const { value } = e.target;
-        this.setState({ value });
-        this.props.onChange(value);
-    };
+        setValue(value);
+        // onChange(value);
+    }, []);
 
-    render() {
-        const { allowClear, placeholder, onSearch } = this.props;
+    useEffect(() => {
+        setValue(valueInProps);
+    }, [valueInProps]);
 
-        return (
-            <Search
-                value={this.state.value}
-                allowClear={allowClear}
-                placeholder={placeholder}
-                style={{ width: 200, marginRight: 10 }}
-                onSearch={onSearch}
-                onChange={this.handleSearchInputChange}
-            />
-        );
-    }
-}
+    useEffect(() => {
+        if (typeof onChange === 'function') {
+            onChange(value);
+        }
+    }, [onChange, value]);
+
+    return <Search style={{ width: 200, marginRight: 10 }} {...props} value={value} onChange={handleChange} />;
+};
 
 SearchInput.propTypes = {
     allowClear: PropTypes.bool,
