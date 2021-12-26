@@ -1,4 +1,4 @@
-import React, { forwardRef, createRef } from 'react';
+import React, { forwardRef, createRef, useImperativeHandle } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'antd';
 import HelloWorld from '@/components/Hello';
@@ -9,7 +9,13 @@ const user = {
     lastName: 'FF'
 };
 
-const FCForm = forwardRef(DemoForm);
+const FCForm = forwardRef((props, ref) => {
+    const { form } = props;
+    useImperativeHandle(ref, () => ({
+        form
+    }));
+    return <DemoForm {...props} />;
+});
 
 const EnhancedForm = Form.create()(FCForm);
 
@@ -21,7 +27,7 @@ const Home = props => {
             <div>Hello World!!!</div>
             <HelloWorld firstName={user.firstName} lastName={user.lastName} />
             <EnhancedForm
-                onSubmit={() => console.log(formRef.current.form.getFieldValue('price'))}
+                onSubmit={() => console.log(formRef.current.form.getFieldsValue(['price', 'range']))}
                 wrappedComponentRef={formRef}
             />
             <pre>

@@ -1,12 +1,13 @@
-import React, { useImperativeHandle, useCallback } from 'react';
-import { Form, Button } from 'antd';
-import NumberRangeInput from '../RTCInput/NumberRangeInput';
+import React, { useCallback, forwardRef } from 'react';
+import { Form, Button, InputNumber } from 'antd';
+import RangeInput from '../RTCInput/NumberRangeInput';
 
-const DemoForm = ({ form, onSubmit }, ref) => {
-    useImperativeHandle(ref, () => ({
-        form
-    }));
+const NumberRangeInput = forwardRef((props, ref) => {
+    return <RangeInput {...props} forwardedRef={ref} />;
+});
 
+const DemoForm = props => {
+    const { form, onSubmit } = props;
     const { getFieldDecorator } = form;
     const checkNumber = useCallback((rule, value, callback) => {
         if (Array.isArray(value)) {
@@ -28,7 +29,12 @@ const DemoForm = ({ form, onSubmit }, ref) => {
         <Form layout="inline" onSubmit={handleSubmit}>
             <Form.Item label="Price">
                 {getFieldDecorator('price', {
-                    initialValue: [11, 33],
+                    initialValue: 11
+                })(<InputNumber />)}
+            </Form.Item>
+            <Form.Item label="Range">
+                {getFieldDecorator('range', {
+                    initialValue: [10, 33],
                     rules: [{ validator: checkNumber }]
                 })(<NumberRangeInput />)}
             </Form.Item>

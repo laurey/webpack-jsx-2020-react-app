@@ -10,6 +10,7 @@ import { InputNumber } from 'antd';
 function NumberRangeInput(props) {
     const {
         onChange,
+        forwardedRef,
         defaultValue,
         value: valueInProps,
         minProps = { min: 1, max: 100, step: 1 },
@@ -56,11 +57,11 @@ function NumberRangeInput(props) {
     );
 
     return (
-        <>
-            <InputNumber {...minProps} value={value[0]} onChange={handleMinChange} />
+        <div ref={forwardedRef}>
+            <InputNumber key="min" {...minProps} value={value[0]} onChange={handleMinChange} />
             <span style={{ padding: '0 10px' }}>-</span>
-            <InputNumber {...maxProps} value={value[1]} onChange={handleMaxChange} />
-        </>
+            <InputNumber key="max" {...maxProps} value={value[1]} onChange={handleMaxChange} />
+        </div>
     );
 }
 
