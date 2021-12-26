@@ -98,7 +98,12 @@ const prodConfig = {
                         }
                     },
                     {
-                        loader: 'less-loader'
+                        loader: 'less-loader',
+                        options: {
+                            lessOptions: {
+                                javascriptEnabled: true
+                            }
+                        }
                     }
                 ]
             }

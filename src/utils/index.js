@@ -22,9 +22,9 @@ export const getFetchDataParams = ({ pagination, ...rest }) => ({
 
 export const processFetchParams = ({ params, ...rest }) => {
     // eslint-disable-next-line no-unused-vars
-    const { total, pageSize, current, ...restParams } = params;
+    const { total, pageSize, current, filters, ...restParams } = params;
     return {
-        params: { ...restParams, _limit: pageSize, _page: current },
+        params: { ...restParams, ...filters, _limit: pageSize, _page: current },
         ...rest
     };
 };

@@ -1,9 +1,11 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'antd';
+import _ from 'lodash';
 import { List } from '@/components/List';
 import { SearchInput } from '@/components/SearchInput';
-import { setupFetch, getFetchDataParams } from '@/utils';
+import { processFetchParams } from '@/utils';
+import { fetchUsers } from '@/services/users';
 
 const MemoizedList = memo(List);
 const MemoizedGlobalSearchInput = memo(SearchInput);
@@ -32,91 +34,110 @@ const columns = [
     }
 ];
 
-class Users extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            columns,
-            dataSource: [],
-            isLoading: false,
-            pagination: {
-                current: 1,
-                pageSize: 3
+const Users = () => {
+    const [isLoading, setIsLoading] = useState(false);
+    const [filters, setFilters] = useState({
+        filters: {},
+        pagination: {
+            current: 1,
+            pageSize: 3
+        }
+    });
+    const [state, setState] = useState({
+        columns,
+        dataSource: []
+    });
+
+    const fetchUserData = useCallback(
+        (params = {}) => {
+            if (isLoading) {
+                return;
             }
-        };
-    }
 
-    componentDidMount() {
-        this.fetchUserData({ pagination: this.state.pagination });
-    }
+            const { pagination: pager, ...rest } = params;
 
-    fetchUserData = (params = {}) => {
-        const { pagination: pager } = params;
-        this.setState({ isLoading: false });
-        setupFetch('https://jsonplaceholder.typicode.com/users', null, getFetchDataParams(params)).then(result => {
-            this.setState(prev => ({
-                isLoading: false,
-                dataSource: result,
-                pagination: {
-                    ...prev.pagination,
-                    ...pager,
-                    total: result.totalCount || 123
-                }
-            }));
-        });
+            setIsLoading(true);
+            fetchUsers(
+                processFetchParams({ params: { ...filters.filters, ...filters.pagination, ...pager, ...rest } })
+            ).then(result => {
+                setFilters(prev => ({
+                    ...prev,
+                    pagination: {
+                        ...prev.pagination,
+                        ...pager,
+                        total: result.totalCount || 123
+                    }
+                }));
+                setState(prev => ({
+                    ...prev,
+                    dataSource: result
+                }));
+                setIsLoading(false);
+            });
+        },
+        [filters.filters, filters.pagination, isLoading]
+    );
+
+    const handleTableChange = pager => {
+        fetchUserData({ pagination: pager });
     };
 
-    handleTableChange = pager => {
-        this.fetchUserData({ pagination: pager });
-    };
-
-    handleRefreshData = e => {
+    const handleRefreshData = e => {
         e.preventDefault();
-        this.fetchUserData({
-            pagination: this.state.pagination
+        fetchUserData();
+    };
+
+    const handleInputChange = value => {
+        const query = value ? { name_like: value } : null;
+        setFilters(prev => {
+            if (!value) {
+                delete prev.filters.name_like;
+            }
+
+            return {
+                ...prev,
+                filters: { ...prev.filters, ...query }
+            };
         });
     };
 
-    handleSearchInputChange = val => {
-        // eslint-disable-next-line no-console
-        console.log('input.val: ', val);
-    };
+    const handleSearchInputChange = useMemo(() => _.debounce(handleInputChange, 400), []);
 
-    handleSearch = value => {
-        this.fetchUserData({
-            pagination: this.state.pagination,
+    const handleSearch = value => {
+        fetchUserData({
+            pagination: { ...filters.pagination, current: 1 },
             ...(value ? { name_like: value } : null)
         });
     };
 
-    render() {
-        return (
-            <div style={{ padding: 12 }}>
-                <div className="ta-right" style={{ marginBottom: 20, textAlign: 'right' }}>
-                    <MemoizedGlobalSearchInput
-                        placeholder="please input something"
-                        onSearch={this.handleSearch}
-                        onChange={this.handleSearchInputChange}
-                    />
-                    <Button
-                        htmlType="button"
-                        shape="circle"
-                        icon="reload"
-                        title="Reload"
-                        onClick={this.handleRefreshData}
-                    />
-                </div>
-                <MemoizedList
-                    columns={this.state.columns}
-                    dataSource={this.state.dataSource}
-                    loading={this.state.isLoading}
-                    pagination={this.state.pagination}
-                    onChange={this.handleTableChange}
+    useEffect(() => {
+        fetchUserData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    console.log('aaa');
+
+    return (
+        <div style={{ padding: 12 }}>
+            <div className="ta-right" style={{ marginBottom: 20, textAlign: 'right' }}>
+                <MemoizedGlobalSearchInput
+                    placeholder="please input something"
+                    onSearch={handleSearch}
+                    onChange={handleSearchInputChange}
                 />
+                <Button htmlType="button" shape="circle" icon="reload" title="Reload" onClick={handleRefreshData} />
             </div>
-        );
-    }
-}
+            <MemoizedList
+                rowKey="id"
+                columns={state.columns}
+                dataSource={state.dataSource}
+                loading={isLoading}
+                pagination={filters.pagination}
+                onChange={handleTableChange}
+            />
+        </div>
+    );
+};
 
 Users.propTypes = {
     persons: PropTypes.array
