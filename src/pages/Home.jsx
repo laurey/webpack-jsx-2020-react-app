@@ -1,4 +1,4 @@
-import React, { forwardRef, createRef, useImperativeHandle } from 'react';
+import React, { forwardRef, createRef, useImperativeHandle, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'antd';
 import HelloWorld from '@/components/Hello';
@@ -19,17 +19,37 @@ const FCForm = forwardRef((props, ref) => {
 
 const EnhancedForm = Form.create()(FCForm);
 
+const params = {
+    aa1: '113',
+    bb2: 223,
+    dd3: 'dd34'
+};
+
 const Home = props => {
     const formRef = createRef();
+    const [value, setValue] = useState({});
+
+    const handleSubmit = useCallback(() => {
+        const value = formRef.current.form.getFieldsValue();
+        const data = JSON.stringify(value);
+        console.log(data);
+    }, [formRef]);
+
+    useEffect(() => {
+        const id = setTimeout(() => {
+            setValue({ params });
+        }, 5000);
+        return () => {
+            clearTimeout(id);
+        };
+    }, []);
+
     return (
         <div>
             <h1>Home Page-{props.title}</h1>
             <div>Hello World!!!</div>
             <HelloWorld firstName={user.firstName} lastName={user.lastName} />
-            <EnhancedForm
-                onSubmit={() => console.log(formRef.current.form.getFieldsValue(['price', 'range']))}
-                wrappedComponentRef={formRef}
-            />
+            <EnhancedForm value={value} onSubmit={handleSubmit} wrappedComponentRef={formRef} />
             <pre>
                 {`{
 "husky": {
