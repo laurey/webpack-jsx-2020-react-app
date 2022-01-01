@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import EditableContext from '@/components/EditableTable/context';
+import React, { PureComponent } from 'react';
+import EditableContext from '@/components/EditableRowFormTable/EditableTable/context';
 
-class EditableRow extends Component {
+class EditableRow extends PureComponent {
     render() {
-        const { form, index, ...rest } = this.props;
+        const { form, index, onChange, ...rest } = this.props;
         return (
             <EditableContext.Provider value={form}>
-                <td {...rest} />
+                <tr {...rest} />
             </EditableContext.Provider>
         );
     }

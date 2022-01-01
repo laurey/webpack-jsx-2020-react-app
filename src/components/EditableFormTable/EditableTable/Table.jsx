@@ -4,18 +4,10 @@ import EditableContext from './context';
 
 class EditableTable extends PureComponent {
     render() {
-        const { columns, dataSource, form, components, ...rest } = this.props;
+        const { form, ...rest } = this.props;
         return (
             <EditableContext.Provider value={form}>
-                <Table
-                    bordered
-                    {...rest}
-                    pagination={false}
-                    columns={columns}
-                    components={components}
-                    dataSource={dataSource}
-                    rowClassName="editable-row"
-                />
+                <Table bordered pagination={false} {...rest} rowClassName="editable-row" />
             </EditableContext.Provider>
         );
     }

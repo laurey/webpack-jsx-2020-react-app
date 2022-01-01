@@ -1,60 +1,51 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'antd';
+import { Button, Form } from 'antd';
 import Counter from '@/containers/Counter';
-import EditableFormTable from '@/components/EditableFormTable/EditableTable';
-import EditableCell from '@/components/EditableFormTable/EditableCell';
-import { colsExample } from '@/utils';
+import DynamicForm from '@/containers/DemoForm';
+import { colsExample, getRandomString, pairsToDataSource } from '@/utils';
+
+const WrappedDynamicForm = Form.create({ name: 'dynamic_rule' })(DynamicForm);
 
 const CounterPage = props => {
-    const ref = useRef();
-    const handleChange = useCallback(aa => {
-        console.log('aa');
-        console.log(aa);
-    }, []);
-
-    const components = useMemo(
+    const [pairs, setPairs] = useState({});
+    const [dataSource, setDataSource] = useState({});
+    const value = useMemo(
         () => ({
-            body: {
-                cell: EditableCell
-            }
+            params: pairsToDataSource(dataSource),
+            pairs: pairsToDataSource(pairs),
+            kv: pairsToDataSource(pairs)
         }),
-        []
+        [dataSource, pairs]
     );
 
-    const handleSubmit = useCallback(() => {
-        const form = ref.current;
-        if (form) {
-            console.log(JSON.stringify({ vv: form.getFieldsValue() }));
-        }
+    const handleInitData = useCallback(() => {
+        setDataSource({
+            [getRandomString(2)]: getRandomString(4),
+            [getRandomString(3)]: getRandomString(5),
+            [getRandomString(4)]: getRandomString(6),
+            [getRandomString(5)]: getRandomString(7)
+        });
+        setPairs({
+            [getRandomString(5)]: getRandomString(7),
+            [getRandomString(4)]: getRandomString(6),
+            [getRandomString(3)]: getRandomString(5),
+            [getRandomString(2)]: getRandomString(4)
+        });
     }, []);
-
-    const handleAddRow = useCallback(() => {}, []);
-
-    const locale = useMemo(
-        () => ({
-            emptyText: <span onClick={handleAddRow}>+ add</span>
-        }),
-        [handleAddRow]
-    );
 
     return (
         <div>
             <div>props.value: {props.value}</div>
             <div>you are on the counter page!!!</div>
             <Counter />
-            <EditableFormTable
-                style={{ width: 600 }}
-                scroll={{ y: 240 }}
-                ref={ref}
-                locale={locale}
-                columns={colsExample}
-                components={components}
-                onChange={handleChange}
-            />
-            <Button type="primary" onClick={handleSubmit}>
-                Click
-            </Button>
+            <div>
+                <h3>Editable Table Row Demo</h3>
+                <Button htmlType="button" className="btn" onClick={handleInitData}>
+                    Initial New Value
+                </Button>
+                <WrappedDynamicForm limit={10} columns={colsExample} value={value} />
+            </div>
         </div>
     );
 };

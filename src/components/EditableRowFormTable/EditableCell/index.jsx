@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { PureComponent } from 'react';
 import { InputNumber, Input, Form } from 'antd';
 import EditableContext from '../EditableTable/context';
 
-class EditableCell extends Component {
+class EditableCell extends PureComponent {
     getInput = () => {
         const { inputType } = this.props;
         if (inputType === 'number') {
@@ -16,32 +17,27 @@ class EditableCell extends Component {
         const {
             editing,
             dataIndex,
-            title,
             rules = [],
+            title,
             inputType,
             index,
             fieldId,
             record,
+            editable,
             children,
             ...restProps
         } = this.props;
         return (
             <td {...restProps}>
-                {editing ? (
+                {editable ? (
                     <Form.Item style={{ margin: 0 }}>
-                        {getFieldDecorator(fieldId, {
-                            initialValue: record[dataIndex],
-                            rules: [
-                                ...rules,
-                                {
-                                    required: true,
-                                    message: `Please ${record[dataIndex]} Input ${title}!`
-                                }
-                            ]
+                        {getFieldDecorator(dataIndex, {
+                            rules,
+                            initialValue: record[dataIndex]
                         })(this.getInput())}
                     </Form.Item>
                 ) : (
-                    children
+                    <div>{children}</div>
                 )}
             </td>
         );

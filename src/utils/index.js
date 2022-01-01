@@ -1,5 +1,10 @@
 import { parse } from 'qs';
-import { v4 as uuidv4 } from 'uuid';
+
+export const MAX_COUNT = 6;
+
+export const PARAMETER_PATTERN = /^[a-zA-Z0-9-_]{1,50}$/;
+
+export const isValidParams = value => value && PARAMETER_PATTERN.test(value);
 
 export const setupFetch = async (path, options, params) => {
     const search = new URLSearchParams(params).toString();
@@ -66,7 +71,7 @@ export function combineKeyValueToDatasource({ names, values } = {}) {
 
     return names.reduce((acc, key, i) => {
         acc.push({
-            key: uuidv4(),
+            key: i,
             names: key,
             values: values[i]
         });
@@ -76,12 +81,14 @@ export function combineKeyValueToDatasource({ names, values } = {}) {
 
 export function convertToDataSource(data = {}) {
     const dataSource = [];
+    let i = 0;
     for (const [key, value] of Object.entries(data)) {
         dataSource.push({
-            key: uuidv4(),
+            key: i,
             names: key,
             values: value
         });
+        i++;
     }
 
     return dataSource;
@@ -102,6 +109,10 @@ export const colsExample = [
         editing: true,
         editable: true,
         rules: [
+            {
+                required: true,
+                message: 'names is required'
+            },
             {
                 max: 10,
                 message: 'max-10-chars'
@@ -127,3 +138,48 @@ export const colsExample = [
         render: () => 'delete'
     }
 ];
+
+export const pairsToDataSource = data => {
+    const dataSource = [];
+    let i = 0;
+    for (const [key, value] of Object.entries(data)) {
+        dataSource.push({
+            key: i,
+            names: key,
+            values: value
+        });
+        i++;
+    }
+
+    return dataSource;
+};
+
+export const getRandomString = length => {
+    var randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var result = '';
+    for (var i = 0; i < length; i++) {
+        result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
+    }
+    return result;
+};
+
+export const hasDuplicates = data => {
+    const set = new Set(data);
+    return set.size !== data.length;
+};
+
+export const combineDataList = result => {
+    let data = [];
+    if (result && Array.isArray(result.names)) {
+        data = result.names.reduce((acc, key, i) => {
+            acc.push({
+                key: i,
+                names: key,
+                values: result.values[i]
+            });
+            return acc;
+        }, []);
+    }
+
+    return data;
+};
