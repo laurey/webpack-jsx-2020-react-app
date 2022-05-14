@@ -9,6 +9,8 @@ import Counter from './pages/Counter';
 import Topics from './pages/Topics';
 import Posts from './pages/Posts';
 import Users from './pages/Users';
+import About from './pages/About';
+import Contact from './pages/Contact';
 import CommentsPage from './pages/Comments';
 import RateControl from './pages/RateControl';
 
@@ -29,11 +31,13 @@ const App = () => {
                 >
                     <Switch>
                         <Route exact path="/" component={Home} />
-                        <Route path="/topics" component={Topics} />
+                        <Route path="/about" component={About} />
                         <Route path="/posts" component={Posts} />
                         <Route path="/users" component={Users} />
-                        <Route path="/comments" component={CommentsPage} />
+                        <Route path="/topics" component={Topics} />
+                        <Route path="/contact" component={Contact} />
                         <Route path="/counter" component={Counter} />
+                        <Route path="/comments" component={CommentsPage} />
                         <Route path="/rateControl" component={RateControl} />
                         <Route component={NotMatch} />
                     </Switch>

@@ -17,10 +17,12 @@ const Home = props => {
     //     };
     // }, []);
 
+    const foo = null ?? 'default string';
+
     return (
         <div>
             <h1>Home Page-{props.title}</h1>
-            <div>Hello World!!!</div>
+            <div>Hello World!!!///{foo}</div>
             <HelloWorld firstName={user.firstName} lastName={user.lastName} />
             <pre>
                 {`{

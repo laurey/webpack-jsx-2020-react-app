@@ -23,8 +23,16 @@ const routes = [
         path: '/posts'
     },
     {
+        name: 'Contact',
+        path: '/contact'
+    },
+    {
         name: 'Users',
         path: '/users'
+    },
+    {
+        name: 'About',
+        path: '/about'
     },
     {
         name: 'Comments',
