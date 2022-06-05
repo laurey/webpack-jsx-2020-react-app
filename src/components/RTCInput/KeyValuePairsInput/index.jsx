@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useCallback, useMemo, useState, forwardRef } from 'react';
 import { Divider } from 'antd';
-import * as shallowEqual from 'shallowequal';
-import { combineDataList, convertDataSourceToEntries, convertDataSourceToValues } from '@/utils';
+import { combineDataList } from '@/utils';
 import EditableFormTable from './EditableFormTable';
 import EditableContext from './EditableTable/context';
 import EditableCell from './EditableCell';
@@ -12,12 +11,11 @@ const components = {
     }
 };
 
-function KeyValuePairsInput(props, ref) {
+export function KeyValuePairsInput(props) {
     const { columns: columnsInProps, onChange, value } = props;
     const formRef = React.createRef();
 
-    // const [dataSource, setDataSource] = useState(value || []);
-    const dataSource = useMemo(() => value || [], [value]);
+    const [dataSource, setDataSource] = useState(value || []);
 
     const genUUID = useCallback(() => {
         return dataSource.length;
@@ -35,7 +33,7 @@ function KeyValuePairsInput(props, ref) {
     const handleChange = useCallback(
         value => {
             const data = combineDataList(value);
-            // setDataSource(data);
+            setDataSource(data);
             triggerChange(data);
         },
         [triggerChange]
@@ -47,26 +45,30 @@ function KeyValuePairsInput(props, ref) {
             names: '',
             values: ''
         };
-        // setDataSource(prev => {
-        //     const data = [...prev, newData];
-        //     return data;
-        // });
+        setDataSource(prev => {
+            const data = [...prev, newData];
+            return data;
+        });
         triggerChange([...dataSource, newData]);
     }, [dataSource, genUUID, triggerChange]);
 
     const handleDeleteRow = useCallback(
-        key => {
-            const data = convertDataSourceToEntries(dataSource.filter(item => item.key !== key));
-            const newDataSource = combineDataList(data);
-            // setDataSource(newDataSource);
+        ({ form, key }) => {
+            const newDataSource = dataSource
+                .filter(item => item.key !== key)
+                .map((item, index) => ({
+                    ...item,
+                    key: index
+                }));
+            setDataSource(newDataSource);
             triggerChange(newDataSource);
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [dataSource, triggerChange]
+        [dataSource]
     );
 
     const handleSave = useCallback(
-        (form, key) => {
+        ({ form, key }) => {
             console.log(JSON.stringify(form && form.getFieldsValue()));
             console.log(key);
             console.log(JSON.stringify(formRef.current.form && formRef.current.form.getFieldsValue()));
@@ -102,11 +104,17 @@ function KeyValuePairsInput(props, ref) {
                                 <EditableContext.Consumer>
                                     {form => (
                                         <>
-                                            <a onClick={() => handleSave(form, record.key)} style={{ marginRight: 8 }}>
+                                            <a
+                                                onClick={() => handleSave({ form, key: record.key })}
+                                                style={{ marginRight: 8 }}
+                                            >
                                                 Save
                                             </a>
                                             <Divider type="vertical" />
-                                            <a onClick={() => handleDeleteRow(record.key)} style={{ marginRight: 8 }}>
+                                            <a
+                                                onClick={() => handleDeleteRow({ form, key: record.key })}
+                                                style={{ marginRight: 8 }}
+                                            >
                                                 Delete
                                             </a>
                                         </>
@@ -144,24 +152,6 @@ function KeyValuePairsInput(props, ref) {
         });
     }, [columnsInProps, handleDeleteRow, handleSave]);
 
-    // useEffect(() => {
-    //     const { form } = formRef.current;
-    //     if (form) {
-    //         const values = convertDataSourceToValues(dataSource);
-    //         const { setFieldsValue } = form;
-    //         setFieldsValue(values);
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [dataSource]);
-
-    useImperativeHandle(
-        ref,
-        () => {
-            return props;
-        },
-        [props]
-    );
-
     return (
         <>
             <EditableFormTable
@@ -177,4 +167,21 @@ function KeyValuePairsInput(props, ref) {
     );
 }
 
-export default forwardRef(KeyValuePairsInput);
+export const ForwardKeyValuePairsInput = forwardRef((props, ref) => {
+    // useImperativeHandle(
+    //     ref,
+    //     () => {
+    //         return props;
+    //     },
+    //     [props]
+    // );
+
+    return (
+        <div ref={ref}>
+            <KeyValuePairsInput {...props} />
+        </div>
+    );
+});
+ForwardKeyValuePairsInput.displayName = 'ForwardKeyValuePairsInput';
+
+export default KeyValuePairsInput;

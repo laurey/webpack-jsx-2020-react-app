@@ -21,6 +21,16 @@ class KeyValuePairFormTableInput extends PureComponent {
         this.formRef = React.createRef();
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        const { value } = this.props;
+        const data = Array.isArray(value) ? value : [];
+        if (!_.isEqual(data, prevState.dataSource)) {
+            this.setState({
+                dataSource: data
+            });
+        }
+    }
+
     genUUID = () => {
         return this.state.dataSource.length;
     };
@@ -78,16 +88,6 @@ class KeyValuePairFormTableInput extends PureComponent {
         console.log(key);
         console.log(JSON.stringify(this.formRef.current.form && this.formRef.current.form.getFieldsValue()));
     };
-
-    componentDidUpdate(prevProps, prevState) {
-        const { value } = this.props;
-        const data = Array.isArray(value) ? value : [];
-        if (!_.isEqual(data, prevState.dataSource)) {
-            this.setState({
-                dataSource: data
-            });
-        }
-    }
 
     render() {
         const { dataSource } = this.state;

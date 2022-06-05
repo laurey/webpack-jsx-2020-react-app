@@ -13,6 +13,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import CommentsPage from './pages/Comments';
 import RateControl from './pages/RateControl';
+import Demos from './pages/Demos';
 
 const { Content, Footer } = Layout;
 
@@ -34,6 +35,7 @@ const App = () => {
                         <Route path="/about" component={About} />
                         <Route path="/posts" component={Posts} />
                         <Route path="/users" component={Users} />
+                        <Route path="/demos" component={Demos} />
                         <Route path="/topics" component={Topics} />
                         <Route path="/contact" component={Contact} />
                         <Route path="/counter" component={Counter} />
@@ -43,7 +45,7 @@ const App = () => {
                     </Switch>
                 </div>
             </Content>
-            <Footer style={{ textAlign: 'center' }}>Footer Content &copy;2021</Footer>
+            <Footer style={{ textAlign: 'center' }}>Footer Content &copy;2020</Footer>
         </Layout>
     );
 };

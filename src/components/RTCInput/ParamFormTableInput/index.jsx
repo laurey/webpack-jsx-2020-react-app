@@ -55,14 +55,6 @@ class ParamFormTableInput extends PureComponent {
         };
         this.setState(prev => {
             const data = [...prev.data, newData];
-            // if (data.length > this.props.limit) {
-            //   return prev
-            // }
-
-            // if (prev.data.some((value) => !value.names)) {
-            //   return prev
-            // }
-
             return { ...prev, data };
         }, this.triggerChange);
     };

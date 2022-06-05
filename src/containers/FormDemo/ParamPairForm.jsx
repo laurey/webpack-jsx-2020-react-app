@@ -4,14 +4,13 @@ import { Form, Button, InputNumber, Row, Col } from 'antd';
 import RangeInput from '@/components/RTCInput/NumberRangeInput';
 import ParameterFormTableInput from '@/components/RTCInput/ParamFormTableInput';
 import KeyValuePairFormTableInput from '@/components/RTCInput/KeyValuePairFormTableInput';
-import KeyValuePairsInput from '@/components/RTCInput/KeyValuePairsInput';
 import { MAX_COUNT, hasDuplicates, isValidParams, convertToValue } from '@/utils';
 
 const NumberRangeInput = forwardRef((props, ref) => {
     return <RangeInput {...props} forwardedRef={ref} />;
 });
 
-const DemoForm = props => {
+const ParamPairForm = props => {
     const { form, onSubmit, value = {}, columns, limit } = props;
     const { getFieldDecorator } = form;
     const checkNumber = useCallback((rule, value, callback) => {
@@ -25,29 +24,25 @@ const DemoForm = props => {
         callback('Price must be a range!');
     }, []);
 
-    const handleSubmit = e => {
-        e.preventDefault();
-        form.validateFields((err, values) => {
-            if (!err) {
-                const { params, pairs, kv } = values;
-                const value = {
-                    ...values,
-                    params: convertToValue(params),
-                    pairs: convertToValue(pairs),
-                    kv: convertToValue(kv)
-                };
-                if (typeof onSubmit === 'function') {
-                    onSubmit(values);
+    const handleSubmit = useCallback(
+        e => {
+            e.preventDefault();
+            form.validateFields((err, values) => {
+                if (!err) {
+                    const { params, pairs } = values;
+                    const value = {
+                        ...values,
+                        params: convertToValue(params),
+                        pairs: convertToValue(pairs)
+                    };
+                    if (typeof onSubmit === 'function') {
+                        onSubmit(value);
+                    }
                 }
-                console.log('Received values of form: ', JSON.stringify(value));
-            }
-        });
-    };
-
-    useEffect(() => {
-        form.setFieldsValue(value);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [value]);
+            });
+        },
+        [form, onSubmit]
+    );
 
     return (
         <Form onSubmit={handleSubmit} style={{ padding: 10, background: '#eee' }}>
@@ -176,62 +171,7 @@ const DemoForm = props => {
                                     }
                                 }
                             ]
-                        })(<KeyValuePairFormTableInput columns={columns} limit={limit} />)}
-                    </Form.Item>
-                </Col>
-                <Col span={24}>
-                    <Form.Item label="參數3" style={{ width: '100%' }}>
-                        {getFieldDecorator('kv', {
-                            initialValue: value.kv,
-                            rules: [
-                                {
-                                    required: true,
-                                    type: 'array',
-                                    message: 'Please input your pairs'
-                                },
-                                {
-                                    min: 1,
-                                    max: MAX_COUNT,
-                                    type: 'array',
-                                    message: `参数最多${MAX_COUNT}对`
-                                },
-                                {
-                                    type: 'array',
-                                    validator: (rule, value = [], callback) => {
-                                        try {
-                                            if (hasDuplicates(value.map(({ names }) => names))) {
-                                                console.log(JSON.stringify(value));
-                                                callback('参数名不允许重复');
-                                            }
-
-                                            if (value.some(item => !item.names)) {
-                                                callback('参数名不允许为空');
-                                            }
-
-                                            if (value.some(v => !isValidParams(v.names))) {
-                                                callback('参数名仅支持字母，数字，下划线，中划线');
-                                            }
-
-                                            if (value.some(v => !isValidParams(v.values))) {
-                                                callback('参数值仅支持字母，数字，下划线，中划线');
-                                            }
-
-                                            const nested = value.some(
-                                                p => p && (_.isObject(p.values) || _.isArray(p.values))
-                                            );
-
-                                            if (nested) {
-                                                callback('参数值不支持数组或对象形式');
-                                            }
-
-                                            callback();
-                                        } catch (error) {
-                                            callback(error);
-                                        }
-                                    }
-                                }
-                            ]
-                        })(<KeyValuePairsInput columns={columns} limit={limit} />)}
+                        })(<KeyValuePairFormTableInput columns={columns} />)}
                     </Form.Item>
                 </Col>
             </Row>
@@ -244,4 +184,4 @@ const DemoForm = props => {
     );
 };
 
-export default DemoForm;
+export default ParamPairForm;

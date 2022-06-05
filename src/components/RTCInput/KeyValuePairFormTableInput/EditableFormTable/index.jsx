@@ -2,20 +2,21 @@ import React, { forwardRef, useImperativeHandle } from 'react';
 import { Form } from 'antd';
 import EditableTable from '../EditableTable';
 
-const ForwardEditableTable = forwardRef((props, ref) => {
-    useImperativeHandle(ref, () => ({ form: props.form }));
+const EditableFormTable = forwardRef((props, ref) => {
+    useImperativeHandle(ref, () => ({ form: props.form }), [props.form]);
     return <EditableTable {...props} />;
 });
-ForwardEditableTable.displayName = 'ForwardEditableTable';
+EditableFormTable.displayName = 'EditableFormTable';
 
-const EditableFormTable = Form.create({
+const EnhancedEditableFormTable = Form.create({
+    name: 'enhance_editable_form_table',
     onValuesChange: function (props, changedValues, allValues) {
         const { onChange } = props;
         if (typeof onChange === 'function') {
             onChange(allValues);
         }
     }
-})(ForwardEditableTable);
-EditableFormTable.displayName = 'EditableFormTable';
+})(EditableFormTable);
+EnhancedEditableFormTable.displayName = 'EnhancedEditableFormTable';
 
-export default EditableFormTable;
+export { EnhancedEditableFormTable as default };

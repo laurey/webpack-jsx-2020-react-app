@@ -1,7 +1,8 @@
 import React, { PureComponent, createRef } from 'react';
-// import * as shallowEqual from 'shallowequal';
-import { Form, Input, InputNumber } from 'antd';
+import * as shallowEqual from 'shallowequal';
+import { Form } from 'antd';
 import EditableContext from '../EditableTable/context';
+import { ForwardCellInput } from './CellInput';
 
 class EditableCell extends PureComponent {
     constructor(props) {
@@ -9,26 +10,17 @@ class EditableCell extends PureComponent {
         this.formRef = createRef();
     }
 
-    // componentDidUpdate(prevProps, prevState) {
-    //     const { record, dataIndex, fieldId } = this.props;
-    //     const { setFieldsValue } = this.formRef.current;
-    //     if (dataIndex) {
-    //         if (!shallowEqual(record[dataIndex], prevProps?.record[dataIndex])) {
-    //             console.log(JSON.stringify([dataIndex, fieldId, record[dataIndex], prevProps?.record[dataIndex]]));
-    //             // setFieldsValue({
-    //             //     [fieldId]: record[dataIndex]
-    //             // });
-    //         }
-    //     }
-    // }
-
-    getInput = () => {
-        const { inputType } = this.props;
-        if (inputType === 'number') {
-            return <InputNumber />;
+    componentDidUpdate(prevProps, prevState) {
+        const { record, dataIndex, fieldId } = this.props;
+        const { setFieldsValue } = this.formRef.current;
+        if (dataIndex) {
+            if (!shallowEqual(record[dataIndex], prevProps?.record[dataIndex])) {
+                setFieldsValue({
+                    [fieldId]: record[dataIndex]
+                });
+            }
         }
-        return <Input />;
-    };
+    }
 
     renderCell = form => {
         this.formRef.current = form;
@@ -51,11 +43,11 @@ class EditableCell extends PureComponent {
         return (
             <td {...restProps}>
                 {editing ? (
-                    <Form.Item style={{ margin: 0 }}>
+                    <Form.Item style={{ margin: 0 }} key={fieldId}>
                         {getFieldDecorator(fieldId, {
                             rules,
                             initialValue
-                        })(this.getInput())}
+                        })(<ForwardCellInput {...this.props} />)}
                     </Form.Item>
                 ) : (
                     <div className="readonly-td-cell-text">{children}</div>

@@ -8,15 +8,6 @@ const user = {
 };
 
 const Home = props => {
-    // useEffect(() => {
-    //     const id = setTimeout(() => {
-    //         setValue({ params });
-    //     }, 5000);
-    //     return () => {
-    //         clearTimeout(id);
-    //     };
-    // }, []);
-
     const foo = null ?? 'default string';
 
     return (

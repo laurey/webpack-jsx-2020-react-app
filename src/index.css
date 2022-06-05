@@ -13,3 +13,7 @@ code {
 ::placeholder {
     color: gray;
 }
+
+:global(.add-row-btn) {
+    cursor: pointer;
+}

@@ -1,5 +1,5 @@
 {
-    "name": "my-webpack-jsx-2019-react",
+    "name": "my-webpack-2020-react",
     "version": "1.0.0",
     "license": "MIT",
     "description": "My webpack react tutorial",
@@ -37,6 +37,7 @@
         "react-router-dom": "~5.2.0",
         "redux": "~4.0.2",
         "redux-thunk": "~2.3.0",
+        "shallowequal": "^1.1.0",
         "uuid": "^8.3.2"
     },
     "devDependencies": {

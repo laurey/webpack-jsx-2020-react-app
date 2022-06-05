@@ -101,6 +101,16 @@ export function convertToValue(dataSource = []) {
     }, {});
 }
 
+export function convertDataSourceToValues(dataSource = []) {
+    return dataSource.reduce((acc, data, index) => {
+        Object.assign(acc, {
+            [`names.${index}`]: data.names,
+            [`values.${index}`]: data.values
+        });
+        return acc;
+    }, {});
+}
+
 export const colsExample = [
     {
         title: 'Names',
@@ -178,7 +188,7 @@ export const combineDataList = result => {
                 values: result.values[i]
             });
             return acc;
-        }, []);
+        }, data);
     }
 
     return data;
