@@ -1,12 +1,12 @@
-import React, { useCallback, useState, useMemo, useRef, useEffect } from 'react';
-import { Tabs, Button } from 'antd';
+import React, { useCallback, useState, useMemo, useRef } from 'react';
+import { Tabs, Button, Row, Col } from 'antd';
 import {
     CustomizeForm,
     EhancedParamPairForm,
     EhancedKeyValuePairsForm,
     EhancedParamTableForm
 } from '@/containers/FormDemo';
-import { getRandomString, pairsToDataSource, colsExample, convertDataSourceToEntries, convertToValue } from '@/utils';
+import { getRandomString, pairsToDataSource, colsExample } from '@/utils';
 
 const { TabPane } = Tabs;
 
@@ -18,26 +18,16 @@ const DemosPage = () => {
     const [kvs, setKvs] = useState({});
     const [pairs, setPairs] = useState({});
     const [dataSource, setDataSource] = useState({});
+    const [value, setValue] = useState({
+        pairs: pairsToDataSource(pairs),
+        kv: pairsToDataSource(kvs)
+    });
     const value1 = useMemo(
         () => ({
             params: pairsToDataSource(dataSource),
             pairs: pairsToDataSource(pairs)
         }),
         [dataSource, pairs]
-    );
-    const value2 = useMemo(
-        () => ({
-            params: pairsToDataSource(dataSource),
-            kv: pairsToDataSource(kvs)
-        }),
-        [dataSource, kvs]
-    );
-    const value3 = useMemo(
-        () => ({
-            pairs: pairsToDataSource(pairs),
-            kv: pairsToDataSource(kvs)
-        }),
-        [kvs, pairs]
     );
 
     const handleInitData = useCallback(() => {
@@ -61,6 +51,26 @@ const DemosPage = () => {
         });
     }, []);
 
+    const handleInitValue = useCallback(() => {
+        const pairs = {
+            [getRandomString(5)]: getRandomString(7),
+            [getRandomString(4)]: getRandomString(6),
+            [getRandomString(3)]: getRandomString(5),
+            [getRandomString(2)]: getRandomString(4)
+        };
+        const kvs = {
+            [getRandomString(2)]: getRandomString(5),
+            [getRandomString(6)]: getRandomString(6),
+            [getRandomString(3)]: getRandomString(2),
+            [getRandomString(7)]: getRandomString(3)
+        };
+
+        setValue({
+            pairs: pairsToDataSource(pairs),
+            kv: pairsToDataSource(kvs)
+        });
+    }, []);
+
     const handleSubmit = useCallback(data => {
         console.log('Received values of form: ', JSON.stringify(data));
     }, []);
@@ -78,17 +88,30 @@ const DemosPage = () => {
         // setKvs(convertToValue(kv));
     }, []);
 
-    // useEffect(() => {
-    //     formRef2.current?.form.setFieldsValue(value2);
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [value2]);
-
     return (
         <div style={{ padding: 12 }}>
-            <div style={{ marginBottom: 24 }}>
-                <Button htmlType="button" className="btn" onClick={handleInitData}>
-                    Initial New Value
-                </Button>
+            <div>
+                <Row type="flex" gutter={24} style={{ marginBottom: 24 }}>
+                    {activeKey === '1' && (
+                        <Col>
+                            <Button htmlType="button" className="btn" onClick={handleInitData}>
+                                Initial Tab 1 Form Value
+                            </Button>
+                        </Col>
+                    )}
+                    {/* <Col>
+                        <Button htmlType="button" className="btn" onClick={handleInitData}>
+                            Initial Tab 2 Form Value
+                        </Button>
+                    </Col> */}
+                    {activeKey === '3' && (
+                        <Col>
+                            <Button htmlType="button" className="btn" onClick={handleInitValue}>
+                                Initial Tab 3 Form Value
+                            </Button>
+                        </Col>
+                    )}
+                </Row>
             </div>
             <Tabs destroyInactiveTabPane defaultActiveKey="1" activeKey={activeKey} onChange={handleChange}>
                 <TabPane tab="title 1" key="1">
@@ -109,7 +132,7 @@ const DemosPage = () => {
                 </TabPane>
                 <TabPane tab="KeyValue Pairs Form" key="3">
                     <EhancedKeyValuePairsForm
-                        value={value3}
+                        value={value}
                         columns={colsExample}
                         onSubmit={handleSubmit}
                         wrappedComponentRef={formRef3}

@@ -30,7 +30,7 @@ const ParamTableForm = props => {
     );
 
     const handleChange = useCallback(value => {
-        console.log('change!!!', value);
+        console.log('change!!!');
     }, []);
 
     return (

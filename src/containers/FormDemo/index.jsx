@@ -68,7 +68,15 @@ const ForwardKeyValuePairsForm = forwardRef((props, ref) => {
 
     return <KeyValuePairsForm {...props} />;
 });
-export const EhancedKeyValuePairsForm = Form.create({ name: 'key_value_demo_form' })(ForwardKeyValuePairsForm);
+export const EhancedKeyValuePairsForm = Form.create({
+    name: 'key_value_demo_form',
+    onValuesChange(props, changedValues, allValue) {
+        const { onChange } = props;
+        if (typeof onChange === 'function') {
+            onChange(allValue);
+        }
+    }
+})(ForwardKeyValuePairsForm);
 ForwardKeyValuePairsForm.displayName = 'ForwardKeyValuePairsForm';
 
 export { CustomizeForm };

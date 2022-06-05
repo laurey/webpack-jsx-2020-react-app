@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState, forwardRef } from 'react';
+import React, { useCallback, useMemo, useState, forwardRef, useEffect } from 'react';
 import { Divider } from 'antd';
 import { combineDataList } from '@/utils';
 import EditableFormTable from './EditableFormTable';
@@ -151,6 +151,10 @@ export function KeyValuePairsInput(props) {
             };
         });
     }, [columnsInProps, handleDeleteRow, handleSave]);
+
+    useEffect(() => {
+        setDataSource(Array.isArray(value) ? value : []);
+    }, [value]);
 
     return (
         <>
