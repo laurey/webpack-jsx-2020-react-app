@@ -4,7 +4,7 @@ import { Form, Button, InputNumber, Row, Col } from 'antd';
 import RangeInput from '@/components/RTCInput/NumberRangeInput';
 import ParameterFormTableInput from '@/components/RTCInput/ParamFormTableInput';
 import KeyValuePairFormTableInput from '@/components/RTCInput/KeyValuePairFormTableInput';
-import KeyValuePairsInput from '@/components/RTCInput/KeyValuePairFormTableInput/KeyValuePairsInput';
+import KeyValuePairsInput from '@/components/RTCInput/KeyValuePairsInput';
 import { MAX_COUNT, hasDuplicates, isValidParams, convertToValue } from '@/utils';
 
 const NumberRangeInput = forwardRef((props, ref) => {
@@ -48,8 +48,6 @@ const DemoForm = props => {
         form.setFieldsValue(value);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value]);
-
-    console.count('11');
 
     return (
         <Form onSubmit={handleSubmit} style={{ padding: 10, background: '#eee' }}>

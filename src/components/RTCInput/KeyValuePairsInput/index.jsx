@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, forwardRef, useImperativeHandle } from 'react';
 import { Divider } from 'antd';
-import { combineDataList, convertDataSourceToEntries } from '@/utils';
+import * as shallowEqual from 'shallowequal';
+import { combineDataList, convertDataSourceToEntries, convertDataSourceToValues } from '@/utils';
 import EditableFormTable from './EditableFormTable';
 import EditableContext from './EditableTable/context';
 import EditableCell from './EditableCell';
@@ -10,23 +11,22 @@ const components = {
         cell: EditableCell
     }
 };
-// todos:
-// 1. wrappedComponentRef issue
-function KeyValuePairsInput(props) {
+
+function KeyValuePairsInput(props, ref) {
     const { columns: columnsInProps, onChange, value } = props;
     const formRef = React.createRef();
 
-    const [dataSource, setDataSource] = useState(value || []);
+    // const [dataSource, setDataSource] = useState(value || []);
+    const dataSource = useMemo(() => value || [], [value]);
 
     const genUUID = useCallback(() => {
         return dataSource.length;
     }, [dataSource.length]);
 
     const triggerChange = useCallback(
-        dataSource => {
+        values => {
             if (typeof onChange === 'function') {
-                // const value = convertData(dataSource);
-                onChange(dataSource);
+                onChange(values);
             }
         },
         [onChange]
@@ -35,7 +35,7 @@ function KeyValuePairsInput(props) {
     const handleChange = useCallback(
         value => {
             const data = combineDataList(value);
-            setDataSource(data);
+            // setDataSource(data);
             triggerChange(data);
         },
         [triggerChange]
@@ -47,18 +47,10 @@ function KeyValuePairsInput(props) {
             names: '',
             values: ''
         };
-        setDataSource(prev => {
-            const data = [...prev, newData];
-            // if (data.length > limit) {
-            //   return prev
-            // }
-
-            // if (prev.some((value) => !value.names)) {
-            //   return prev
-            // }
-
-            return data;
-        });
+        // setDataSource(prev => {
+        //     const data = [...prev, newData];
+        //     return data;
+        // });
         triggerChange([...dataSource, newData]);
     }, [dataSource, genUUID, triggerChange]);
 
@@ -66,9 +58,10 @@ function KeyValuePairsInput(props) {
         key => {
             const data = convertDataSourceToEntries(dataSource.filter(item => item.key !== key));
             const newDataSource = combineDataList(data);
+            // setDataSource(newDataSource);
             triggerChange(newDataSource);
-            setDataSource(newDataSource);
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [dataSource, triggerChange]
     );
 
@@ -151,15 +144,27 @@ function KeyValuePairsInput(props) {
         });
     }, [columnsInProps, handleDeleteRow, handleSave]);
 
-    useEffect(() => {
-        const data = Array.isArray(value) ? value : [];
-        setDataSource(data);
-    }, [value]);
+    // useEffect(() => {
+    //     const { form } = formRef.current;
+    //     if (form) {
+    //         const values = convertDataSourceToValues(dataSource);
+    //         const { setFieldsValue } = form;
+    //         setFieldsValue(values);
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [dataSource]);
+
+    useImperativeHandle(
+        ref,
+        () => {
+            return props;
+        },
+        [props]
+    );
 
     return (
         <>
             <EditableFormTable
-                key="names"
                 locale={locale}
                 columns={columns}
                 components={components}
@@ -172,4 +177,4 @@ function KeyValuePairsInput(props) {
     );
 }
 
-export default KeyValuePairsInput;
+export default forwardRef(KeyValuePairsInput);
