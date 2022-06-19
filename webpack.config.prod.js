@@ -9,11 +9,11 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const prodConfig = {
     mode: 'production',
-    devtool: 'none',
+    devtool: 'source-map',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'assets/js/[name].[hash:8].js',
-        chunkFilename: 'assets/js/[name].[hash:8].chunk.js',
+        filename: 'assets/js/[name].[contenthash:8].js',
+        chunkFilename: 'assets/js/[name].[contenthash:8].chunk.js',
         publicPath: '/'
     },
     resolve: {
@@ -120,6 +120,7 @@ const prodConfig = {
     ].filter(Boolean),
     optimization: {
         minimize: true,
+        runtimeChunk: 'single',
         minimizer: [
             new TerserWebpackPlugin({
                 sourceMap: true,
@@ -145,8 +146,8 @@ const prodConfig = {
         splitChunks: {
             chunks: 'all',
             minSize: 0,
-            maxInitialRequests: 20,
-            maxAsyncRequests: 20,
+            maxInitialRequests: 30,
+            maxAsyncRequests: 30,
             cacheGroups: {
                 vendors: {
                     test: /[\\/]node_modules[\\/]/,
@@ -167,8 +168,7 @@ const prodConfig = {
                 //   enforce: true,
                 // },
             }
-        },
-        runtimeChunk: 'single'
+        }
     }
 };
 
