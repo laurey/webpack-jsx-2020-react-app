@@ -14,6 +14,8 @@ import Contact from './pages/Contact';
 import CommentsPage from './pages/Comments';
 import RateControl from './pages/RateControl';
 import Demos from './pages/Demos';
+import Dashboard from './pages/Dashboard';
+import DashboardLazy from './pages/DashboardLazy';
 
 const { Content, Footer } = Layout;
 
@@ -39,6 +41,8 @@ const App = () => {
                         <Route path="/topics" component={Topics} />
                         <Route path="/contact" component={Contact} />
                         <Route path="/counter" component={Counter} />
+                        <Route path="/dashboard" component={Dashboard} />
+                        <Route path="/lazyDash" component={DashboardLazy} />
                         <Route path="/comments" component={CommentsPage} />
                         <Route path="/rateControl" component={RateControl} />
                         <Route component={NotMatch} />

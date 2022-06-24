@@ -123,6 +123,8 @@ const prodConfig = {
         runtimeChunk: 'single',
         minimizer: [
             new TerserWebpackPlugin({
+                cache: true,
+                parallel: true,
                 sourceMap: true,
                 extractComments: false,
                 terserOptions: {

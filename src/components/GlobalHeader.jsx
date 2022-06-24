@@ -39,6 +39,14 @@ const routes = [
         path: '/about'
     },
     {
+        name: 'Dashboard',
+        path: '/dashboard'
+    },
+    {
+        name: 'LazyDash',
+        path: '/lazyDash'
+    },
+    {
         name: 'Comments',
         path: '/comments'
     },
