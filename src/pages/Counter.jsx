@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import PropTypes from 'prop-types';
-import Counter from '@/containers/Counter';
+import Loading from '@/components/Loading';
+// import Counter from '@/containers/Counter';
+
+const Counter = React.lazy(() => import('@/containers/Counter'));
 
 const CounterPage = () => {
     return (
         <div>
             <div>you are on the counter page!!!</div>
-            <Counter />
+            <Suspense fallback={<Loading />}>
+                <Counter />
+            </Suspense>
         </div>
     );
 };

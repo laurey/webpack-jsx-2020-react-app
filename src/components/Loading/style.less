@@ -1,0 +1,26 @@
+.spinner-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--overlay-color);
+  z-index: 1;
+  margin: auto;
+  overflow: auto;
+  .spinner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    width: 120px;
+    height: 120px;
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-bottom: 16px solid #3498db;
+    border-radius: 50%;
+    animation: spinner 1.5s linear infinite;
+  }
+}
