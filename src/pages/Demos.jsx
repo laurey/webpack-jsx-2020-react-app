@@ -83,7 +83,7 @@ const DemosPage = () => {
     }, []);
 
     const handleValueChange = useCallback(values => {
-        const { params, kv } = values;
+        // const { params, kv } = values;
         // setDataSource(convertToValue(params));
         // setKvs(convertToValue(kv));
     }, []);
