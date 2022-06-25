@@ -1,0 +1,11 @@
+.container {
+    width: 300px;
+    margin: 0 auto;
+    background-color: #ececec;
+    padding: 20px;
+}
+.dragging {
+    visibility: visible;
+    opacity: 0.5;
+    cursor: grab;
+}

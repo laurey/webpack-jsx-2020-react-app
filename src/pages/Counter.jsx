@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Loading from '@/components/Loading';
 // import Counter from '@/containers/Counter';
 
-const Counter = React.lazy(() => import('@/containers/Counter'));
+const Counter = React.lazy(() => import(/* webpackChunkName: "counter" */ '@/containers/Counter'));
 
 const CounterPage = () => {
     return (

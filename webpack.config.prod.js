@@ -157,12 +157,12 @@ const prodConfig = {
                         const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
                         return `${cacheGroupKey}.${packageName.replace('@', '')}`;
                     }
+                },
+                commons: {
+                    test: /[\\/]src\/components[\\/]/,
+                    // priority: -10,
+                    minChunks: 1
                 }
-                // commons: {
-                //   name: "commons",
-                //   minChunks: 2,
-                //   priority: -10,
-                // },
                 // styles: {
                 //   // name: "styles",
                 //   test: /\.css$/,
