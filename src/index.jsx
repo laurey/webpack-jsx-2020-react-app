@@ -2,7 +2,6 @@ import { hot } from 'react-hot-loader/root';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
 import findRoute from './config/findRoute';
 import RouterWrapper from './config/RouterWrapper';
 import routes from './config/router.config';
@@ -31,11 +30,9 @@ async function render(Component) {
 
     ReactDOM.render(
         <Provider store={store}>
-            <Router>
-                <Component>
-                    <RouterWrapper {...props} />
-                </Component>
-            </Router>
+            <Component>
+                <RouterWrapper {...props} />
+            </Component>
         </Provider>,
         rootElement,
         () => {
