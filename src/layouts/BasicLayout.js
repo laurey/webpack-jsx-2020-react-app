@@ -1,73 +1,172 @@
-import React, { useCallback, useState } from 'react';
-import classNames from 'classnames';
-import { Card, Layout, Radio } from 'antd';
-
-import useBasicLayoutContext from '../contexts/useBasicLayoutContext';
+import React from 'react';
+import { Layout } from 'antd';
+// import DocumentTitle from 'react-document-title';
+// import isEqual from 'lodash/isEqual';
+// import memoizeOne from 'memoize-one';
+import { connect } from 'react-redux';
+// import { ContainerQuery } from 'react-container-query';
+// import classNames from 'classnames';
+import pathToRegexp from 'path-to-regexp';
+// import Media from 'react-media';
+import Authorized from '@/utils/Authorized';
 import Footer from './FooterLayout';
-import HeaderLayout from './HeaderLayout';
+import Header from './HeaderLayout';
+// import Context from './MenuContext';
+import Exception403 from '../pages/Exception/403';
+// import PageLoading from '@/components/Loading';
+import SiderMenu from '@/components/SiderMenu';
+import { title } from '../defaultSettings';
 import logo from '../assets/logo.png';
 import styles from './styles.less';
 
-const Header = React.memo(HeaderLayout);
-
 const { Content } = Layout;
 
-function BasicLayout(props) {
-    const { isMobile } = props;
-    const { currentLayout: layout } = useBasicLayoutContext();
-    const { navTheme, fixedHeader } = layout;
+class BasicLayout extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        // this.getPageTitle = memoizeOne(this.getPageTitle);
+        // this.matchParamsPath = memoizeOne(this.matchParamsPath, isEqual);
+    }
 
-    const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
+    componentDidMount() {
+        // const {
+        //     dispatch,
+        //     route: { routes, authority }
+        // } = this.props;
+        // dispatch({
+        //     type: 'user/fetchCurrent'
+        // });
+        // dispatch({
+        //     type: 'setting/getSetting'
+        // });
+        // dispatch({
+        //     type: 'menu/getMenuData',
+        //     payload: { routes, authority }
+        // });
+    }
 
-    const [collapsed, setCollapsed] = useState(false);
+    componentDidUpdate(preProps) {
+        // After changing to phone mode,
+        // if collapsed is true, you need to click twice to display
+        const { collapsed, isMobile } = this.props;
+        if (isMobile && !preProps.isMobile && !collapsed) {
+            this.handleMenuCollapse(false);
+        }
+    }
 
-    const handleMenuCollapse = useCallback(() => {
-        setCollapsed(state => !state);
-    }, [setCollapsed]);
+    getContext() {
+        const { location, breadcrumbNameMap } = this.props;
+        return {
+            location,
+            breadcrumbNameMap
+        };
+    }
 
-    return (
-        <Layout className="rtc-layout rtc-basic-layout">
-            <Header
-                logo={logo}
-                layout={layout}
-                theme={navTheme}
-                isMobile={isMobile}
-                collapsed={collapsed}
-                onCollapse={handleMenuCollapse}
-                {...props}
-            />
-            <Layout
-                style={{
-                    overflow: 'auto',
-                    height: `calc(100vh - 132px)`,
-                    maxHeight: `calc(100vh - 65px * 2)`
-                }}
-            >
-                <Content
-                    className={classNames('rtc-page-header-wrapper', styles.content)}
-                    style={{ padding: 24, ...contentStyle }}
+    matchParamsPath = (pathname, breadcrumbNameMap) => {
+        const pathKey = Object.keys(breadcrumbNameMap).find(key => pathToRegexp(key).test(pathname));
+        return breadcrumbNameMap[pathKey];
+    };
+
+    getRouterAuthority = (pathname, routeData) => {
+        let routeAuthority = ['noAuthority'];
+        const getAuthority = (key, routes) => {
+            routes.forEach(route => {
+                if (route.path && pathToRegexp(route.path).test(key)) {
+                    routeAuthority = route.authority;
+                } else if (route.routes) {
+                    routeAuthority = getAuthority(key, route.routes);
+                }
+                return route;
+            });
+            return routeAuthority;
+        };
+        return getAuthority(pathname, routeData);
+    };
+
+    getPageTitle = (pathname, breadcrumbNameMap) => {
+        const currRouterData = this.matchParamsPath(pathname, breadcrumbNameMap);
+
+        if (!currRouterData) {
+            return title;
+        }
+        const pageName = currRouterData.name;
+
+        return `${pageName} - ${title}`;
+    };
+
+    getLayoutStyle = () => {
+        const { fixSiderbar, isMobile, collapsed, layout } = this.props;
+        if (fixSiderbar && layout !== 'topmenu' && !isMobile) {
+            return {
+                paddingLeft: collapsed ? 80 : 180
+            };
+        }
+        return null;
+    };
+
+    handleMenuCollapse = collapsed => {
+        const { dispatch } = this.props;
+        // dispatch({
+        //     type: 'global/changeLayoutCollapsed',
+        //     payload: collapsed
+        // });
+    };
+
+    render() {
+        const {
+            collapsed,
+            children,
+            isMobile,
+            menuData,
+            location: { pathname },
+            route: { routes },
+            fixedHeader
+        } = this.props;
+
+        const routerConfig = this.getRouterAuthority(pathname, routes);
+        const contentStyle = !fixedHeader
+            ? { paddingTop: 0, paddingLeft: collapsed ? 80 : 180 }
+            : { paddingLeft: collapsed ? 80 : 180 };
+
+        return (
+            <Layout>
+                <Header
+                    menuData={menuData}
+                    handleMenuCollapse={this.handleMenuCollapse}
+                    logo={logo}
+                    isMobile={isMobile}
+                    {...this.props}
+                />
+                <Layout
+                    style={{
+                        ...this.getLayoutStyle(),
+                        minHeight: '100vh'
+                    }}
                 >
-                    <div className="rtc-page-header-wrapper-content">
-                        <Card
-                            title="This is Title"
-                            extra={
-                                <div>
-                                    <Radio.Group defaultValue="a" buttonStyle="outline">
-                                        <Radio.Button value="a">Tokyo</Radio.Button>
-                                        <Radio.Button value="d">Paris</Radio.Button>
-                                        <Radio.Button value="c">Berlin</Radio.Button>
-                                    </Radio.Group>
-                                </div>
-                            }
-                        >
-                            {props.children}
-                        </Card>
-                    </div>
-                </Content>
+                    <SiderMenu
+                        logo={logo}
+                        theme="light"
+                        onCollapse={this.handleMenuCollapse}
+                        menuData={menuData}
+                        isMobile={isMobile}
+                        {...this.props}
+                    />
+                    <Content className={styles.content} style={contentStyle}>
+                        <Authorized authority={routerConfig} noMatch={<Exception403 />}>
+                            {children}
+                        </Authorized>
+                        <Footer />
+                    </Content>
+                </Layout>
             </Layout>
-            <Footer>Footer ©2021</Footer>
-        </Layout>
-    );
+        );
+    }
 }
 
-export default BasicLayout;
+export default connect(({ global, setting, menu }) => ({
+    collapsed: global.collapsed,
+    layout: setting.layout,
+    menuData: menu.menuData,
+    breadcrumbNameMap: menu.breadcrumbNameMap,
+    ...setting
+}))(BasicLayout);
