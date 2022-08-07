@@ -15,7 +15,7 @@ import Header from './HeaderLayout';
 import Exception403 from '../pages/Exception/403';
 // import PageLoading from '@/components/Loading';
 import SiderMenu from '@/components/SiderMenu';
-import { title } from '../defaultSettings';
+// import { title } from '../defaultSettings';
 import logo from '../assets/logo.png';
 import styles from './styles.less';
 
@@ -29,20 +29,20 @@ class BasicLayout extends React.PureComponent {
     }
 
     componentDidMount() {
-        // const {
-        //     dispatch,
-        //     route: { routes, authority }
-        // } = this.props;
+        const {
+            dispatch,
+            route: { routes, authority }
+        } = this.props;
         // dispatch({
         //     type: 'user/fetchCurrent'
         // });
         // dispatch({
         //     type: 'setting/getSetting'
         // });
-        // dispatch({
-        //     type: 'menu/getMenuData',
-        //     payload: { routes, authority }
-        // });
+        dispatch({
+            type: 'FETCH_MENUS',
+            payload: { routes, authority }
+        });
     }
 
     componentDidUpdate(preProps) {
@@ -53,19 +53,6 @@ class BasicLayout extends React.PureComponent {
             this.handleMenuCollapse(false);
         }
     }
-
-    getContext() {
-        const { location, breadcrumbNameMap } = this.props;
-        return {
-            location,
-            breadcrumbNameMap
-        };
-    }
-
-    matchParamsPath = (pathname, breadcrumbNameMap) => {
-        const pathKey = Object.keys(breadcrumbNameMap).find(key => pathToRegexp(key).test(pathname));
-        return breadcrumbNameMap[pathKey];
-    };
 
     getRouterAuthority = (pathname, routeData) => {
         let routeAuthority = ['noAuthority'];
@@ -83,17 +70,6 @@ class BasicLayout extends React.PureComponent {
         return getAuthority(pathname, routeData);
     };
 
-    getPageTitle = (pathname, breadcrumbNameMap) => {
-        const currRouterData = this.matchParamsPath(pathname, breadcrumbNameMap);
-
-        if (!currRouterData) {
-            return title;
-        }
-        const pageName = currRouterData.name;
-
-        return `${pageName} - ${title}`;
-    };
-
     getLayoutStyle = () => {
         const { fixSiderbar, isMobile, collapsed, layout } = this.props;
         if (fixSiderbar && layout !== 'topmenu' && !isMobile) {
@@ -106,10 +82,10 @@ class BasicLayout extends React.PureComponent {
 
     handleMenuCollapse = collapsed => {
         const { dispatch } = this.props;
-        // dispatch({
-        //     type: 'global/changeLayoutCollapsed',
-        //     payload: collapsed
-        // });
+        dispatch({
+            type: 'UPDATE_COLLAPSED',
+            payload: collapsed
+        });
     };
 
     render() {
@@ -167,6 +143,5 @@ export default connect(({ global, setting, menu }) => ({
     collapsed: global.collapsed,
     layout: setting.layout,
     menuData: menu.menuData,
-    breadcrumbNameMap: menu.breadcrumbNameMap,
     ...setting
 }))(BasicLayout);
