@@ -1,25 +1,34 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Debounce from 'lodash-decorators/debounce';
+import pathToRegexp from 'path-to-regexp';
 import { Layout } from 'antd';
-
-import Header from './HeaderLayout';
-import Footer from './FooterLayout';
+import Authorized from '@/utils/Authorized';
+import Exception403 from '@/pages/Exception/403';
+import Header from './SimpleHeader';
+import Footer from './Footer';
 import styles from './styles.less';
-import logo from '../assets/logo.png';
+import logo from '@/assets/logo.png';
 
 const { Content } = Layout;
 
-class UserLayout extends Component {
+class DemoLayout extends Component {
     componentDidMount() {
-        this.triggerResizeEvent();
-
-        // const {
-        //   dispatch,
-        //   route: { routes, authority },
-        // } = this.props;
+        const {
+            dispatch,
+            route: { routes, authority }
+        } = this.props;
         // dispatch({
-        //   type: "menu/getMenuData",
-        //   payload: { routes, authority },
+        //     type: 'fetchCurrent'
         // });
+        // dispatch({
+        //     type: 'fetchSetting'
+        // });
+        dispatch({
+            type: 'FETCH_MENUS',
+            payload: { routes, authority }
+        });
+        this.triggerResizeEvent();
     }
 
     componentWillUnmount() {
@@ -29,66 +38,75 @@ class UserLayout extends Component {
     }
 
     handleMenuCollapse = collapsed => {
-        // const { dispatch } = this.props;
-        // dispatch({
-        //   type: "global/changeLayoutCollapsed",
-        //   payload: collapsed,
-        // });
+        const { dispatch } = this.props;
+        dispatch({
+            type: 'UPDATE_COLLAPSED',
+            payload: { collapsed }
+        });
         this.triggerResizeEvent();
     };
 
     /* eslint-disable*/
+    @Debounce(600)
     triggerResizeEvent() {
-        // const event = document.createEvent("HTMLEvents");
-        // event.initEvent("resize", true, false);
-        // window.dispatchEvent(event);
-        this.handler = _.debounce(this.handleResize, 600);
-    }
-
-    handleResize() {
         const event = document.createEvent('HTMLEvents');
         event.initEvent('resize', true, false);
         window.dispatchEvent(event);
     }
+
+    getRouterAuthority = (pathname, routeList) => {
+        let routeAuthority = ['guest'];
+        const getAuthority = (key, routes) => {
+            routes.forEach(route => {
+                if (route.path && pathToRegexp(route.path).test(key)) {
+                    routeAuthority = route.authority;
+                } else if (route.routes) {
+                    routeAuthority = getAuthority(key, route.routes);
+                }
+                return route;
+            });
+            return routeAuthority;
+        };
+        return getAuthority(pathname, routeList);
+    };
 
     render() {
         const {
             children,
             menuData,
             isMobile,
-            location: { pathname }
+            location: { pathname },
+            route: { routes }
         } = this.props;
 
+        const routerConfig = this.getRouterAuthority(pathname, routes);
+
         return (
-            <div className="demo-layout-container">
-                <Layout>
-                    <Header
-                        logo={logo}
-                        menuData={menuData}
-                        isMobile={isMobile}
-                        hasSiderMenu={false}
-                        handleMenuCollapse={this.handleMenuCollapse}
-                        {...this.props}
-                    />
-                    <Content style={{ margin: '24px 24px 0', height: '100%' }}>
-                        <div className={styles.container}>
-                            <div className={styles.content}>{children}</div>
-                        </div>
-                    </Content>
-                    <Footer>This is Demo Layout Footer </Footer>
-                </Layout>
-            </div>
+            <Layout>
+                <Header
+                    logo={logo}
+                    menuData={menuData}
+                    isMobile={isMobile}
+                    hasSiderMenu={false}
+                    handleMenuCollapse={this.handleMenuCollapse}
+                    {...this.props}
+                />
+                <Content style={{ margin: '24px 24px 0', height: '100%' }} className={styles.content}>
+                    <Authorized authority={routerConfig} noMatch={<Exception403 {...this.props} />}>
+                        {children}
+                    </Authorized>
+                </Content>
+                <Footer>
+                    <div>This is Demo Layout Footer</div>
+                </Footer>
+            </Layout>
         );
     }
 }
 
-// export default connect(({ global, setting, menu: menuModel }) => ({
-//   menuData: global.menuData,
-//   breadcrumbNameMap: menuModel.breadcrumbNameMap,
-//   ...setting,
-// }))((props) => (
-//   <Media query="(max-width: 599px)">
-//     {(isMobile) => <UserLayout {...props} isMobile={isMobile} />}
-//   </Media>
-// ));
-export default UserLayout;
+export default connect(({ global, setting, menu }) => ({
+    collapsed: global.collapsed,
+    layout: setting.layout,
+    menuData: menu.menuData,
+    ...setting
+}))(DemoLayout);

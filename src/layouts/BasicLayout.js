@@ -1,21 +1,13 @@
 import React from 'react';
 import { Layout } from 'antd';
-// import DocumentTitle from 'react-document-title';
-// import isEqual from 'lodash/isEqual';
-// import memoizeOne from 'memoize-one';
+import Debounce from 'lodash-decorators/debounce';
 import { connect } from 'react-redux';
-// import { ContainerQuery } from 'react-container-query';
-// import classNames from 'classnames';
 import pathToRegexp from 'path-to-regexp';
-// import Media from 'react-media';
-import Authorized from '@/utils/Authorized';
-import Footer from './FooterLayout';
-import Header from './HeaderLayout';
-// import Context from './MenuContext';
-import Exception403 from '../pages/Exception/403';
-// import PageLoading from '@/components/Loading';
+// import Authorized from '@/utils/Authorized';
+import Footer from './Footer';
+import SimpleHeader from './SimpleHeader';
 import SiderMenu from '@/components/SiderMenu';
-// import { title } from '../defaultSettings';
+import { clearMenuItem, clearChildren, getFlatMenuKeys } from '@/utils/utils';
 import logo from '../assets/logo.png';
 import styles from './styles.less';
 
@@ -24,8 +16,6 @@ const { Content } = Layout;
 class BasicLayout extends React.PureComponent {
     constructor(props) {
         super(props);
-        // this.getPageTitle = memoizeOne(this.getPageTitle);
-        // this.matchParamsPath = memoizeOne(this.matchParamsPath, isEqual);
     }
 
     componentDidMount() {
@@ -43,6 +33,7 @@ class BasicLayout extends React.PureComponent {
             type: 'FETCH_MENUS',
             payload: { routes, authority }
         });
+        this.triggerResizeEvent();
     }
 
     componentDidUpdate(preProps) {
@@ -54,8 +45,12 @@ class BasicLayout extends React.PureComponent {
         }
     }
 
-    getRouterAuthority = (pathname, routeData) => {
-        let routeAuthority = ['noAuthority'];
+    componentWillUnmount() {
+        this.triggerResizeEvent.cancel();
+    }
+
+    getRouterAuthority = (pathname, routeList) => {
+        let routeAuthority = ['guest'];
         const getAuthority = (key, routes) => {
             routes.forEach(route => {
                 if (route.path && pathToRegexp(route.path).test(key)) {
@@ -67,7 +62,7 @@ class BasicLayout extends React.PureComponent {
             });
             return routeAuthority;
         };
-        return getAuthority(pathname, routeData);
+        return getAuthority(pathname, routeList);
     };
 
     getLayoutStyle = () => {
@@ -84,9 +79,18 @@ class BasicLayout extends React.PureComponent {
         const { dispatch } = this.props;
         dispatch({
             type: 'UPDATE_COLLAPSED',
-            payload: collapsed
+            payload: { collapsed }
         });
+        this.triggerResizeEvent();
     };
+
+    /* eslint-disable*/
+    @Debounce(600)
+    triggerResizeEvent() {
+        const event = document.createEvent('HTMLEvents');
+        event.initEvent('resize', true, false);
+        window.dispatchEvent(event);
+    }
 
     render() {
         const {
@@ -94,24 +98,28 @@ class BasicLayout extends React.PureComponent {
             children,
             isMobile,
             menuData,
-            location: { pathname },
+            location,
             route: { routes },
             fixedHeader
         } = this.props;
 
-        const routerConfig = this.getRouterAuthority(pathname, routes);
+        const routerConfig = this.getRouterAuthority(location.pathname, routes);
         const contentStyle = !fixedHeader
             ? { paddingTop: 0, paddingLeft: collapsed ? 80 : 180 }
             : { paddingLeft: collapsed ? 80 : 180 };
 
+        const flatMenuKeys = getFlatMenuKeys(menuData || []);
+        const clearMenuData = clearChildren(clearMenuItem(menuData || []));
+
         return (
             <Layout>
-                <Header
-                    menuData={menuData}
-                    handleMenuCollapse={this.handleMenuCollapse}
+                <SimpleHeader
                     logo={logo}
                     isMobile={isMobile}
+                    flatMenuKeys={flatMenuKeys}
                     {...this.props}
+                    onCollapse={this.handleMenuCollapse}
+                    menuData={clearMenuData}
                 />
                 <Layout
                     style={{
@@ -120,18 +128,19 @@ class BasicLayout extends React.PureComponent {
                     }}
                 >
                     <SiderMenu
-                        logo={logo}
+                        // logo={logo}
                         theme="light"
-                        onCollapse={this.handleMenuCollapse}
-                        menuData={menuData}
                         isMobile={isMobile}
+                        flatMenuKeys={flatMenuKeys}
                         {...this.props}
+                        onCollapse={this.handleMenuCollapse}
+                        menuData={clearMenuData}
                     />
                     <Content className={styles.content} style={contentStyle}>
-                        <Authorized authority={routerConfig} noMatch={<Exception403 />}>
-                            {children}
-                        </Authorized>
-                        <Footer />
+                        {children}
+                        <Footer>
+                            <div>CopyRight 2020</div>
+                        </Footer>
                     </Content>
                 </Layout>
             </Layout>

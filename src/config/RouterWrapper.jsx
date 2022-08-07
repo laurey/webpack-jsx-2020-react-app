@@ -1,12 +1,12 @@
-import { join, resolve, isAbsolute } from "path";
-import React from "react";
-import { BrowserRouter } from "react-router-dom";
-import LocaleWrapper from "./LocaleWrapper";
-import history from "../config/history";
-import routesConfig from "../config/router.config";
-import renderRoutes from "../config/renderRoutes";
-import getRoutes from "../config/routes/getRoutes";
-import getPaths from "./getPaths";
+// import { join, resolve, isAbsolute } from 'path';
+import React from 'react';
+import { Router, BrowserRouter } from 'react-router-dom';
+import LocaleWrapper from './LocaleWrapper';
+import history from './history';
+import routesConfig from './router.config';
+import renderRoutes from './renderRoutes';
+import getRoutes from './routes/getRoutes';
+import getPaths from './getPaths';
 
 const cwd = __dirname || process.cwd();
 // console.log("__dirme => ", cwd, __dirname, process.cwd());
@@ -14,34 +14,37 @@ const cwd = __dirname || process.cwd();
 // console.log(join(cwd, "src"), join(cwd, "src"));
 
 const routes = getRoutes(
-  getPaths({
-    cwd,
-  }),
-  { routes: routesConfig }
+    getPaths({
+        cwd
+    }),
+    { routes: routesConfig }
 );
 
 export default class RouterWrapper extends React.Component {
-  unListen() {}
+    unListen() {}
 
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    // route change handler
-    function routeChangeHandler(location, action) {}
+        // route change handler
+        function routeChangeHandler(location, action) {}
 
-    this.unListen = history.listen(routeChangeHandler);
-  }
+        this.unListen = history.listen(routeChangeHandler);
 
-  componentWillUnmount() {
-    this.unListen();
-  }
+        routeChangeHandler(history.location);
+    }
 
-  render() {
-    const props = this.props || {};
-    return (
-      <LocaleWrapper>
-        <BrowserRouter>{renderRoutes(routes, props)}</BrowserRouter>
-      </LocaleWrapper>
-    );
-  }
+    componentWillUnmount() {
+        this.unListen();
+    }
+
+    render() {
+        const props = this.props || {};
+        return (
+            <LocaleWrapper routes={routes}>
+                <Router history={history}>{renderRoutes(routes, props)}</Router>
+                {/* <BrowserRouter>{renderRoutes(routes, props)}</BrowserRouter> */}
+            </LocaleWrapper>
+        );
+    }
 }

@@ -5,13 +5,13 @@ import guessFileFromPath from './guessFileFromPath';
 import styles from './style.modules.less';
 
 const NotFound = props => {
-    const { location, pagesPath } = props;
-    const jsFile = guessFileFromPath(location.pathname);
+    const { location, history, pagesPath } = props;
+    const jsFile = guessFileFromPath(location?.pathname || history.location.pathname);
     return (
         <div className={styles['global-NotFound-wrapper']}>
             <h1>development 404 page</h1>
             <p>
-                There&apos;s not a page yet at <code>{location.pathname}</code>.
+                There&apos;s not a page yet at <code>{location?.pathname || history.location.pathname}</code>.
             </p>
             <p>
                 Create a React component in your pages directory at

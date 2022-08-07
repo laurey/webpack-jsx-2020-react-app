@@ -21,7 +21,7 @@ const prodConfig = {
             'react-dom': '@hot-loader/react-dom',
             '@': path.resolve(__dirname, 'src')
         },
-        extensions: ['.js', '.jsx', '.css', '.less']
+        extensions: ['.js', '.jsx', '.json']
     },
     module: {
         rules: [
@@ -65,7 +65,6 @@ const prodConfig = {
             {
                 test: /\.css$/,
                 include: /(node_modules|bower_components)/,
-                exclude: [path.resolve(__dirname, 'src')],
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader

@@ -1,6 +1,7 @@
 import memoizeOne from 'memoize-one';
 import isEqual from 'lodash/isEqual';
 import Authorized from '@/utils/Authorized';
+import { clearChildren } from '@/utils/utils';
 
 const { check } = Authorized;
 
@@ -24,15 +25,18 @@ function formatter(data, parentAuthority, parentName) {
                 locale,
                 authority: item.authority || parentAuthority
             };
+
             if (item.routes) {
                 const children = formatter(item.routes, item.authority, locale);
-                // Reduce memory usage
-                result.children = children;
+                // result.children = children;
+                result.routes = children;
             }
-            delete result.routes;
+
+            delete result.children;
+            // delete result.routes;
             return result;
         })
-        .filter(item => item);
+        .filter(Boolean);
 }
 
 const memoizeOneFormatter = memoizeOne(formatter, isEqual);
@@ -41,10 +45,10 @@ const memoizeOneFormatter = memoizeOne(formatter, isEqual);
  * get SubMenu or Item
  */
 const getSubMenu = item => {
-    if (item.children && !item.hideChildrenInMenu && item.children.some(child => child.name)) {
+    if (item.routes && !item.hideChildrenInMenu && item.routes.some(child => child.name && !child.hideInMenu)) {
         return {
             ...item,
-            children: filterMenuData(item.children)
+            routes: filterMenuData(item.routes)
         };
     }
     return item;
@@ -57,10 +61,13 @@ const filterMenuData = menuData => {
     if (!menuData) {
         return [];
     }
-    return menuData
-        .filter(item => item.name && !item.hideInMenu)
-        .map(item => check(item.authority, getSubMenu(item)))
-        .filter(item => item);
+
+    return (
+        menuData
+            // .filter(item => item.name && !item.hideInMenu)
+            .map(item => check(item.authority, getSubMenu(item)))
+            .filter(Boolean)
+    );
 };
 
 const initialState = {

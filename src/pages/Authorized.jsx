@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import Exception403 from './Exception/403';
 // import pathToRegexp from "path-to-regexp";
 // import Authorized from "../utils/Authorized";
 // import Exception from "../components/Exception";
@@ -36,10 +37,10 @@ import RenderAuthorized from '../components/Authorized';
 const Authority = getAuthority();
 const Authorized = RenderAuthorized(Authority);
 
-const AuthorizedComponent = ({ children }) => (
-    <Authorized authority={children.props.route.authority} noMatch={<Redirect to="/" />}>
+const AuthorizedWrapper = ({ children, ...rest }) => (
+    <Authorized authority={children.props.route.authority} noMatch={<Exception403 {...rest} />}>
         {children}
     </Authorized>
 );
 
-export default AuthorizedComponent;
+export default AuthorizedWrapper;

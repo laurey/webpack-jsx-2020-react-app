@@ -1,7 +1,8 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { Button, Form, Row, Col } from 'antd';
+import { Button, Form, Row, Col, Input, Tooltip, Icon } from 'antd';
 import HeaderFormTableInput from '@/components/RTCInput/HeaderFormTableInput';
 import { getRandomString, getRandomIntInclusive } from '@/utils';
+import horseSvg from '@/assets/horse.svg';
 
 const columns = [
     {
@@ -106,6 +107,29 @@ const AboutForm = props => {
     return (
         <Form onSubmit={handleSubmit} style={{ padding: 10, background: '#eee' }}>
             <Row gutter={24}>
+                <Col span={24}>
+                    <Form.Item
+                        label={
+                            <span>
+                                Nickname&nbsp;
+                                <Tooltip title="Wu?">
+                                    <Icon component={horseSvg} />
+                                </Tooltip>
+                            </span>
+                        }
+                        style={{ width: '100%' }}
+                    >
+                        {getFieldDecorator('nickname', {
+                            initialValue: value,
+                            rules: [
+                                {
+                                    required: true,
+                                    message: 'Please input your name'
+                                }
+                            ]
+                        })(<Input />)}
+                    </Form.Item>
+                </Col>
                 <Col span={24}>
                     <Form.Item label="table-3" style={{ width: '100%' }}>
                         {getFieldDecorator('kv', {

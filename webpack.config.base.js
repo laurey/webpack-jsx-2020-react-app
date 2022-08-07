@@ -6,7 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
     cache: true,
     context: __dirname,
-    entry: ['react-hot-loader/patch', './src/index.jsx'],
+    entry: ['react-hot-loader/patch', './src'],
     resolve: {
         alias: {
             'react-dom': '@hot-loader/react-dom',
@@ -28,7 +28,7 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(png|jpg|gif|jpeg)$/i,
+                test: /\.(png|gif|jpe?g)$/i,
                 use: {
                     loader: 'url-loader',
                     options: {

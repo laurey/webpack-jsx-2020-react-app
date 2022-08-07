@@ -2,7 +2,7 @@
  * @file src/config/routes/getRouteConfig
  */
 
-import { join } from 'path';
+// import { join } from 'path';
 // import { existsSync } from 'fs';
 import patchRoutes from './patchRoutes';
 import getRouteConfigFromConfig from './getRouteConfigFromConfig';

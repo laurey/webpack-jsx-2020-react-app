@@ -5,7 +5,7 @@ const routes = [
         name: 'Home',
         component: FancyLink,
         hideInMenu: true,
-        hideInSider: false,
+        hideInSider: true,
         path: '/'
     },
     {
@@ -36,27 +36,34 @@ const routes = [
         hideInSider: false,
         path: '/todos'
     },
+    // {
+    //     name: 'Posts',
+    //     component: FancyLink,
+    //     hideInMenu: false,
+    //     hideInSider: true,
+    //     path: '/posts'
+    // },
     {
-        name: 'Posts',
+        name: 'Monitor',
         component: FancyLink,
         hideInMenu: false,
         hideInSider: true,
-        path: '/posts'
+        path: '/monitor'
     },
-    {
-        name: 'Contact',
-        component: FancyLink,
-        hideInMenu: false,
-        hideInSider: true,
-        path: '/contact'
-    },
-    {
-        name: 'Users',
-        component: FancyLink,
-        hideInMenu: false,
-        hideInSider: true,
-        path: '/users'
-    },
+    // {
+    //     name: 'Contact',
+    //     component: FancyLink,
+    //     hideInMenu: false,
+    //     hideInSider: true,
+    //     path: '/contact'
+    // },
+    // {
+    //     name: 'Users',
+    //     component: FancyLink,
+    //     hideInMenu: false,
+    //     hideInSider: true,
+    //     path: '/users'
+    // },
     {
         name: 'Blogs',
         component: FancyLink,
@@ -78,27 +85,27 @@ const routes = [
         hideInSider: false,
         path: '/demo'
     },
-    {
-        name: 'Employees',
-        component: FancyLink,
-        hideInMenu: false,
-        hideInSider: false,
-        path: '/employees'
-    },
-    {
-        name: 'Sign Up',
-        component: FancyLink,
-        hideInMenu: false,
-        hideInSider: true,
-        path: '/signup'
-    },
-    {
-        name: 'Albums',
-        component: FancyLink,
-        hideInMenu: false,
-        hideInSider: true,
-        path: '/albums'
-    },
+    // {
+    //     name: 'Employees',
+    //     component: FancyLink,
+    //     hideInMenu: false,
+    //     hideInSider: false,
+    //     path: '/employees'
+    // },
+    // {
+    //     name: 'Sign Up',
+    //     component: FancyLink,
+    //     hideInMenu: false,
+    //     hideInSider: true,
+    //     path: '/signup'
+    // },
+    // {
+    //     name: 'Albums',
+    //     component: FancyLink,
+    //     hideInMenu: false,
+    //     hideInSider: true,
+    //     path: '/albums'
+    // },
     {
         name: 'Sign In',
         component: FancyLink,
@@ -113,19 +120,26 @@ const routes = [
         hideInSider: true,
         path: '/dashboard'
     },
+    // {
+    //     name: 'LazyDash',
+    //     component: FancyLink,
+    //     hideInMenu: false,
+    //     hideInSider: true,
+    //     path: '/lazyDash'
+    // },
+    // {
+    //     name: 'RateControl',
+    //     component: FancyLink,
+    //     hideInMenu: false,
+    //     hideInSider: true,
+    //     path: '/rateControl'
+    // },
     {
-        name: 'LazyDash',
+        name: 'Logout',
         component: FancyLink,
         hideInMenu: false,
         hideInSider: true,
-        path: '/lazyDash'
-    },
-    {
-        name: 'RateControl',
-        component: FancyLink,
-        hideInMenu: false,
-        hideInSider: true,
-        path: '/rateControl'
+        path: '/logout'
     },
     {
         name: 'Comments',

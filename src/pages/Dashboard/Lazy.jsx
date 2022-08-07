@@ -2,17 +2,17 @@ import React from 'react';
 import loadable from '@loadable/component';
 import Loading from '@/components/Loading';
 
-const LazyMod = loadable(() => import(/* webpackChunkName: "sortableCards" */ '@/containers/SortableCards'), {
+const LazyBoard = loadable(() => import(/* webpackChunkName: "sortableCards" */ '@/containers/SortableCards'), {
     fallback: <Loading />
 });
 
-function DashboardLazy() {
+function DashBoardLazy() {
     return (
         <div>
             <h2>loadable demo</h2>
-            <LazyMod />
+            <LazyBoard />
         </div>
     );
 }
 
-export default DashboardLazy;
+export default DashBoardLazy;

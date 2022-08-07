@@ -1,47 +1,41 @@
-import React from "react";
-import { ConfigProvider } from "antd";
-import defaultLocale from "antd/lib/locale-provider/zh_CN";
+import React from 'react';
+import { ConfigProvider } from 'antd';
+import defaultLocale from 'antd/lib/locale-provider/zh_CN';
 
-const baseLocaleSeparator = "-";
+const baseLocaleSeparator = '-';
 
 class LocaleWrapper extends React.Component {
-  state = {
-    locale: "zh-CN",
-  };
-
-  getAppLocale() {
-    let appLocale = {
-      locale: "zh-CN",
-      messages: {},
-      momentLocale: "zh-cn",
+    state = {
+        locale: 'zh-CN'
     };
 
-    window.g_langSeparator = baseLocaleSeparator || "-";
-    return appLocale;
-  }
+    getAppLocale() {
+        let appLocale = {
+            locale: 'zh-CN',
+            messages: {},
+            momentLocale: 'zh-cn'
+        };
 
-  reloadAppLocale = () => {
-    const appLocale = this.getAppLocale();
-    this.setState({
-      locale: appLocale.locale,
-    });
-  };
+        window.g_langSeparator = baseLocaleSeparator || '-';
+        return appLocale;
+    }
 
-  render() {
-    const appLocale = this.getAppLocale();
-    let ret = this.props.children;
+    reloadAppLocale = () => {
+        const appLocale = this.getAppLocale();
+        this.setState({
+            locale: appLocale.locale
+        });
+    };
 
-    return (
-      <ConfigProvider
-        locale={
-          appLocale.antd
-            ? appLocale.antd.default || appLocale.antd
-            : defaultLocale
-        }
-      >
-        {ret}
-      </ConfigProvider>
-    );
-  }
+    render() {
+        const appLocale = this.getAppLocale();
+        let ret = this.props.children;
+
+        return (
+            <ConfigProvider locale={appLocale.antd ? appLocale.antd.default || appLocale.antd : defaultLocale}>
+                {ret}
+            </ConfigProvider>
+        );
+    }
 }
 export default LocaleWrapper;

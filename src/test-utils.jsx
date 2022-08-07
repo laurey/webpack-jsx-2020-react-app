@@ -1,6 +1,6 @@
 // test-utils.js
 import React from 'react';
-import { Router } from 'react-router-dom';
+import { Router } from 'react-router';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { createMemoryHistory } from 'history';

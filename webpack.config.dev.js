@@ -16,7 +16,7 @@ const devConfig = {
     resolve: {
         alias: {
             'react-dom': '@hot-loader/react-dom',
-            '@': path.resolve(__dirname, 'src')
+            '@': path.resolve(__dirname, 'src/')
         },
         extensions: ['.jsx', '.js', '.json']
     },
@@ -29,6 +29,7 @@ const devConfig = {
                 use: {
                     loader: 'babel-loader',
                     options: {
+                        // babelrc: true,
                         cacheDirectory: true,
                         cacheCompression: false,
                         envName: 'development'
@@ -61,7 +62,6 @@ const devConfig = {
             },
             {
                 test: /\.css$/,
-                exclude: [path.resolve(__dirname, 'src')],
                 include: /(node_modules|bower_components)/,
                 use: [
                     {
@@ -70,11 +70,12 @@ const devConfig = {
                     {
                         loader: 'css-loader',
                         options: {
-                            sourceMap: true,
-                            modules: {
-                                mode: 'global',
-                                localIdentName: '[path][name]__[local]--[hash:base64:5]'
-                            }
+                            sourceMap: true
+                            // when modules is boolean , DONOT work
+                            // modules: {
+                            //     mode: 'global',
+                            //     localIdentName: '[path][name]__[local]--[hash:base64:5]'
+                            // }
                         }
                     }
                 ]

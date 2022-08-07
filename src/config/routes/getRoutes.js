@@ -56,9 +56,9 @@ function getComponents(config, routes) {
     }, []);
 }
 
-function getRouteComponents(paths, config, onPatchRoute) {
-    const routes = getRoutes(paths, config, onPatchRoute);
-    return _.uniq(routes);
-}
+// function getRouteComponents(paths, config, onPatchRoute) {
+//     const routes = getRoutes(paths, config, onPatchRoute);
+//     return _.uniq(routes);
+// }
 
-export { getRoutes as default, getRoutes, fetchRoutes, getComponents, getRouteComponents };
+export { getRoutes as default, getRoutes, fetchRoutes, getComponents };

@@ -1,8 +1,8 @@
 import React from 'react';
 import GlobalFooter from '../components/GlobalFooter';
 
-function FooterLayout(props) {
+function FooterView(props) {
     return <GlobalFooter {...props} />;
 }
 
-export default FooterLayout;
+export default FooterView;

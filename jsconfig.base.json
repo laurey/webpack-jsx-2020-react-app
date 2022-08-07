@@ -20,12 +20,5 @@
     "allowSyntheticDefaultImports": true,
     "suppressImplicitAnyIndexErrors": true,
     "forceConsistentCasingInFileNames": true
-  },
-  "exclude": [
-    "build",
-    "dist",
-    "output",
-    "coverage",
-    "node_modules"
-  ]
+  }
 }

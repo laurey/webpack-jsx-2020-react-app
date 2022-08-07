@@ -1,15 +1,16 @@
-import { hot } from 'react-hot-loader/root';
+import { hot } from 'react-hot-loader';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+// import { arrayToTree } from 'performant-array-to-tree';
 import findRoute from './config/findRoute';
 import RouterWrapper from './config/RouterWrapper';
 import routes from './config/router.config';
 import store from './store';
 import App from './App';
 
-import 'antd/dist/antd.css';
 import './index.css';
+import 'antd/dist/antd.css';
 
 const rootElement = document.getElementById('root');
 
@@ -41,7 +42,7 @@ async function render(Component) {
     );
 }
 
-export const app = hot(App);
+export const app = hot(module)(App);
 
 const preRenderPromises = []; // any preparation
 Promise.all([preRenderPromises])
@@ -52,3 +53,13 @@ Promise.all([preRenderPromises])
     .catch(err => {
         window.console && window.console.error(err);
     });
+
+// const result = arrayToTree(routeList, { dataField: null, parentId: 'parent', childrenField: 'routes', id: 'name' });
+// console.log(JSON.stringify({ result, routeList, routes }));
+
+// if (module.hot) {
+//     module.hot.accept('./config/router.config.js', () => {
+//         console.log('changed!!!!');
+//         render(app);
+//     });
+// }

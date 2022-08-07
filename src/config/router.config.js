@@ -1,5 +1,4 @@
-import Loadable from 'react-loadable';
-// import loadable from "@loadable/component";
+import loadable from '@loadable/component';
 
 import Loading from '../components/Loading';
 
@@ -7,154 +6,274 @@ const routes = [
     {
         path: '/demo',
         icon: 'apple',
-        // component: "../layouts/DemoLayout",
-        component: Loadable({
-            loader: () => import('../layouts/DemoLayout'),
-            loading: Loading
-        }),
-        // Routes: [loadable(() => import("../pages/Authorized"))],
-        Routes: [
-            Loadable({
-                loader: () => import('../pages/Authorized'),
-                loading: Loading
-            })
-        ],
+        component: loadable(() => import('../layouts/DemoLayout')),
+        Routes: [loadable(() => import('../pages/Authorized'))],
+        authority: ['user'],
         routes: [
             { path: '/demo', redirect: '/demo/workplace' },
             {
                 name: 'DemoWorkplace',
                 icon: 'chrome',
                 path: '/demo/workplace',
-                // component: "./Demo/Workplace",
-                component: Loadable({
-                    loader: () => import('../pages/Demo/Workplace'),
-                    loading: Loading
-                })
+                component: loadable(() => import('../pages/Demo/Workplace'))
             },
             {
                 name: 'DemoView',
                 icon: 'slack',
                 path: '/demo/viewlist',
-                // component: "./Demo/ViewList",
-                component: Loadable({
-                    loader: () => import('../pages/Demo/ViewList'),
-                    loading: Loading
-                })
-            },
-            {
-                // component: "404",
-                component: Loadable({
-                    loader: () => import('../pages/404'),
-                    loading: Loading
-                })
+                component: loadable(() => import('../pages/Demo/ViewList'))
             }
         ]
     },
     // path: /
     {
         path: '/',
-        // component: "../layouts/BasicLayout",
-        component: Loadable({
-            loader: () => import('../layouts/BasicLayout'),
-            loading: Loading
-        }),
+        component: loadable(() => import('../layouts/BasicLayout')),
         routes: [
-            // { path: "/", redirect: "/demo" },
-            // { path: "/", redirect: "/dashboard" },
+            { path: '/', exact: true, redirect: '/home' },
             {
                 name: 'Home',
                 icon: 'bank',
-                path: '/',
-                // component: "./Home",
-                component: Loadable({
-                    loader: () => import('../pages/Home'),
-                    loading: Loading
-                })
+                path: '/home',
+                component: loadable(() => import('../pages/Home'))
             },
             {
-                name: 'About',
-                icon: 'crown',
-                path: '/about',
-                // component: "./Home",
-                component: Loadable({
-                    loader: () => import('../pages/About'),
-                    loading: Loading
-                })
+                name: 'LogOut',
+                icon: 'logout',
+                path: '/logout',
+                component: loadable(() => import('../pages/LogOut'))
             },
             // path: /dashboard
             {
                 name: 'Dashboard',
                 icon: 'google',
                 path: '/dashboard',
-                // component: './Dashboard',
-                component: Loadable({
-                    loader: () => import('../pages/Dashboard'),
-                    loading: Loading
-                }),
+                component: loadable(() => import('../pages/Dashboard')),
                 routes: [
                     {
                         path: '/dashboard/analysis',
                         name: 'Analysis',
-                        // component: './Dashboard/Analysis'
-                        component: Loadable({
-                            loader: () => import('../pages/Dashboard/Analysis'),
-                            loading: Loading
-                        })
+                        icon: 'chrome',
+                        component: loadable(() => import('../pages/Dashboard/Analysis'))
                     },
                     {
                         path: '/dashboard/center',
                         name: 'Center',
                         icon: 'setting',
                         hideInMenu: true,
-                        // component: './Dashboard/Center'
-                        component: Loadable({
-                            loader: () => import('../pages/Dashboard/Center'),
-                            loading: Loading
-                        })
+                        component: loadable(() => import('../pages/Dashboard/Center'))
+                    },
+                    {
+                        path: '/dashboard/setting',
+                        name: 'Setting',
+                        icon: 'github',
+                        component: loadable(() => import('../pages/Dashboard/Setting'))
                     }
                 ]
+            },
+            {
+                name: 'Form',
+                icon: 'form',
+                path: '/form',
+                // component: loadable(() => import('../pages/Dashboard')),
+                routes: [
+                    {
+                        path: '/form/basic-form',
+                        name: 'basicform',
+                        component: loadable(() => import('../pages/Forms/BasicForm'))
+                    },
+                    {
+                        path: '/form/step-form',
+                        name: 'stepform',
+                        component: loadable(() => import('../pages/Forms/StepForm')),
+                        hideChildrenInMenu: true,
+                        routes: [
+                            {
+                                path: '/form/step-form',
+                                redirect: '/form/step-form/info'
+                            },
+                            {
+                                path: '/form/step-form/info',
+                                name: 'info',
+                                // component: './Forms/StepForm/Info'
+                                component: loadable(() => import('../pages/Forms/StepForm/Info'))
+                            },
+                            {
+                                path: '/form/step-form/confirm',
+                                name: 'confirm',
+                                component: loadable(() => import('../pages/Forms/StepForm/Confirm'))
+                            },
+                            {
+                                path: '/form/step-form/result',
+                                name: 'result',
+                                component: loadable(() => import('../pages/Forms/StepForm/Result'))
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: 'About',
+                icon: 'crown',
+                path: '/about',
+                component: loadable(() => import('../pages/About'))
             },
             // path: /monitor
             {
                 name: 'Monitor',
                 icon: 'twitter',
                 path: '/monitor',
-                // component: './Monitor',
-                component: Loadable({
-                    loader: () => import('../pages/Monitor'),
-                    loading: Loading
-                }),
+                Routes: [loadable(() => import('../pages/Authorized'))],
+                authority: ['admin', 'sysAdmin'],
                 hideChildrenInMenu: true,
                 routes: [
+                    { path: '/monitor', redirect: '/monitor/aa' },
                     {
                         path: '/monitor/aa',
                         name: 'ma',
                         icon: 'youtube',
-                        // component: './Monitor/AA'
-                        component: Loadable({
-                            loader: () => import('../pages/Monitor/AA'),
-                            loading: Loading
-                        })
+                        component: loadable(() => import('../pages/Monitor/AA'))
                     },
                     {
                         path: '/monitor/bb',
                         name: 'mb',
-                        // component: './Monitor/BB'
-                        component: Loadable({
-                            loader: () => import('../pages/Monitor/BB'),
-                            loading: Loading
-                        })
+                        component: loadable(() => import('../pages/Monitor/BB'))
                     }
                 ]
             },
             {
-                // component: "404",
-                component: Loadable({
-                    loader: () => import('../pages/404'),
-                    loading: Loading
-                })
+                name: 'SignIn',
+                icon: 'login',
+                path: '/signin',
+                component: loadable(() => import('../pages/SignIn'))
+            },
+            {
+                component: loadable(() => import('../pages/404'))
             }
         ]
+    }
+];
+
+export const routeList = [
+    {
+        name: 'demos',
+        label: 'DemoLay',
+        path: '/demo',
+        icon: 'apple',
+        component: loadable(() => import('../layouts/DemoLayout')),
+        Routes: [loadable(() => import('../pages/Authorized'))],
+        authority: ['user']
+    },
+    { parent: 'demos', path: '/demo', redirect: '/demo/workplace' },
+    {
+        parent: 'demos',
+        name: 'demoWorkplace',
+        label: 'DemoWorkplace',
+        icon: 'chrome',
+        path: '/demo/workplace',
+        component: loadable(() => import('../pages/Demo/Workplace'))
+    },
+    {
+        parent: 'demos',
+        label: 'DemoView',
+        name: 'demoView',
+        icon: 'slack',
+        path: '/demo/viewlist',
+        component: loadable(() => import('../pages/Demo/ViewList'))
+    },
+    {
+        path: '/',
+        name: 'home',
+        label: 'Home',
+        component: loadable(() => import('../layouts/BasicLayout'))
+    },
+    { path: '/', exact: true, redirect: '/home', parent: 'home' },
+    {
+        parent: 'home',
+        label: 'iHome',
+        name: 'ihome',
+        icon: 'bank',
+        path: '/home',
+        component: loadable(() => import('../pages/Home'))
+    },
+    {
+        parent: 'home',
+        label: 'LogOut',
+        name: 'logOut',
+        icon: 'logout',
+        path: '/logout',
+        component: loadable(() => import('../pages/LogOut'))
+    },
+    {
+        parent: 'home',
+        name: 'dashboard',
+        label: 'Dashboard',
+        icon: 'google',
+        path: '/dashboard',
+        component: loadable(() => import('../pages/Dashboard'), { fallback: Loading })
+    },
+    {
+        parent: 'dashboard',
+        path: '/dashboard/analysis',
+        name: 'analysis',
+        label: 'Analysis',
+        icon: 'chrome',
+        component: loadable(() => import('../pages/Dashboard/Analysis'))
+    },
+    {
+        parent: 'dashboard',
+        path: '/dashboard/center',
+        name: 'center',
+        label: 'Center',
+        icon: 'setting',
+        hideInMenu: true,
+        component: loadable(() => import('../pages/Dashboard/Center'))
+    },
+    {
+        parent: 'home',
+        label: 'About',
+        name: 'about',
+        icon: 'crown',
+        path: '/about',
+        component: loadable(() => import('../pages/About'))
+    },
+    {
+        parent: 'home',
+        label: 'Monitor',
+        name: 'monitor',
+        icon: 'twitter',
+        path: '/monitor',
+        Routes: [loadable(() => import('../pages/Authorized'))],
+        authority: ['admin', 'sysAdmin'],
+        hideChildrenInMenu: true
+    },
+    { parent: 'monitor', path: '/monitor', redirect: '/monitor/aa' },
+    {
+        parent: 'monitor',
+        path: '/monitor/aa',
+        name: 'ma',
+        label: 'MA',
+        icon: 'youtube',
+        component: loadable(() => import('../pages/Monitor/AA'))
+    },
+    {
+        parent: 'monitor',
+        path: '/monitor/bb',
+        name: 'mb',
+        label: 'MB',
+        component: loadable(() => import('../pages/Monitor/BB'))
+    },
+    {
+        parent: 'home',
+        name: 'signin',
+        label: 'SignIn',
+        icon: 'login',
+        path: '/signin',
+        component: loadable(() => import('../pages/SignIn'))
+    },
+    {
+        parent: 'home',
+        component: loadable(() => import('../pages/404'))
     }
 ];
 

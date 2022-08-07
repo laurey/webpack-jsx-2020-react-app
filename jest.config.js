@@ -4,9 +4,10 @@
 module.exports = {
     roots: ['<rootDir>/src'],
     testEnvironment: 'jsdom',
-    // testRegex: ['(/__test__/.*|(\\.|/)(test|spec))\\.jsx?$'],
-    setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'],
     // moduleFileExtensions: ['js', 'json', 'jsx', 'node'],
+    // testRegex: ['(/__test__/.*|(\\.|/)(test|spec))\\.jsx?$'],
+    // moduleDirectories: ['node_modules', '<rootDir>/src', __dirname],
+    setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'],
     transform: {
         '^.+\\.jsx?$': 'babel-jest'
     },

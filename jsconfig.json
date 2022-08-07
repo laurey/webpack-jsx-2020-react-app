@@ -9,5 +9,12 @@
   },
   "include": [
     "src/**/*"
+  ],
+  "exclude": [
+    "build",
+    "dist",
+    "output",
+    "coverage",
+    "node_modules"
   ]
 }

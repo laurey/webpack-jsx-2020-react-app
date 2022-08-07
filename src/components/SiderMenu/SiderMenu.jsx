@@ -1,12 +1,11 @@
-import React, { PureComponent, Suspense } from 'react';
-import { Icon, Layout } from 'antd';
+import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import PageLoading from '../Loading';
+import { Icon, Layout } from 'antd';
+import BaseMenu from './BaseMenu';
 import { getDefaultCollapsedSubMenus } from './SiderMenuUtils';
 import styles from './index.less';
 
-const BaseMenu = React.lazy(() => import('./BaseMenu'));
 const { Sider } = Layout;
 
 export default class SiderMenu extends PureComponent {
@@ -57,29 +56,30 @@ export default class SiderMenu extends PureComponent {
         return (
             <Sider
                 collapsible
-                trigger={isMobile ? null : <Icon type={collapsed ? 'menu-unfold' : 'menu-fold'} />}
-                collapsed={collapsed}
-                // breakpoint="lg"
-                onCollapse={onCollapse}
                 width={180}
+                breakpoint="lg"
                 theme={theme}
+                collapsed={collapsed}
+                trigger={isMobile ? null : <Icon type={collapsed ? 'menu-unfold' : 'menu-fold'} />}
+                onCollapse={onCollapse}
                 className={siderClassName}
             >
-                <div className={styles.logo} id="logo">
-                    <Link to="/">
-                        <img src={logo} alt="logo" />
-                    </Link>
-                </div>
-                <Suspense fallback={<PageLoading />}>
-                    <BaseMenu
-                        {...this.props}
-                        mode="inline"
-                        handleOpenChange={this.handleOpenChange}
-                        onOpenChange={this.handleOpenChange}
-                        style={{ padding: '16px 0', width: '100%' }}
-                        {...defaultProps}
-                    />
-                </Suspense>
+                {logo ? (
+                    <div className={styles.logo} id="logo">
+                        <Link to="/">
+                            <img src={logo} alt="logo" />
+                        </Link>
+                    </div>
+                ) : null}
+                <BaseMenu
+                    key="base-menu"
+                    {...this.props}
+                    mode="inline"
+                    handleOpenChange={this.handleOpenChange}
+                    onOpenChange={this.handleOpenChange}
+                    style={{ padding: '16px 0', width: '100%' }}
+                    {...defaultProps}
+                />
             </Sider>
         );
     }
