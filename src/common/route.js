@@ -76,7 +76,7 @@ const routes = [
         component: FancyLink,
         hideInMenu: false,
         hideInSider: false,
-        path: '/demos'
+        path: '/demo'
     },
     {
         name: 'Employees',

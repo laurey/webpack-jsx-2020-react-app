@@ -5,9 +5,8 @@ import { Menu } from 'antd';
 import defaultRoutes from '../common/route';
 
 function TopHeader(props) {
-    const { theme, isMobile, collapsed, layout: setting, menusData } = props;
-    const { menuPosition, fixedHeader, navHeight } = setting;
-    const isTop = menuPosition === 'top';
+    const { theme, isMobile, collapsed, layout, fixedHeader, navHeight, menusData } = props;
+    const isTop = layout === 'topmenu';
 
     const { pathname } = useLocation();
 

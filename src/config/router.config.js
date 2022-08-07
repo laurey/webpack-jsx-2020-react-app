@@ -71,72 +71,82 @@ const routes = [
                     loading: Loading
                 })
             },
+            {
+                name: 'About',
+                icon: 'crown',
+                path: '/about',
+                // component: "./Home",
+                component: Loadable({
+                    loader: () => import('../pages/About'),
+                    loading: Loading
+                })
+            },
             // path: /dashboard
-            // {
-            //   name: "Dashboard",
-            //   icon: "google",
-            //   path: "/dashboard",
-            //   component: "./Dashboard",
-            //   // component: Loadable({
-            //   //   loader: () => import("../pages/Dashboard"),
-            //   //   loading: Loading,
-            //   // }),
-            //   routes: [
-            //     {
-            //       path: "/dashboard/analysis",
-            //       name: "analysis",
-            //       component: "./Dashboard/Analysis",
-            //       // component: Loadable({
-            //       //   loader: () => import("../pages/Dashboard/Analysis"),
-            //       //   loading: Loading,
-            //       // }),
-            //     },
-            //     {
-            //       path: "/dashboard/center",
-            //       name: "center",
-            //       icon: "setting",
-            //       hideInMenu: true,
-            //       component: "./Dashboard/Center",
-            //       // component: Loadable({
-            //       //   loader: () => import("../pages/Dashboard/Center"),
-            //       //   loading: Loading,
-            //       // }),
-            //     },
-            //   ],
-            // },
-            // // path: /montiro
-            // {
-            //   name: "Monitor",
-            //   icon: "twitter",
-            //   path: "/monitor",
-            //   component: "./Monitor",
-            //   // component: Loadable({
-            //   //   loader: () => import("../pages/Monitor"),
-            //   //   loading: Loading,
-            //   // }),
-            //   hideChildrenInMenu: true,
-            //   routes: [
-            //     {
-            //       path: "/monitor/aa",
-            //       name: "ma",
-            //       icon: "youtube",
-            //       component: "./Monitor/AA",
-            //       // component: Loadable({
-            //       //   loader: () => import("../pages/Monitor/AA"),
-            //       //   loading: Loading,
-            //       // }),
-            //     },
-            //     {
-            //       path: "/monitor/bb",
-            //       name: "mb",
-            //       component: "./Monitor/BB",
-            //       // component: Loadable({
-            //       //   loader: () => import("../pages/Monitor/BB"),
-            //       //   loading: Loading,
-            //       // }),
-            //     },
-            //   ],
-            // },
+            {
+                name: 'Dashboard',
+                icon: 'google',
+                path: '/dashboard',
+                // component: './Dashboard',
+                component: Loadable({
+                    loader: () => import('../pages/Dashboard'),
+                    loading: Loading
+                }),
+                routes: [
+                    {
+                        path: '/dashboard/analysis',
+                        name: 'Analysis',
+                        // component: './Dashboard/Analysis'
+                        component: Loadable({
+                            loader: () => import('../pages/Dashboard/Analysis'),
+                            loading: Loading
+                        })
+                    },
+                    {
+                        path: '/dashboard/center',
+                        name: 'Center',
+                        icon: 'setting',
+                        hideInMenu: true,
+                        // component: './Dashboard/Center'
+                        component: Loadable({
+                            loader: () => import('../pages/Dashboard/Center'),
+                            loading: Loading
+                        })
+                    }
+                ]
+            },
+            // path: /monitor
+            {
+                name: 'Monitor',
+                icon: 'twitter',
+                path: '/monitor',
+                // component: './Monitor',
+                component: Loadable({
+                    loader: () => import('../pages/Monitor'),
+                    loading: Loading
+                }),
+                hideChildrenInMenu: true,
+                routes: [
+                    {
+                        path: '/monitor/aa',
+                        name: 'ma',
+                        icon: 'youtube',
+                        // component: './Monitor/AA'
+                        component: Loadable({
+                            loader: () => import('../pages/Monitor/AA'),
+                            loading: Loading
+                        })
+                    },
+                    {
+                        path: '/monitor/bb',
+                        name: 'mb',
+                        // component: './Monitor/BB'
+                        component: Loadable({
+                            loader: () => import('../pages/Monitor/BB'),
+                            loading: Loading
+                        })
+                    }
+                ]
+            },
             {
                 // component: "404",
                 component: Loadable({

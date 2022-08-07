@@ -7,8 +7,7 @@ import GlobalHeader from '../components/GlobalHeader';
 const { Header } = Layout;
 
 function HeaderLayout(props) {
-    const { isMobile, theme, layout: setting, onCollapse } = props;
-    const { autoHideHeader, fixedHeader } = setting;
+    const { isMobile, theme, autoHideHeader, fixedHeader, onCollapse } = props;
 
     const [visible, setVisible] = useState(true);
     const handleScroll = useCallback(() => {

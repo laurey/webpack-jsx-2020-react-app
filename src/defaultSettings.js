@@ -7,6 +7,7 @@ module.exports = {
     fixSiderbar: false, // sticky siderbar
     navTheme: 'light', // theme for nav menu
     title: '默认标题',
+    navHeight: 64,
     pwa: false,
     menu: {
         disableLocal: true
