@@ -27,7 +27,7 @@ describe('Counter actions Test', () => {
 
     it('decrementBy should create DECREMENTBY action', () => {
         expect(actions.decrementBy(1)).toEqual({
-            type: types.DECREMENTBY,
+            type: types?.DECREMENTBY,
             payload: { factor: 1 }
         });
     });

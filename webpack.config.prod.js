@@ -116,7 +116,8 @@ const prodConfig = {
         }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
-        })
+        }),
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
     ].filter(Boolean),
     optimization: {
         minimize: true,

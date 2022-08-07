@@ -7,7 +7,7 @@ export const requestComments = param => {
 
         return fetchComments(param)
             .then(comments => {
-                const processedComments = comments.map(user => ({ ...user, key: user.key || user.id }));
+                const processedComments = comments.map(user => ({ ...user, key: user.key ?? user.id }));
                 dispatch(
                     commentActions.requestCommentsSuccess({ data: processedComments, current: param.params._page })
                 );
