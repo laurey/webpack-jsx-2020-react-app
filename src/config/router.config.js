@@ -157,7 +157,7 @@ const routes = [
                 component: loadable(() => import('../pages/SignIn'))
             },
             {
-                component: loadable(() => import('../pages/404'))
+                component: loadable(() => import('../pages/Exception/404'))
             }
         ]
     }

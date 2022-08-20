@@ -1,13 +1,15 @@
 import { urlToList } from './pathTools';
 
 describe('test urlToList', () => {
-  it('A path', () => {
-    expect(urlToList('/user')).toEqual(['/user']);
-  });
-  it('Secondary path', () => {
-    expect(urlToList('/user/123')).toEqual(['/user', '/user/123']);
-  });
-  it('Three paths', () => {
-    expect(urlToList('/user/123/blogs')).toEqual(['/user', '/user/123', '/user/123/blogs']);
-  });
+    it('One path', () => {
+        expect(urlToList('/posts')).toEqual(['/posts']);
+    });
+
+    it('Secondary path', () => {
+        expect(urlToList('/posts/18998')).toEqual(['/posts', '/posts/18998']);
+    });
+
+    it('More paths', () => {
+        expect(urlToList('/posts/18998/comments')).toEqual(['/posts', '/posts/18998', '/posts/18998/comments']);
+    });
 });

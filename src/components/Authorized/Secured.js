@@ -1,12 +1,6 @@
 import React from 'react';
-import Exception from '../Exception';
 import CheckPermissions from './CheckPermissions';
-
-/**
- * 默认不能访问任何页面
- * default is "NULL"
- */
-const Exception403 = () => <Exception type="403" />;
+import Exception403 from '@/pages/Exception/403';
 
 export const isComponentClass = component => {
     if (!component) return false;
@@ -24,9 +18,11 @@ const checkIsInstantiation = target => {
         const Target = target;
         return props => <Target {...props} />;
     }
+
     if (React.isValidElement(target)) {
         return props => React.cloneElement(target, props);
     }
+
     return () => target;
 };
 
@@ -35,9 +31,11 @@ const authorize = (authority, error) => {
     if (error) {
         classError = () => error;
     }
+
     if (!authority) {
-        throw new Error('authority is required');
+        throw new Error('authority is required!');
     }
+
     return function decideAuthority(target) {
         const component = CheckPermissions(authority, target, classError || Exception403);
         return checkIsInstantiation(component);

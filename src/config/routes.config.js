@@ -120,7 +120,7 @@ export const routes = [
     },
     {
         parent: 'home',
-        component: loadable(() => import('../pages/404'))
+        component: loadable(() => import('../pages/Exception/404'))
     }
 ];
 

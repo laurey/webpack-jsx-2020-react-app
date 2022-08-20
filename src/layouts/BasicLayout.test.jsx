@@ -5,7 +5,7 @@ import { BasicLayoutProvider } from '../contexts/useBasicLayoutContext';
 import BasicLayout from './BasicLayout';
 import renderRoutes from '@/config/renderRoutes';
 import Authorized from '@/pages/Authorized';
-import Exception404 from '@/pages/404';
+import Exception404 from '@/pages/Exception/404';
 
 describe('BasicLayout test rendering', () => {
     test('full BasicLayout component rendering', () => {

@@ -1,9 +1,9 @@
 import React from 'react';
 // import { Redirect } from 'react-router-dom';
-import Exception403 from './Exception/403';
 // import pathToRegexp from "path-to-regexp";
 // import Authorized from "../utils/Authorized";
 // import Exception from "../components/Exception";
+import Exception403 from '@/pages/Exception/403';
 import { getAuthority } from '../utils/authority';
 import RenderAuthorized from '../components/Authorized';
 

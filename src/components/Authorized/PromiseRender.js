@@ -9,31 +9,30 @@ export default class PromiseRender extends React.Component {
     };
 
     componentDidMount() {
-        this.setRenderComponent(this.props);
+        this.setRenderedComponent(this.props);
     }
 
     shouldComponentUpdate = (nextProps, nextState) => {
         const { component } = this.state;
         if (!isEqual(nextProps, this.props)) {
-            this.setRenderComponent(nextProps);
+            this.setRenderedComponent(nextProps);
         }
         if (nextState.component !== component) return true;
         return false;
     };
 
-    // set render Component : ok or error
-    setRenderComponent(props) {
-        const ok = this.checkIsInstantiation(props.ok);
-        const error = this.checkIsInstantiation(props.error);
+    setRenderedComponent(props) {
+        const fullfilled = this.checkIsInstantiation(props.fullfilled);
+        const rejected = this.checkIsInstantiation(props.rejected);
         props.promise
             .then(() => {
                 this.setState({
-                    component: ok
+                    component: fullfilled
                 });
             })
             .catch(() => {
                 this.setState({
-                    component: error
+                    component: rejected
                 });
             });
     }
@@ -55,7 +54,7 @@ export default class PromiseRender extends React.Component {
 
     render() {
         const { component: Component } = this.state;
-        const { ok, error, promise, ...rest } = this.props;
+        const { fullfilled, rejected, promise, ...rest } = this.props;
         return Component ? (
             <Component {...rest} />
         ) : (
