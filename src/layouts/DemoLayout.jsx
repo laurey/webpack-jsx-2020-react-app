@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Debounce from 'lodash-decorators/debounce';
 import pathToRegexp from 'path-to-regexp';
+import Debounce from 'lodash-decorators/debounce';
 import { Layout } from 'antd';
-import Authorized from '@/utils/Authorized';
-import Exception403 from '@/pages/Exception/403';
-import Header from './SimpleHeader';
 import Footer from './Footer';
-import styles from './styles.less';
+import SimpleHeader from './SimpleHeader';
+import SiderMenu from '@/components/SiderMenu';
+import { clearMenuItem, clearChildren } from '@/utils/utils';
+import { getFlatMenuKeys } from '@/components/SiderMenu/SiderMenuUtils';
 import logo from '@/assets/logo.png';
+import styles from './styles.less';
 
 const { Content } = Layout;
 
@@ -46,7 +47,6 @@ class DemoLayout extends Component {
         this.triggerResizeEvent();
     };
 
-    /* eslint-disable*/
     @Debounce(600)
     triggerResizeEvent() {
         const event = document.createEvent('HTMLEvents');
@@ -70,35 +70,57 @@ class DemoLayout extends Component {
         return getAuthority(pathname, routeList);
     };
 
-    render() {
-        const {
-            children,
-            menuData,
-            isMobile,
-            location: { pathname },
-            route: { routes }
-        } = this.props;
+    getLayoutStyle = () => {
+        const { fixSiderbar, isMobile, collapsed, layout } = this.props;
+        if (fixSiderbar && layout !== 'topmenu' && !isMobile) {
+            return {
+                paddingLeft: collapsed ? 80 : 180
+            };
+        }
+        return null;
+    };
 
-        const routerConfig = this.getRouterAuthority(pathname, routes);
+    render() {
+        const { collapsed, children, isMobile, menuData, fixedHeader } = this.props;
+
+        const contentStyle = !fixedHeader
+            ? { paddingTop: 0, paddingLeft: collapsed ? 80 : 180 }
+            : { paddingLeft: collapsed ? 80 : 180 };
+
+        const flatMenuKeys = getFlatMenuKeys(menuData || []);
+        const clearMenuData = clearChildren(clearMenuItem(menuData || []));
 
         return (
             <Layout>
-                <Header
+                <SimpleHeader
                     logo={logo}
-                    menuData={menuData}
                     isMobile={isMobile}
-                    hasSiderMenu={false}
-                    handleMenuCollapse={this.handleMenuCollapse}
+                    flatMenuKeys={flatMenuKeys}
                     {...this.props}
+                    onCollapse={this.handleMenuCollapse}
+                    menuData={clearMenuData}
                 />
-                <Content style={{ margin: '24px 24px 0', height: '100%' }} className={styles.content}>
-                    <Authorized authority={routerConfig} noMatch={<Exception403 {...this.props} />}>
+                <Layout
+                    style={{
+                        ...this.getLayoutStyle(),
+                        minHeight: '100vh'
+                    }}
+                >
+                    <SiderMenu
+                        theme="light"
+                        isMobile={isMobile}
+                        flatMenuKeys={flatMenuKeys}
+                        {...this.props}
+                        onCollapse={this.handleMenuCollapse}
+                        menuData={clearMenuData}
+                    />
+                    <Content className={styles.content} style={contentStyle}>
                         {children}
-                    </Authorized>
-                </Content>
-                <Footer>
-                    <div>This is Demo Layout Footer</div>
-                </Footer>
+                        <Footer>
+                            <div>Demo Footer 2020</div>
+                        </Footer>
+                    </Content>
+                </Layout>
             </Layout>
         );
     }

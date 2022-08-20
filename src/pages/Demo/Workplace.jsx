@@ -28,12 +28,19 @@ function Workplace(props) {
             <Col span={24}>
                 <span>
                     <Popover content={content} visible={visible} placement="leftBottom">
-                        <span onClick={handlePopoverVisible}>Show Popover Link after 3s</span>
+                        <span onClick={handlePopoverVisible}>Click then show Popover after 3s</span>
                     </Popover>
                 </span>
                 <p>{undefined && <span>feeeeeeee</span>}</p>
                 <p>{null && <span>iweuoklfjasdf</span>}</p>
-                <Link to="/demo/viewlist">View List</Link>
+                <ul>
+                    <li>
+                        <Link to="/demo/viewlist">View List</Link>
+                    </li>
+                    <li>
+                        <Link to="/demo/form">Form</Link>
+                    </li>
+                </ul>
             </Col>
             <Col span={24}>
                 <WrappedRegistrationForm onSubmit={handleSubmit} wrappedComponentRef={formRef} />

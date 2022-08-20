@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 
 import guessFileFromPath from './guessFileFromPath';
 import styles from './style.modules.less';
@@ -9,19 +8,20 @@ const NotFound = props => {
     const jsFile = guessFileFromPath(location?.pathname || history.location.pathname);
     return (
         <div className={styles['global-NotFound-wrapper']}>
-            <h1>development 404 page</h1>
+            <h1>Development Warning</h1>
+            <h1>404 page</h1>
             <p>
-                There&apos;s not a page yet at <code>{location?.pathname || history.location.pathname}</code>.
+                The page <code>{location?.pathname || history.location.pathname}</code> doesn&apos;t exist.
             </p>
             <p>
-                Create a React component in your pages directory at
+                Create a React component in your pages directory, such as
                 <code>
                     {pagesPath}/{jsFile}
                 </code>
-                then this page will automatically refresh to show the new content.
+                , then refresh browser to show the new content.
             </p>
         </div>
     );
 };
 
-export default withRouter(NotFound);
+export default NotFound;

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Form, Icon, Input, Button } from 'antd';
@@ -101,7 +102,9 @@ export const SignIn = props => {
                     type: 'LOG_IN',
                     payload: {
                         ...data,
-                        currentAuthority: Math.random() > 0.8 ? ['admin'] : 'user'
+                        currentAuthority: _.isEqual(values, { username: 'admin', password: 'admin888' })
+                            ? ['admin', 'user']
+                            : 'user'
                     }
                 });
             })

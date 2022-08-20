@@ -3,9 +3,10 @@ import { Layout } from 'antd';
 import Debounce from 'lodash-decorators/debounce';
 import { connect } from 'react-redux';
 import pathToRegexp from 'path-to-regexp';
-// import Authorized from '@/utils/Authorized';
 import Footer from './Footer';
 import SimpleHeader from './SimpleHeader';
+// import Authorized from '@/utils/Authorized';
+// import Exception403 from '@/pages/Exception/403';
 import SiderMenu from '@/components/SiderMenu';
 import { clearMenuItem, clearChildren, getFlatMenuKeys } from '@/utils/utils';
 import logo from '../assets/logo.png';
@@ -99,8 +100,8 @@ class BasicLayout extends React.PureComponent {
             isMobile,
             menuData,
             location,
-            route: { routes },
-            fixedHeader
+            fixedHeader,
+            route: { routes }
         } = this.props;
 
         const routerConfig = this.getRouterAuthority(location.pathname, routes);
@@ -137,6 +138,9 @@ class BasicLayout extends React.PureComponent {
                         menuData={clearMenuData}
                     />
                     <Content className={styles.content} style={contentStyle}>
+                        {/* <Authorized authority={routerConfig} noMatch={<Exception403 {...this.props} />}>
+                            {children}
+                        </Authorized> */}
                         {children}
                         <Footer>
                             <div>CopyRight 2020</div>

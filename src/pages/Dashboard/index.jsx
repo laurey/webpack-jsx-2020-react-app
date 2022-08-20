@@ -25,6 +25,15 @@ class DashBoard extends Component {
                     <li>
                         <FancyLink
                             to={{
+                                pathname: `${match.url}/setting`
+                            }}
+                        >
+                            Dash Setting
+                        </FancyLink>
+                    </li>
+                    <li>
+                        <FancyLink
+                            to={{
                                 pathname: `${match.url}/center`
                             }}
                         >

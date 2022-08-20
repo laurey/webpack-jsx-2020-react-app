@@ -4,7 +4,7 @@ import { renderWithRouterRedux, userEvent, createMemoryHistory } from '@/test-ut
 import { BasicLayoutProvider } from '../contexts/useBasicLayoutContext';
 import BasicLayout from './BasicLayout';
 import renderRoutes from '@/config/renderRoutes';
-import AuthorizedWrapper from '@/pages/Authorized';
+import Authorized from '@/pages/Authorized';
 import Exception404 from '@/pages/404';
 
 describe('BasicLayout test rendering', () => {
@@ -100,7 +100,7 @@ describe('BasicLayout test rendering', () => {
                         <p>{authority.join()}</p>
                     </div>
                 ),
-                Routes: [AuthorizedWrapper],
+                Routes: [Authorized],
                 authority
             },
             {

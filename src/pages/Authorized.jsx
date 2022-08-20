@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import Exception403 from './Exception/403';
 // import pathToRegexp from "path-to-regexp";
 // import Authorized from "../utils/Authorized";

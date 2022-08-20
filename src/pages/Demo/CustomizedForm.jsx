@@ -10,7 +10,7 @@ import { getRandomString, pairsToDataSource, colsExample } from '@/utils';
 
 const { TabPane } = Tabs;
 
-const DemosPage = () => {
+const DemoCustomizedForm = () => {
     const formRef1 = useRef();
     const formRef2 = useRef();
     const formRef3 = useRef();
@@ -146,4 +146,4 @@ const DemosPage = () => {
     );
 };
 
-export default DemosPage;
+export default DemoCustomizedForm;
