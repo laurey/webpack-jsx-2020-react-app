@@ -11,6 +11,7 @@ class DashBoard extends Component {
             <div>
                 <h2>DashBoard</h2>
                 <span>{this.props.lazy ? 'load lazy' : ''}</span>
+                <p>match.url =&gt; {match.url}</p>
                 <ul>
                     <li>
                         <FancyLink title="analysis" to={`${match.url}/analysis`}>
@@ -29,6 +30,15 @@ class DashBoard extends Component {
                             }}
                         >
                             Dash Setting
+                        </FancyLink>
+                    </li>
+                    <li>
+                        <FancyLink
+                            to={{
+                                pathname: `/demo/form`
+                            }}
+                        >
+                            Demo Form
                         </FancyLink>
                     </li>
                     <li>

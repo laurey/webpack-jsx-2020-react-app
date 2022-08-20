@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Form, Input, Button } from 'antd';
-import ParamFormTableInput from '@/components/RTCInput/ParamFormTableInput';
+import ParamFormTableInput from '@/components/RTCInput/inputs/ParamFormTableInput';
 import { MAX_COUNT, hasDuplicates, isValidParams, convertToValue, colsExample } from '@/utils';
 import styles from './style.less';
 import { SAVESTEPFORMDATA } from '@/constants';

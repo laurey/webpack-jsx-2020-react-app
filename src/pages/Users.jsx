@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button } from 'antd';
 import _ from 'lodash';
 import { List } from '@/components/List';
-import { SearchInput } from '@/components/SearchInput';
+import { SearchInput } from '@/components/RTCInput/inputs/SearchInput';
 import { processFetchParams } from '@/utils';
 import { fetchUsers } from '@/services/users';
 

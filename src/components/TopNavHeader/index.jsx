@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import BaseMenu from '../SiderMenu/BaseMenu';
-import { getFlatMenuKeys } from '../SiderMenu/SiderMenuUtils';
+import { getFlatMenuKeys } from '@/utils/utils';
 import styles from './index.less';
 
 export default class TopNavHeader extends PureComponent {

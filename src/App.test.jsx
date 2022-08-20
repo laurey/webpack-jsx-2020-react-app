@@ -1,8 +1,9 @@
 import React from 'react';
-import { renderWithRouterRedux, userEvent, createMemoryHistory } from '@/test-utils';
+import { renderWithRouterRedux, userEvent, screen, createMemoryHistory } from '@/test-utils';
 import App from './App';
 import BasicLayout from './layouts/BasicLayout';
 import renderRoutes from './config/renderRoutes';
+import Exception404 from './pages/Exception/404';
 
 describe('App test rendering', () => {
     test('full app rendering', () => {
@@ -18,27 +19,96 @@ describe('App test rendering', () => {
     });
 
     test('full app navigating', () => {
-        const history = createMemoryHistory({ initialEntries: ['/home', '/todos', '/counter'] });
-        const { getByText } = renderWithRouterRedux(
+        // const history = createMemoryHistory({ initialEntries: ['/home', '/todos', '/counter'] });
+        const to = '/todos';
+        const routes = [
+            {
+                path: '/',
+                exact: true,
+                component: () => <div>HomePage</div>
+            },
+            {
+                name: 'About',
+                path: '/about',
+                component: () => <div>AboutPage</div>
+            },
+            {
+                name: 'Todos',
+                path: '/todos',
+                component: () => (
+                    <div>
+                        <h1>TodosPage</h1>
+                        <p>you are on the todos page</p>
+                    </div>
+                )
+            },
+            {
+                name: 'Counter',
+                path: '/counter',
+                component: () => <div>CounterPage</div>
+            },
+            {
+                name: 'Monitor',
+                path: '/monitor',
+                component: () => <div>MonitorPage</div>
+            },
+            {
+                name: 'Some-Route',
+                path: '/some-route',
+                component: () => <div>Some Route</div>
+            },
+            {
+                name: 'Profile',
+                path: '/profile/:name',
+                component: () => (
+                    <div>
+                        <h1>ProfilePage</h1>
+                    </div>
+                )
+            },
+            {
+                component: Exception404
+            }
+        ];
+        const route = ['/monitor', '/about', '/', '/counter'];
+        const history = createMemoryHistory({ initialEntries: route });
+        const location = { pathname: '/profile', hash: 'ffe15' };
+        const match = {
+            params: { username: 'jane' },
+            url: '/profile/jane'
+        };
+
+        const { getByText, container } = renderWithRouterRedux(
             <App>
-                <BasicLayout collapsed fixedHeader location={{ pathname: '/profile', hash: '' }} route={{ routes: [] }}>
-                    <div>Card title</div>
+                <BasicLayout
+                    collapsed
+                    fixedHeader
+                    history={history}
+                    location={location}
+                    route={{
+                        routes
+                    }}
+                >
+                    <div data-testid="routes-wrapper">{renderRoutes(routes, { location, history, match })}</div>
                 </BasicLayout>
             </App>,
             {
-                route: '/todos',
+                route: to,
                 history
             }
         );
-        const linkElement = getByText(/^todos$/i);
 
+        const routesWrapper = screen.getByTestId('routes-wrapper');
+        expect(routesWrapper).toHaveTextContent(/^MonitorPage$/i);
+
+        const linkElement = container.querySelector('a[href="/todos"]');
         const leftClick = { button: 0 };
         // screen.debug(linkElement);
         userEvent.click(linkElement, leftClick);
         expect(history.location.pathname).toEqual('/todos');
 
         // check that the content changed to the new page
-        // expect(getByText(/you are on the counter page/i)).toBeInTheDocument();
+        expect(getByText(/you are on the todos page/i)).toBeInTheDocument();
     });
 
     test('landing on a non-exist page', () => {

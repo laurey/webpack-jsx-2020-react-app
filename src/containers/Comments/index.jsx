@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { Button, Spin } from 'antd';
 import { List } from '@/components/List';
-import { SearchInput } from '@/components/SearchInput';
+import { SearchInput } from '@/components/RTCInput/inputs/SearchInput';
 import { processFetchParams, getPageQuery } from '@/utils';
 import { cancelRequestComments } from '@/actions/comments';
 import { deleteComment, requestComments } from '@/thunks/comments';

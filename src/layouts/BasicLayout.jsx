@@ -1,12 +1,10 @@
-import React from 'react';
-import { Layout } from 'antd';
-import Debounce from 'lodash-decorators/debounce';
-import { connect } from 'react-redux';
 import pathToRegexp from 'path-to-regexp';
+import Debounce from 'lodash-decorators/debounce';
+import React from 'react';
+import { connect } from 'react-redux';
+import { Layout, Alert } from 'antd';
 import Footer from './Footer';
-import SimpleHeader from './SimpleHeader';
-// import Authorized from '@/utils/Authorized';
-// import Exception403 from '@/pages/Exception/403';
+import Header from './Header';
 import SiderMenu from '@/components/SiderMenu';
 import { clearMenuItem, clearChildren, getFlatMenuKeys } from '@/utils/utils';
 import logo from '../assets/logo.png';
@@ -14,7 +12,7 @@ import styles from './styles.less';
 
 const { Content } = Layout;
 
-class BasicLayout extends React.PureComponent {
+class BaseLayout extends React.PureComponent {
     constructor(props) {
         super(props);
     }
@@ -24,12 +22,6 @@ class BasicLayout extends React.PureComponent {
             dispatch,
             route: { routes, authority }
         } = this.props;
-        // dispatch({
-        //     type: 'user/fetchCurrent'
-        // });
-        // dispatch({
-        //     type: 'setting/getSetting'
-        // });
         dispatch({
             type: 'FETCH_MENUS',
             payload: { routes, authority }
@@ -114,7 +106,7 @@ class BasicLayout extends React.PureComponent {
 
         return (
             <Layout>
-                <SimpleHeader
+                <Header
                     logo={logo}
                     isMobile={isMobile}
                     flatMenuKeys={flatMenuKeys}
@@ -129,7 +121,6 @@ class BasicLayout extends React.PureComponent {
                     }}
                 >
                     <SiderMenu
-                        // logo={logo}
                         theme="light"
                         isMobile={isMobile}
                         flatMenuKeys={flatMenuKeys}
@@ -138,9 +129,7 @@ class BasicLayout extends React.PureComponent {
                         menuData={clearMenuData}
                     />
                     <Content className={styles.content} style={contentStyle}>
-                        {/* <Authorized authority={routerConfig} noMatch={<Exception403 {...this.props} />}>
-                            {children}
-                        </Authorized> */}
+                        <Alert message="It is from BasicLayout" type="info" />
                         {children}
                         <Footer>
                             <div>CopyRight 2020</div>
@@ -157,4 +146,4 @@ export default connect(({ global, setting, menu }) => ({
     layout: setting.layout,
     menuData: menu.menuData,
     ...setting
-}))(BasicLayout);
+}))(BaseLayout);

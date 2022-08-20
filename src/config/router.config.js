@@ -19,11 +19,39 @@ const routes = [
             },
             {
                 name: 'DemoForm',
-                icon: 'chrome',
+                icon: 'laptop',
                 path: '/demo/form',
                 Routes: [loadable(() => import('../pages/Authorized'))],
                 authority: ['user'],
                 component: loadable(() => import('../pages/Demo/CustomizedForm'))
+            },
+            {
+                name: 'Dashboard',
+                icon: 'key',
+                path: '/demo/dashboard',
+                component: loadable(() => import('../pages/Dashboard')),
+                routes: [
+                    { path: '/demo/dashboard', exact: true, redirect: '/demo/dashboard/center' },
+                    {
+                        path: '/demo/dashboard/analysis',
+                        name: 'Analysis',
+                        icon: 'table',
+                        component: loadable(() => import('../pages/Dashboard/Analysis'))
+                    },
+                    {
+                        path: '/demo/dashboard/center',
+                        name: 'Center',
+                        icon: 'wifi',
+                        hideInMenu: true,
+                        component: loadable(() => import('../pages/Dashboard/Center'))
+                    },
+                    {
+                        path: '/demo/dashboard/setting',
+                        name: 'Setting',
+                        icon: 'team',
+                        component: loadable(() => import('../pages/Dashboard/Setting'))
+                    }
+                ]
             },
             {
                 name: 'DemoView',
@@ -81,6 +109,18 @@ const routes = [
                 ]
             },
             {
+                name: 'About',
+                icon: 'crown',
+                path: '/about',
+                component: loadable(() => import('../pages/About'))
+            },
+            {
+                name: 'Comments',
+                icon: 'html5',
+                path: '/comments'
+                // component: loadable(() => import('../pages/Comments'))
+            },
+            {
                 name: 'Form',
                 icon: 'form',
                 path: '/form',
@@ -89,7 +129,13 @@ const routes = [
                     {
                         path: '/form/basic-form',
                         name: 'basicform',
+                        hideInMenu: true,
                         component: loadable(() => import('../pages/Forms/BasicForm'))
+                    },
+                    {
+                        path: '/form/login',
+                        name: 'loginForm',
+                        component: loadable(() => import('../pages/Forms/LoginForm'))
                     },
                     {
                         path: '/form/step-form',
@@ -120,12 +166,6 @@ const routes = [
                         ]
                     }
                 ]
-            },
-            {
-                name: 'About',
-                icon: 'crown',
-                path: '/about',
-                component: loadable(() => import('../pages/About'))
             },
             // path: /monitor
             {

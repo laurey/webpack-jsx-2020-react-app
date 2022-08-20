@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { Button, Form, Row, Col, Input, Tooltip, Icon } from 'antd';
-import HeaderFormTableInput from '@/components/RTCInput/HeaderFormTableInput';
+import HeaderFormTableInput from '@/components/RTCInput/inputs/HeaderFormTableInput';
 import { getRandomString, getRandomIntInclusive } from '@/utils';
 import horseSvg from '@/assets/horse.svg';
 

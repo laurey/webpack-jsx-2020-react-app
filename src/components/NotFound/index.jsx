@@ -8,8 +8,7 @@ const NotFound = props => {
     const jsFile = guessFileFromPath(location?.pathname || history.location.pathname);
     return (
         <div className={styles['global-NotFound-wrapper']}>
-            <h1>Development Warning</h1>
-            <h1>404 page</h1>
+            <h1>Warning</h1>
             <p>
                 The page <code>{location?.pathname || history.location.pathname}</code> doesn&apos;t exist.
             </p>

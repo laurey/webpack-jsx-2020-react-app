@@ -23,6 +23,8 @@ export function isUrl(path) {
     return reg.test(path);
 }
 
+export const childKey = ['routes'];
+
 export const clearChildren = (menuData = []) => {
     return menuData
         .map(item => {
@@ -43,8 +45,9 @@ export const getFlatMenuKeys = menuData => {
     let keys = [];
     menuData.forEach(item => {
         keys.push(item.path);
-        if (item.routes) {
-            keys = keys.concat(getFlatMenuKeys(item.routes));
+        const children = item.routes || item.children;
+        if (children) {
+            keys = keys.concat(getFlatMenuKeys(children));
         }
     });
     return keys;

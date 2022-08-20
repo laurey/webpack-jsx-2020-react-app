@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { debounce } from 'lodash';
 import { Card, Row, Col } from 'antd';
-import { ControlledInput } from '@/components/RTCInput/ControlledInput';
-import { DebouncedInput } from '@/components/RTCInput/DebouncedInput';
+import { ControlledInput } from '@/components/RTCInput/inputs/ControlledInput';
+import { DebouncedInput } from '@/components/RTCInput/inputs/DebouncedInput';
 import { getPageQuery } from '@/utils';
 
 class RateControl extends React.PureComponent {

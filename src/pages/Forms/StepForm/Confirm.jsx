@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Form, Button, Select } from 'antd';
-import KeyValuePairFormTableInput from '@/components/RTCInput/KeyValuePairFormTableInput';
+import KeyValuePairFormTableInput from '@/components/RTCInput/inputs/KeyValuePairFormTableInput';
 import { MAX_COUNT, hasDuplicates, isValidParams, colsExample } from '@/utils';
 import { submitStepForm } from '@/thunks/form';
 import styles from './style.less';

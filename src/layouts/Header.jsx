@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Layout } from 'antd';
-import Animate from 'rc-animate';
 import GlobalHeader from '@/components/GlobalHeader';
 import TopNavHeader from '@/components/TopNavHeader';
 import styles from './Header.less';
@@ -42,7 +41,7 @@ class HeaderView extends React.PureComponent {
 
     handleMenuClick = ({ key }) => {
         const { dispatch } = this.props;
-        if (key === 'userinfo') {
+        if (key === 'usersetting') {
             // history.push('/account/settings/base');
             return;
         }
@@ -59,6 +58,7 @@ class HeaderView extends React.PureComponent {
         if (!autoHideHeader) {
             return;
         }
+
         const scrollTop = document.body.scrollTop + document.documentElement.scrollTop;
         if (!this.ticking) {
             this.ticking = true;
@@ -88,33 +88,33 @@ class HeaderView extends React.PureComponent {
         const { visible } = this.state;
         const isTop = layout === 'topmenu';
         const width = this.getHeadWidth();
-        const HeaderDom = visible ? (
-            <Header style={{ padding: 0, width }} className={fixedHeader ? styles.fixedHeader : ''}>
-                {isTop && !isMobile ? (
-                    <TopNavHeader
-                        theme={navTheme}
-                        mode="horizontal"
-                        onCollapse={handleMenuCollapse}
-                        onNoticeClear={this.handleNoticeClear}
-                        onMenuClick={this.handleMenuClick}
-                        onNoticeVisibleChange={this.handleNoticeVisibleChange}
-                        {...this.props}
-                    />
-                ) : (
-                    <GlobalHeader
-                        onCollapse={handleMenuCollapse}
-                        onNoticeClear={this.handleNoticeClear}
-                        onMenuClick={this.handleMenuClick}
-                        onNoticeVisibleChange={this.handleNoticeVisibleChange}
-                        {...this.props}
-                    />
-                )}
-            </Header>
-        ) : null;
+
         return (
-            <Animate component="" transitionName="fade">
-                {HeaderDom}
-            </Animate>
+            <Fragment>
+                {visible ? (
+                    <Header style={{ padding: 0, width }} className={fixedHeader ? styles.fixedHeader : ''}>
+                        {isTop && !isMobile ? (
+                            <TopNavHeader
+                                theme={navTheme}
+                                mode="horizontal"
+                                onCollapse={handleMenuCollapse}
+                                onNoticeClear={this.handleNoticeClear}
+                                onMenuClick={this.handleMenuClick}
+                                onNoticeVisibleChange={this.handleNoticeVisibleChange}
+                                {...this.props}
+                            />
+                        ) : (
+                            <GlobalHeader
+                                onCollapse={handleMenuCollapse}
+                                onNoticeClear={this.handleNoticeClear}
+                                onMenuClick={this.handleMenuClick}
+                                onNoticeVisibleChange={this.handleNoticeVisibleChange}
+                                {...this.props}
+                            />
+                        )}
+                    </Header>
+                ) : null}
+            </Fragment>
         );
     }
 }

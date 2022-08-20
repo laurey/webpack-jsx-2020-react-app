@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import _ from 'lodash';
 import { Form, Button, Row, Col } from 'antd';
-import { ForwardKeyValuePairsInput } from '@/components/RTCInput/KeyValuePairsInput';
-import KeyValuePairFormTableInput from '@/components/RTCInput/KeyValuePairFormTableInput';
+import { ForwardKeyValuePairsInput } from '@/components/RTCInput/inputs/KeyValuePairsInput';
+import KeyValuePairFormTableInput from '@/components/RTCInput/inputs/KeyValuePairFormTableInput';
 import { MAX_COUNT, hasDuplicates, isValidParams, convertToValue } from '@/utils';
 
 const ParamTableForm = props => {

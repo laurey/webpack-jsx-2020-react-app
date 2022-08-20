@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import pathToRegexp from 'path-to-regexp';
 import Debounce from 'lodash-decorators/debounce';
-import { Layout } from 'antd';
+import { Layout, Alert } from 'antd';
 import Footer from './Footer';
 import SimpleHeader from './SimpleHeader';
 import SiderMenu from '@/components/SiderMenu';
-import { clearMenuItem, clearChildren } from '@/utils/utils';
-import { getFlatMenuKeys } from '@/components/SiderMenu/SiderMenuUtils';
+import { clearMenuItem, clearChildren, getFlatMenuKeys } from '@/utils/utils';
 import logo from '@/assets/logo.png';
 import styles from './styles.less';
 
@@ -115,6 +114,7 @@ class DemoLayout extends Component {
                         menuData={clearMenuData}
                     />
                     <Content className={styles.content} style={contentStyle}>
+                        <Alert message="It is from DemoLayout" type="info" />
                         {children}
                         <Footer>
                             <div>Demo Footer 2020</div>

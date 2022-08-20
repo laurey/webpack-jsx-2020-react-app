@@ -6,6 +6,9 @@ import { connect } from 'react-redux';
 import { Layout, Menu } from 'antd';
 import styles from './SimpleHeader.less';
 import routes from '../common/route';
+import { urlToList } from '@/components/_utils/pathTools';
+import { getMenuMatches } from '@/components/SiderMenu/SiderMenuUtils';
+// import { getFlatMenuKeys } from '@/utils/utils';
 
 const { Header } = Layout;
 
@@ -30,10 +33,29 @@ class SimpleHeader extends React.PureComponent {
         return collapsed ? 'calc(100% - 80px)' : 'calc(100% - 256px)';
     };
 
+    getSelectedMenuKeys = pathname => {
+        const { flatMenuKeys } = this.props;
+        return urlToList(pathname).map(itemPath => getMenuMatches(flatMenuKeys, itemPath).pop());
+    };
+
     render() {
-        const { location, className, contentWidth, setting, logo } = this.props;
+        const { openKeys, collapsed, menuData, location, className, contentWidth, setting, logo } = this.props;
         const { navTheme, fixedHeader } = setting;
         const { pathname } = location;
+        let selectedKeys = this.getSelectedMenuKeys(pathname);
+        if (!selectedKeys.length && openKeys) {
+            selectedKeys = [openKeys[openKeys.length - 1]];
+        }
+
+        // const flatMenuKeys = getFlatMenuKeys(menuData);
+
+        let props = {};
+        if (openKeys && !collapsed) {
+            props = {
+                openKeys: openKeys.length === 0 ? [...selectedKeys] : openKeys
+            };
+        }
+
         const cls = classNames(className, {
             [styles.fixedHeader]: fixedHeader
         });
@@ -64,6 +86,7 @@ class SimpleHeader extends React.PureComponent {
                                     theme={navTheme}
                                     selectedKeys={[pathname]}
                                     className={styles.menu}
+                                    {...props}
                                 >
                                     {routes
                                         .filter(route => !route.hideInMenu)

@@ -55,7 +55,12 @@ function LoginForm(props) {
                             message: 'Min 2, Max 20 letters'
                         }
                     ]
-                })(<Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />)}
+                })(
+                    <Input
+                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        placeholder="Username: admin or user"
+                    />
+                )}
             </FormItem>
             <FormItem help={passwordError || ''} validateStatus={passwordError ? 'error' : ''}>
                 {getFieldDecorator('password', {
@@ -71,7 +76,7 @@ function LoginForm(props) {
                     <Input
                         prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                         type="password"
-                        placeholder="Password"
+                        placeholder="Password: test888"
                     />
                 )}
             </FormItem>
@@ -98,13 +103,18 @@ export const SignIn = props => {
     const handleSubmit = useCallback(values => {
         Promise.resolve(values)
             .then(data => {
+                let authority = null;
+                if (_.isEqual(values, { username: 'admin', password: 'test888' })) {
+                    authority = ['admin', 'user'];
+                } else if (_.isEqual(values, { username: 'user', password: 'test888' })) {
+                    authority = 'user';
+                }
+
                 dispatch({
                     type: 'LOG_IN',
                     payload: {
                         ...data,
-                        currentAuthority: _.isEqual(values, { username: 'admin', password: 'admin888' })
-                            ? ['admin', 'user']
-                            : 'user'
+                        currentAuthority: authority
                     }
                 });
             })

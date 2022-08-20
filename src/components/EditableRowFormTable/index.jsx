@@ -1,5 +1,5 @@
 import { Form } from 'antd';
-import EditableTable from './Table';
+import EditableTable from './EditableTable/Table';
 
 const EditableFormTable = Form.create({
     onValuesChange: function (props, changedValues, allValues) {

@@ -1,10 +1,10 @@
 import React, { PureComponent, createRef } from 'react';
 import { Button, Divider } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
-import EditableContext from '@/components/EditableFormTable/EditableTable/context';
 import { colsExample, combineKeyValueToDatasource, convertDataSourceToEntries } from '@/utils';
-import EditableFormTable from '@/components/EditableFormTable/EditableTable';
-import EditableCell from '@/components/EditableFormTable/EditableCell';
+import EditableContext from './EditableFormTable/EditableTable/context';
+import EditableFormTable from './EditableFormTable/EditableTable';
+import EditableCell from './EditableFormTable/EditableCell';
 
 const components = {
     body: {

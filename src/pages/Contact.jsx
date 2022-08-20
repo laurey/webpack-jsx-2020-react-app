@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Button } from 'antd';
-import HeaderFormTableInput from '@/components/RTCInput/HeaderFormTableInput';
+import HeaderFormTableInput from '@/components/RTCInput/inputs/HeaderFormTableInput';
 import { getRandomString, getRandomIntInclusive } from '@/utils';
 
 const columns = [

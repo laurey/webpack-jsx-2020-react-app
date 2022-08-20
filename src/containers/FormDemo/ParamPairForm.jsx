@@ -1,9 +1,9 @@
 import React, { useCallback, forwardRef, useEffect } from 'react';
 import _ from 'lodash';
 import { Form, Button, InputNumber, Row, Col } from 'antd';
-import RangeInput from '@/components/RTCInput/NumberRangeInput';
-import ParameterFormTableInput from '@/components/RTCInput/ParamFormTableInput';
-import KeyValuePairFormTableInput from '@/components/RTCInput/KeyValuePairFormTableInput';
+import RangeInput from '@/components/RTCInput/inputs/NumberRangeInput';
+import ParameterFormTableInput from '@/components/RTCInput/inputs/ParamFormTableInput';
+import KeyValuePairFormTableInput from '@/components/RTCInput/inputs/KeyValuePairFormTableInput';
 import { MAX_COUNT, hasDuplicates, isValidParams, convertToValue } from '@/utils';
 
 const NumberRangeInput = forwardRef((props, ref) => {

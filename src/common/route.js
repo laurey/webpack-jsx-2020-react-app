@@ -99,13 +99,13 @@ const routes = [
     //     hideInSider: true,
     //     path: '/signup'
     // },
-    // {
-    //     name: 'Albums',
-    //     component: FancyLink,
-    //     hideInMenu: false,
-    //     hideInSider: true,
-    //     path: '/albums'
-    // },
+    {
+        name: 'Form',
+        component: FancyLink,
+        hideInMenu: false,
+        hideInSider: true,
+        path: '/form'
+    },
     {
         name: 'Sign In',
         component: FancyLink,

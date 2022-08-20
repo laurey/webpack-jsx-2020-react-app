@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { PureComponent } from 'react';
 import { InputNumber, Input, Form } from 'antd';
 import EditableContext from '../EditableTable/context';

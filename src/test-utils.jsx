@@ -56,4 +56,5 @@ function renderWithRouterRedux(
 // re-export everything
 export * from 'history';
 export * from '@testing-library/react';
+// export * from '@testing-library/dom';
 export { renderWithRedux, renderWithRouter, renderWithRouterRedux, userEvent };

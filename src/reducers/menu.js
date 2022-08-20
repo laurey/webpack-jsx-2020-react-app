@@ -1,7 +1,7 @@
 import memoizeOne from 'memoize-one';
 import isEqual from 'lodash/isEqual';
 import Authorized from '@/utils/Authorized';
-import { clearChildren } from '@/utils/utils';
+// import { clearChildren } from '@/utils/utils';
 
 const { check } = Authorized;
 

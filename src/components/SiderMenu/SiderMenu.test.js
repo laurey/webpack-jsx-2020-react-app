@@ -1,22 +1,25 @@
-import { getFlatMenuKeys } from './SiderMenuUtils';
+import { getFlatMenuKeys } from '@/utils/utils';
 
 const menu = [
     {
         path: '/dashboard',
         children: [
             {
-                path: '/dashboard/name'
+                path: '/dashboard/setting'
+            },
+            {
+                path: '/dashboard/center'
             }
         ]
     },
     {
-        path: '/userinfo',
+        path: '/employee',
         children: [
             {
-                path: '/userinfo/:id',
+                path: '/employee/:id',
                 children: [
                     {
-                        path: '/userinfo/:id/info'
+                        path: '/employee/:id/setting'
                     }
                 ]
             }
@@ -27,13 +30,14 @@ const menu = [
 const flatMenuKeys = getFlatMenuKeys(menu);
 
 describe('test convert nested menu to flat menu', () => {
-    it('simple menu', () => {
+    it('simple menus', () => {
         expect(flatMenuKeys).toEqual([
             '/dashboard',
-            '/dashboard/name',
-            '/userinfo',
-            '/userinfo/:id',
-            '/userinfo/:id/info'
+            '/dashboard/setting',
+            '/dashboard/center',
+            '/employee',
+            '/employee/:id',
+            '/employee/:id/setting'
         ]);
     });
 });
