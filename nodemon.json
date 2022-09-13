@@ -2,10 +2,9 @@
     "verbose": true,
     "exitcrash": true,
     "delay": "1500",
-    "watch": ["**/mock/**", ".env*.local", "./webpack.config.*.js"],
+    "watch": ["**/mock/**", ".env*.local", "./webpack.config.*.js", "./scripts/**/*"],
     "ignore": [
         "src/*",
-        "scripts/*",
         "node_modules/**/node_modules",
         "*.test.js",
         "*.spec.js*",

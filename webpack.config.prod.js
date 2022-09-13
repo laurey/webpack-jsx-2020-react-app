@@ -18,7 +18,7 @@ const prodConfig = {
     },
     resolve: {
         alias: {
-            'react-dom': '@hot-loader/react-dom',
+            // 'react-dom': '@hot-loader/react-dom',
             '@': path.resolve(__dirname, 'src')
         },
         extensions: ['.js', '.jsx', '.json']

@@ -12,7 +12,7 @@ function hasErrors(fieldsError) {
 }
 
 function LoginForm(props) {
-    const { form, layout = 'inline', onSubmit } = props;
+    const { form, onSubmit } = props;
     const { validateFields, resetFields } = form;
 
     const handleSubmit = useCallback(
@@ -44,7 +44,7 @@ function LoginForm(props) {
     const passwordError = isFieldTouched('password') && getFieldError('password');
 
     return (
-        <Form layout={layout} onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} className="login-form" style={{ maxWidth: 400, padding: 20 }}>
             <FormItem validateStatus={usernameError ? 'error' : ''} help={usernameError || ''}>
                 {getFieldDecorator('username', {
                     rules: [
@@ -127,6 +127,7 @@ export const SignIn = props => {
                     pathname: '/'
                 });
             });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

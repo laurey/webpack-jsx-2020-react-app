@@ -7,6 +7,11 @@ const baseConfig = require('./webpack.config.base');
 const devConfig = {
     mode: 'development',
     devtool: 'inline-source-map',
+    entry: [
+        'webpack-dev-server/client?http://0.0.0.0:8800', // WebpackDevServer host and port
+        'webpack/hot/only-dev-server',
+        './src'
+    ],
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'assets/js/[name].bundle.js',
@@ -15,7 +20,7 @@ const devConfig = {
     },
     resolve: {
         alias: {
-            'react-dom': '@hot-loader/react-dom',
+            // 'react-dom': '@hot-loader/react-dom',
             '@': path.resolve(__dirname, 'src/')
         },
         extensions: ['.jsx', '.js', '.json']
@@ -115,7 +120,7 @@ const devConfig = {
             'process.env.NODE_ENV': JSON.stringify('development')
         }),
         new HtmlWebpackPlugin({
-            title: 'React-JSX-2019',
+            title: 'React-JSX-2020',
             template: path.resolve(__dirname, 'public/index.html'),
             favicon: path.resolve(__dirname, 'public/favicon.ico'),
             inject: true

@@ -6,10 +6,13 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
     cache: true,
     context: __dirname,
-    entry: ['react-hot-loader/patch', './src'],
+    // entry: [
+    //     'webpack-dev-server/client?http://0.0.0.0:8800', // WebpackDevServer host and port
+    //     'webpack/hot/only-dev-server',
+    //     './src'
+    // ],
     resolve: {
         alias: {
-            'react-dom': '@hot-loader/react-dom',
             '@': path.resolve(__dirname, 'src')
         },
         extensions: ['.jsx', '.js', '.json']

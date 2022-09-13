@@ -2,20 +2,18 @@ module.exports = api => {
     api.cache(true);
 
     return {
-        presets: [['@babel/preset-env'], '@babel/preset-react'],
+        presets: ['@babel/preset-env', '@babel/preset-react'],
         plugins: [
             // ['@babel/plugin-syntax-decorators', { legacy: true }],
             ['@babel/plugin-proposal-decorators', { legacy: true }],
             '@babel/plugin-transform-runtime',
             '@babel/plugin-syntax-dynamic-import',
             '@babel/plugin-proposal-class-properties',
+            '@babel/plugin-proposal-optional-chaining',
+            '@babel/plugin-proposal-nullish-coalescing-operator',
             ['import', { libraryName: 'antd', style: true }]
-            // !api.env('production') && 'react-hot-loader/babel'
         ],
         env: {
-            development: {
-                plugins: ['react-hot-loader/babel']
-            },
             production: {
                 only: ['src'],
                 plugins: [
