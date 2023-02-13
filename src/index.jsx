@@ -55,6 +55,10 @@ Promise.all([preRenderPromises])
         window.console && window.console.error(err);
     });
 
+if (module.hot) {
+    module.hot.accept();
+}
+
 // if (module.hot) {
 //     module.hot.accept('./config/router.config.js', () => {
 //         console.log('changed!!!!');

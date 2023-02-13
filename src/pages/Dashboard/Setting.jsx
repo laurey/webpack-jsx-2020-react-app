@@ -8,8 +8,8 @@ export default class Setting extends Component {
                 <h2>Setting</h2>
                 <p>This is Dashboard Setting page</p>
                 <Stack spacing={24}>
-                    <Stack.Item>aaa</Stack.Item>
-                    <Stack.Item>bbb</Stack.Item>
+                    <Stack.Item>aaa111</Stack.Item>
+                    <Stack.Item>bbb222</Stack.Item>
                     <Stack.Item square>ccc</Stack.Item>
                 </Stack>
                 <Stack spacing={12} direction="row">
