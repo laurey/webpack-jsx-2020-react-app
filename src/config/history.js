@@ -6,6 +6,6 @@ export function createHistory(opts) {
     return history;
 }
 const history = createHistory({
-    basename: window.routerBase || '/'
+    basename: process.env.ROUTER_BASE ?? '/'
 });
 export default history;

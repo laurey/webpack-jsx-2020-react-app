@@ -1,11 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
-const baseConfig = require('./webpack.config.base');
-
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
+const baseConfig = require('./webpack.config.base');
 
 const prodConfig = {
     mode: 'production',
@@ -18,7 +18,6 @@ const prodConfig = {
     },
     resolve: {
         alias: {
-            // 'react-dom': '@hot-loader/react-dom',
             '@': path.resolve(__dirname, 'src')
         },
         extensions: ['.js', '.jsx', '.json']

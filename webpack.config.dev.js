@@ -2,16 +2,25 @@ const path = require('path');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 const baseConfig = require('./webpack.config.base');
+
+const ansiColors = {
+    red: '00FF00' // note the lack of "#"
+};
+const overlayStyles = {
+    color: '#FF0000' // note the inclusion of "#" (these options would be the equivalent of div.style[option] = value)
+};
+const hotMiddlewareScript =
+    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true&ansiColors=' +
+    encodeURIComponent(JSON.stringify(ansiColors)) +
+    '&overlayStyles=' +
+    encodeURIComponent(JSON.stringify(overlayStyles));
 
 const devConfig = {
     mode: 'development',
     devtool: 'inline-source-map',
-    entry: [
-        'webpack-dev-server/client?http://0.0.0.0:8800', // WebpackDevServer host and port
-        'webpack/hot/only-dev-server',
-        './src'
-    ],
+    entry: [hotMiddlewareScript, './src'],
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'assets/js/[name].bundle.js',
@@ -20,7 +29,6 @@ const devConfig = {
     },
     resolve: {
         alias: {
-            // 'react-dom': '@hot-loader/react-dom',
             '@': path.resolve(__dirname, 'src/')
         },
         extensions: ['.jsx', '.js', '.json']
@@ -116,6 +124,7 @@ const devConfig = {
         ]
     },
     plugins: [
+        new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development')
         }),
@@ -124,20 +133,8 @@ const devConfig = {
             template: path.resolve(__dirname, 'public/index.html'),
             favicon: path.resolve(__dirname, 'public/favicon.ico'),
             inject: true
-        }),
-        new webpack.HotModuleReplacementPlugin()
-    ].filter(Boolean),
-    devServer: {
-        port: parseInt(process.env.PORT, 10) || 8800,
-        hot: true,
-        open: true,
-        overlay: true,
-        compress: true,
-        host: 'localhost',
-        stats: 'minimal',
-        historyApiFallback: true,
-        contentBase: path.join(__dirname, 'dist')
-    }
+        })
+    ].filter(Boolean)
 };
 
 module.exports = merge(baseConfig, devConfig);

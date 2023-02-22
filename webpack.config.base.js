@@ -6,11 +6,6 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
     cache: true,
     context: __dirname,
-    // entry: [
-    //     'webpack-dev-server/client?http://0.0.0.0:8800', // WebpackDevServer host and port
-    //     'webpack/hot/only-dev-server',
-    //     './src'
-    // ],
     resolve: {
         alias: {
             '@': path.resolve(__dirname, 'src')
@@ -47,9 +42,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin({
-            cleanOnceBeforeBuildPatterns: ['**/*', '!stats.json']
-        }),
+        new CleanWebpackPlugin(),
         new webpack.ProgressPlugin(),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'public/index.html'),

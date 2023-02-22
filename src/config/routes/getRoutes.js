@@ -40,25 +40,25 @@ function getRoutes(paths, config, onPatchRoute) {
     return routes;
 }
 
-function getComponents(config, routes) {
-    return routes.reduce((aac, route) => {
-        if (_.isString(route.component)) {
-            const component = isAbsolute(route.component)
-                ? route.component
-                : require.resolve(_.join(config.cwd, route.component));
-            aac.push(slash(component));
-        }
+// function getComponents(config, routes) {
+//     return routes.reduce((aac, route) => {
+//         if (_.isString(route.component)) {
+//             const component = isAbsolute(route.component)
+//                 ? route.component
+//                 : require.resolve(_.join(config.cwd, route.component));
+//             aac.push(slash(component));
+//         }
 
-        if (route.routes) {
-            aac = aac.concat(getComponents(config, route.routes));
-        }
-        return aac;
-    }, []);
-}
+//         if (route.routes) {
+//             aac = aac.concat(getComponents(config, route.routes));
+//         }
+//         return aac;
+//     }, []);
+// }
 
 // function getRouteComponents(paths, config, onPatchRoute) {
 //     const routes = getRoutes(paths, config, onPatchRoute);
 //     return _.uniq(routes);
 // }
 
-export { getRoutes as default, getRoutes, fetchRoutes, getComponents };
+export { getRoutes as default, getRoutes, fetchRoutes };

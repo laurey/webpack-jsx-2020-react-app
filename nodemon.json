@@ -4,7 +4,10 @@
     "delay": "1500",
     "watch": ["**/mock/**", ".env*.local", "./webpack.config.*.js", "./scripts/**/*"],
     "ignore": [
-        "src/*",
+        "src/**",
+        "dist/*",
+        "release/*",
+        "coverage/*",
         "node_modules/**/node_modules",
         "*.test.js",
         "*.spec.js*",
