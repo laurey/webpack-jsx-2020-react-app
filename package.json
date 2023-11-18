@@ -17,8 +17,8 @@
         "test": "jest",
         "test:watch": "npm run test -- --watch",
         "watch": "webpack --watch",
-        "lint": "eslint --ext .js,.jsx,.css,.less src",
-        "lint:fix": "eslint --ext .js,.jsx,.css,.less --fix src"
+        "lint": "eslint --ext .js,.jsx src",
+        "lint:fix": "eslint --ext .js,.jsx --fix src"
     },
     "dependencies": {
         "@hot-loader/react-dom": "~16.12.0",

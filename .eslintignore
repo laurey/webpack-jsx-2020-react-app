@@ -3,6 +3,7 @@
 *.png
 *.jpg
 *.html
+*.css
 /dist
 /coverage
 /out
