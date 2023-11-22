@@ -7,7 +7,7 @@ import Exception404 from './pages/Exception/404';
 
 describe('App test rendering', () => {
     test('full app rendering', () => {
-        const { getByText } = renderWithRouterRedux(
+        const { getByText, debug } = renderWithRouterRedux(
             <App>
                 <BasicLayout collapsed fixedHeader location={{ pathname: '/home', hash: '' }} route={{ routes: [] }}>
                     <div>Card title</div>
@@ -15,6 +15,7 @@ describe('App test rendering', () => {
             </App>
         );
         const footerElement = getByText(/CopyRight 2020/i);
+        // debug();
         expect(footerElement).toBeInTheDocument();
     });
 

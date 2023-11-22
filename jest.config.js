@@ -3,7 +3,7 @@
 
 module.exports = {
     roots: ['<rootDir>/src'],
-    testEnvironment: 'jsdom',
+    // testEnvironment: 'jsdom',
     // moduleFileExtensions: ['js', 'json', 'jsx', 'node'],
     // testRegex: ['(/__test__/.*|(\\.|/)(test|spec))\\.jsx?$'],
     // moduleDirectories: ['node_modules', '<rootDir>/src', __dirname],

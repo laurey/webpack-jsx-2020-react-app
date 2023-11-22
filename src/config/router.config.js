@@ -115,6 +115,12 @@ const routes = [
                 component: loadable(() => import('../pages/About'))
             },
             {
+                name: 'Posts',
+                // icon: 'crown',
+                path: '/posts',
+                component: loadable(() => import('../pages/Posts'))
+            },
+            {
                 name: 'Comments',
                 icon: 'html5',
                 path: '/comments'

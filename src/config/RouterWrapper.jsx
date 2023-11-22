@@ -24,7 +24,10 @@ export default class RouterWrapper extends React.Component {
         super(props);
 
         // route change handler
-        function routeChangeHandler(location, action) {}
+        function routeChangeHandler(location, action) {
+            // console.log('action  -> ', action);
+            // console.log('location changed!!!', location?.pathname);
+        }
 
         this.unListen = history.listen(routeChangeHandler);
 

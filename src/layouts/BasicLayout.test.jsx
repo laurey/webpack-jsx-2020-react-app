@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { renderWithRouterRedux, userEvent, createMemoryHistory } from '@/test-utils';
+import { renderWithRouterRedux, createMemoryHistory } from '@/test-utils';
 import { BasicLayoutProvider } from '../contexts/useBasicLayoutContext';
 import BasicLayout from './BasicLayout';
 import renderRoutes from '@/config/renderRoutes';

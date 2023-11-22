@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import PropTypes from 'prop-types';
 import { Button } from 'antd';
 import { List } from '@/components/List';
 import { GlobalSearchInput } from '@/components/GlobalSearch';
@@ -13,13 +12,13 @@ const columns = [
         title: '标题',
         dataIndex: 'title',
         width: '20%',
-        render: text => <span>{text.substring(0, 15)}...</span>
+        render: text => <span>{text?.substring(0, 15)}...</span>
     },
     {
         title: '内容',
         dataIndex: 'body',
         width: '20%',
-        render: text => <span>{text.substring(0, 30)}...</span>
+        render: text => <span>{text?.substring(0, 30)}...</span>
     },
     {
         title: 'Email',
@@ -70,6 +69,7 @@ class Posts extends React.Component {
     };
 
     handleRefreshData = e => {
+        console.log('e -> ', e);
         e.preventDefault();
         this.fetchPostData({
             pagination: this.state.pagination
@@ -78,7 +78,7 @@ class Posts extends React.Component {
 
     handleSearchInputChange = val => {
         // eslint-disable-next-line no-console
-        console.log('val: ', val);
+        // console.log('val: ', val);
     };
 
     handleSearch = value => {
@@ -116,9 +116,5 @@ class Posts extends React.Component {
         );
     }
 }
-
-Posts.propTypes = {
-    posts: PropTypes.array
-};
 
 export default Posts;

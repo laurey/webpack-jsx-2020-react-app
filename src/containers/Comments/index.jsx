@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { Button, Spin } from 'antd';
@@ -172,15 +171,6 @@ class CommentList extends React.Component {
         );
     }
 }
-
-CommentList.propTypes = {
-    className: PropTypes.any,
-    columns: PropTypes.arrayOf(PropTypes.object),
-    comments: PropTypes.arrayOf(PropTypes.object),
-    onFetchComments: PropTypes.func.isRequired,
-    onDeleteComment: PropTypes.func.isRequired,
-    onCancelFetchComments: PropTypes.func.isRequired
-};
 
 const mapStateToProps = ({ comments }) => ({
     total: comments.total,
