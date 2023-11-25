@@ -68,15 +68,15 @@ describe('Posts Component', () => {
         });
 
         test('full app rendering after request data', async () => {
-            // const spy = jest.spyOn(global, 'fetch').mockImplementation(() =>
-            //     Promise.resolve({
-            //         json: () => Promise.resolve(fakePosts)
-            //     })
-            // );
+            const spy = jest.spyOn(global, 'fetch').mockImplementation(() =>
+                Promise.resolve({
+                    json: () => Promise.resolve(fakePosts)
+                })
+            );
 
-            const spy = jest.spyOn(global, 'fetch').mockResolvedValue({
-                json: jest.fn().mockResolvedValue(fakePosts)
-            });
+            // const spy = jest.spyOn(global, 'fetch').mockResolvedValue({
+            //     json: jest.fn().mockResolvedValue(fakePosts)
+            // });
 
             // Use the asynchronous version of act to apply resolved promises
             act(() => {
@@ -84,8 +84,13 @@ describe('Posts Component', () => {
             });
 
             expect(spy).toHaveBeenCalledTimes(1);
-            // expect(spy).toHaveReturnedWith(fakePosts);
-            // expect(screen.getByText(/No match for/i)).toBeInTheDocument();
+            // await expect(spy.mock.results[0].value).resolves.toHaveProperty('json');
+            expect(screen.getByText(/No Data/i)).toBeInTheDocument();
+
+            await act(async () => {
+                await Promise.resolve(fakePosts);
+            });
+            expect(screen.getByText(/title-5/i)).toBeInTheDocument();
         });
     });
 });
