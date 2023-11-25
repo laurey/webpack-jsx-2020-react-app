@@ -51,7 +51,7 @@ class Posts extends React.Component {
     fetchPostData = (params = {}) => {
         const { pagination: pager } = params;
         this.setState({ isLoading: true });
-        setupFetch('https://jsonplaceholder.typicode.com/posts', null, getFetchDataParams(params)).then(data => {
+        setupFetch('https://jsonplaceholder.typicode.com/posts', {}, getFetchDataParams(params)).then(data => {
             this.setState(prev => ({
                 isLoading: false,
                 dataSource: data,

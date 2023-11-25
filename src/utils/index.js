@@ -12,7 +12,7 @@ export const setupFetch = async (path, options, params) => {
     url.search = search;
     const response = await fetch(url.toJSON(), options);
     const data = await response.json();
-    return data.map(item => {
+    return data?.map(item => {
         return {
             key: item.key || item.id,
             ...item
