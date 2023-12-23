@@ -1,7 +1,7 @@
 import React from 'react';
 
 import guessFileFromPath from './guessFileFromPath';
-import styles from './style.modules.less';
+import styles from './style.less';
 
 const NotFound = props => {
     const { location, history, pagesPath } = props;
