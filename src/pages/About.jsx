@@ -59,6 +59,7 @@ const columns = [
 
 const dataGenerator = (length = 8) => {
     const data = [];
+    const nickName = getRandomString(15);
     for (let i = 0; i < length; i++) {
         data.push({
             key: i,
@@ -75,11 +76,11 @@ const dataGenerator = (length = 8) => {
             code: getRandomString(19)
         });
     }
-    return data;
+    return { nickName, data };
 };
 
 const AboutForm = props => {
-    const { form, onSubmit, value = [], columns } = props;
+    const { form, onSubmit, value = {}, columns } = props;
     const { getFieldDecorator, setFieldsValue } = form;
 
     const handleSubmit = useCallback(
@@ -99,10 +100,10 @@ const AboutForm = props => {
 
     useEffect(() => {
         setFieldsValue({
-            kv: value
+            kv: value.data
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [value]);
+    }, [value.data]);
 
     return (
         <Form onSubmit={handleSubmit} style={{ padding: 10, background: '#eee' }}>
@@ -120,7 +121,7 @@ const AboutForm = props => {
                         style={{ width: '100%' }}
                     >
                         {getFieldDecorator('nickname', {
-                            initialValue: value,
+                            initialValue: value.nickName,
                             rules: [
                                 {
                                     required: true,
@@ -133,7 +134,7 @@ const AboutForm = props => {
                 <Col span={24}>
                     <Form.Item label="table-3" style={{ width: '100%' }}>
                         {getFieldDecorator('kv', {
-                            initialValue: value,
+                            initialValue: value.data,
                             rules: [
                                 {
                                     required: true,
