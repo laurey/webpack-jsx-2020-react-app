@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button, Input, InputNumber, Icon, Select, Checkbox } from 'antd';
+import { Card, Button, InputNumber, Icon, Select, Checkbox } from 'antd';
 import styles from './style.less';
 
 const { Option } = Select;
