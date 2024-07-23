@@ -59,12 +59,21 @@ export const computeAndExpression = (data, groups) => {
     return groups.reduce((acc, current) => {
         if (current.mode) {
             if (current.mode === 'AND') {
-                return acc && computeAndExpression(data, current.group);
+                if (acc === true) {
+                    return computeAndExpression(data, current.group);
+                }
             } else {
-                return acc && computeOrExpression(data, current.group);
+                if (acc === true) {
+                    return computeOrExpression(data, current.group);
+                }
             }
         }
-        return acc && handleEval(current.condition, data[current.field], current.value);
+
+        if (acc === true) {
+            return handleEval(current.condition, data[current.field], current.value);
+        }
+
+        return acc;
     }, true);
 };
 export const computeOrExpression = (data, groups) => {
@@ -75,12 +84,20 @@ export const computeOrExpression = (data, groups) => {
     return groups.reduce((acc, current) => {
         if (current.mode) {
             if (current.mode === 'AND') {
-                return acc || computeAndExpression(data, current.group);
+                if (acc === false) {
+                    return computeAndExpression(data, current.group);
+                }
             } else {
-                return acc || computeOrExpression(data, current.group);
+                if (acc === false) {
+                    return computeOrExpression(data, current.group);
+                }
             }
         }
-        return acc || handleEval(current.condition, data[current.field], current.value);
+
+        if (acc === false) {
+            return handleEval(current.condition, data[current.field], current.value);
+        }
+        return acc;
     }, false);
 };
 
