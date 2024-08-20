@@ -1,6 +1,11 @@
 import request from '@/utils/request';
+import store from '@/store';
 
 export function fetchComments({ params, ...config }) {
+    const state = store.getState();
+
+    console.log('state.services => ', state?.counter);
+
     return request({
         url: '/api/comments',
         method: 'get',

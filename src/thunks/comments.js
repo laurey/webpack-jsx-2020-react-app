@@ -2,8 +2,10 @@ import { fetchComments, removeComment } from '@/services/comments';
 import * as commentActions from '@/actions/comments';
 
 export const requestComments = param => {
-    return dispatch => {
+    return (dispatch, getState) => {
+        // const state = getState();
         dispatch(commentActions.requestCommentsBegin());
+        // console.log('state.thunks => ', state.counter);
 
         return fetchComments(param)
             .then(comments => {

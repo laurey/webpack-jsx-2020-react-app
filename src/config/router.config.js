@@ -105,6 +105,12 @@ const routes = [
                         name: 'Setting',
                         icon: 'github',
                         component: loadable(() => import('../pages/Dashboard/Setting'))
+                    },
+                    {
+                        name: 'Comments',
+                        icon: 'html5',
+                        path: '/dashboard/comments',
+                        component: loadable(() => import('../pages/Dashboard/Comments'))
                     }
                 ]
             },
@@ -125,6 +131,12 @@ const routes = [
                 icon: 'html5',
                 path: '/comments'
                 // component: loadable(() => import('../pages/Comments'))
+            },
+            {
+                name: 'Counter',
+                icon: 'counter',
+                path: '/counter',
+                component: loadable(() => import('../pages/Counter'))
             },
             {
                 name: 'Form',

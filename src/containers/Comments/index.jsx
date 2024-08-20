@@ -186,6 +186,6 @@ const mapDispatchToProps = dispatch => ({
     onDeleteComment: id => dispatch(deleteComment(id))
 });
 
-const connectedCommentList = connect(mapStateToProps, mapDispatchToProps)(CommentList);
+const ConnectedCommentList = connect(mapStateToProps, mapDispatchToProps)(CommentList);
 
-export default connectedCommentList;
+export default ConnectedCommentList;
