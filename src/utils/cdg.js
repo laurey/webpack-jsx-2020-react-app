@@ -53,7 +53,7 @@ export const handleEval = (operator, left, right) => {
 
 export const computeAndExpression = (data, groups) => {
     if (!Array.isArray(groups)) {
-        return false;
+        return true;
     }
 
     return groups.reduce((acc, current) => {
@@ -78,7 +78,7 @@ export const computeAndExpression = (data, groups) => {
 };
 export const computeOrExpression = (data, groups) => {
     if (!Array.isArray(groups)) {
-        return false;
+        return true;
     }
 
     return groups.reduce((acc, current) => {

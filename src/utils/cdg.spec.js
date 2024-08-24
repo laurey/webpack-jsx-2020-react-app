@@ -41,6 +41,15 @@ describe('cdg utils Tester', () => {
             expect(result).toEqual(false);
         });
 
+        test('computeAndExpression should return true when no group', () => {
+            // f1 == 'may' && f2 > 22
+            const result = computeAndExpression({
+                Fd_1: 'may',
+                Fd_2: 22
+            });
+            expect(result).toEqual(true);
+        });
+
         test('computeOrExpression should work', () => {
             // f1 == 'may' || f2 > 22
             const result = computeOrExpression(
@@ -61,6 +70,15 @@ describe('cdg utils Tester', () => {
                     }
                 ]
             );
+            expect(result).toEqual(true);
+        });
+
+        test('computeOrExpression should return true when no group', () => {
+            // f1 == 'may' || f2 > 22
+            const result = computeOrExpression({
+                Fd_1: 'may',
+                Fd_2: 22
+            });
             expect(result).toEqual(true);
         });
 
